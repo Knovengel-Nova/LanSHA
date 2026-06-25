@@ -4,6 +4,7 @@ import com.amasp.lansha.protocol.Packet;
 import com.amasp.lansha.protocol.PacketSerializer;
 import com.amasp.lansha.util.Constants;
 import com.amasp.lansha.util.LanSHAContext;
+import com.amasp.lansha.util.NetworkUtil;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -34,21 +35,21 @@ public class UDPListener implements Runnable {
             e.printStackTrace();
         }
     }
-    
-    public void handleDiscovery(DatagramPacket packet, Packet pkt){
-        
+
+    public void handleDiscovery(DatagramPacket packet, Packet pkt) {
+        System.out.println("Discovery Packet Received from" + pkt.getDeviceName()+"["+packet.getAddress()+"]");
     }
-    
-    public void handleDiscoveryReply(DatagramPacket packet, Packet pkt){
-        
+
+    public void handleDiscoveryReply(DatagramPacket packet, Packet pkt) {
+        System.out.println("DiscoveryReply Packet Received from" + pkt.getDeviceName()+"["+packet.getAddress()+"]");
     }
-    
-    public void handleHeartBeat(DatagramPacket packet, Packet pkt){
-        
+
+    public void handleHeartBeat(DatagramPacket packet, Packet pkt) {
+        System.out.println("HeartBeat Packet Received from" + pkt.getDeviceName()+"["+packet.getAddress()+"]");
     }
-    
-    public void handleGoodBye(DatagramPacket packet, Packet pkt){
-        
+
+    public void handleGoodBye(DatagramPacket packet, Packet pkt) {
+        System.out.println("GoodBye Packet Received from" + pkt.getDeviceName()+"["+packet.getAddress()+"]");
     }
 
     public void processPacket(DatagramPacket packet) {
@@ -62,7 +63,7 @@ public class UDPListener implements Runnable {
             e.printStackTrace();
         }
 
-        if (pkt == null) {
+        if (pkt == null || pkt.getDeviceName().equals(NetworkUtil.getHostName())) {
             return;
         }
 
