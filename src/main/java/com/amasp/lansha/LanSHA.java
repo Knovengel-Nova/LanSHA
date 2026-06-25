@@ -5,12 +5,12 @@ import com.amasp.lansha.device.DeviceRegistry;
 import com.amasp.lansha.device.DeviceStatus;
 import com.amasp.lansha.network.DiscoveryService;
 import com.amasp.lansha.network.HeartBeatSender;
+import com.amasp.lansha.network.Janitor;
 import com.amasp.lansha.network.UDPListener;
 import com.amasp.lansha.util.Constants;
 import com.amasp.lansha.util.LanSHAContext;
 import com.amasp.lansha.util.NetworkUtil;
 import java.time.Instant;
-import java.util.Scanner;
 import java.util.UUID;
 
 /**
@@ -30,12 +30,7 @@ import java.util.UUID;
 public class LanSHA {
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        System.out.println("Enter device Name: ");
-        String devName = sc.nextLine();
-
-        DeviceInfo selfInfo = null;
+        DeviceInfo selfInfo;
         DeviceRegistry registry = new DeviceRegistry();
 
         selfInfo = new DeviceInfo(NetworkUtil.getHostName(), UUID.randomUUID(), NetworkUtil.getLocalAddress(), Constants.TCP_PORT, Instant.now(), DeviceStatus.ONLINE);
@@ -50,9 +45,14 @@ public class LanSHA {
         DiscoveryService discoveryService = new DiscoveryService(context);
         discoveryService.broadcastDiscovery();
 
+        /// Start HeartBeat sender Thread
         HeartBeatSender heartBeatSender = new HeartBeatSender(context);
         new Thread(heartBeatSender).start();
 
-        System.out.println("Hello World!");
+        /// Start the Janitor Thread
+        Janitor janitor = new Janitor(context);
+        new Thread(janitor).start();
+        
+        System.out.println("LanSHA: Hello World!");
     }
 }

@@ -15,8 +15,10 @@ public final class Constants {
 
     public static final int BUFFER_SIZE = 2048;
 
-    public static final int HEARTBEAT_BPM = 5;      //  heartbeat sent every 15 secs.
+    public static final int HEARTBEAT_BPM = 5;      //  heartbeat sent every 12 secs.
 
     public static final int DEVICE_TIMEOUT = 45000;
+    
+    public static final int DEVICE_CLEANING_INTERVAL = 5000;
 
 }

@@ -20,6 +20,6 @@ public class DiscoveryService {
         DiscoveryPacket pkt = new DiscoveryPacket(context.getDeviceInfo().getDeviceUID(), context.getDeviceInfo().getDeviceName(), context.getDeviceInfo().getTcpPort());
         
         context.sendUDPPacket(pkt, NetworkUtil.getBroadcastAddress());    
-        System.out.println("Discovery Packet Sent...");
+        System.out.println("DiscoveryService: Discovery Packet Sent!");
     }
 }

@@ -26,7 +26,7 @@ public class HeartBeatSender implements Runnable {
     private void sendBeat() {
         packet = new HeartBeatPacket(self.getDeviceUID(), self.getDeviceName(), self.getTcpPort());
         context.sendUDPPacket(packet, broadcastAddress);
-        System.out.println("HeartBeat Packet Sent to "+broadcastAddress);
+        System.out.println("HeartBeatSender: HeartBeat Packet Sent on "+broadcastAddress);
     }
 
     private void startBeats() {
@@ -45,13 +45,14 @@ public class HeartBeatSender implements Runnable {
 
     public HeartBeatSender(LanSHAContext context) {
         this.context = context;
-        this.self = context.selfInfo;
+        this.self = context.getDeviceInfo();
         this.interval = 60000L/Constants.HEARTBEAT_BPM;
         this.broadcastAddress = NetworkUtil.getBroadcastAddress();
     }
 
     @Override
     public void run() {
+        System.out.println("HeartBeatSender: Thread Started!");
         startBeats();
     }
 }

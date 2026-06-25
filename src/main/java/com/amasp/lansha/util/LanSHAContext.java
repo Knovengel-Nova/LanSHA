@@ -15,8 +15,8 @@ import java.net.SocketException;
  */
 public class LanSHAContext {
 
-    public final DeviceInfo selfInfo;
-    public final DeviceRegistry registry;
+    private final DeviceInfo selfInfo;
+    private final DeviceRegistry registry;
 
     private DatagramSocket udpSenderSocket = null;
     
