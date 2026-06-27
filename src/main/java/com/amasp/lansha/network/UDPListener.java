@@ -7,7 +7,6 @@ import com.amasp.lansha.protocol.PacketSerializer;
 import com.amasp.lansha.protocol.udp.DiscoveryReplyPacket;
 import com.amasp.lansha.util.Constants;
 import com.amasp.lansha.util.LanSHAContext;
-import com.amasp.lansha.util.NetworkUtil;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -49,6 +48,7 @@ public class UDPListener implements Runnable {
                 pkt.getTcpPort(), Instant.now(), DeviceStatus.ONLINE);
         context.getDeviceRegistry().addOrUpdateDevice(newDevice);
         context.getMainFrame().refreshDeviceList();
+        
         /// create and send the discoveryReply Packet to the new device
         DiscoveryReplyPacket drPkt = new DiscoveryReplyPacket(context.getDeviceInfo().getDeviceUID(),
                 context.getDeviceInfo().getDeviceName(), context.getDeviceInfo().getTcpPort());
@@ -99,7 +99,7 @@ public class UDPListener implements Runnable {
         }
 
         // ignore packets sent by us
-        if (pkt == null || pkt.getDeviceName().equals(NetworkUtil.getHostName())) {
+        if (pkt.getDeviceUID().equals(context.getDeviceInfo().getDeviceUID())) {
             return;
         }
 

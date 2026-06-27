@@ -39,6 +39,10 @@ public class LanSHA {
 
         LanSHAContext context = new LanSHAContext(selfInfo, registry);
 
+        MainFrame mf = new MainFrame(context);
+        context.setMainFrame(mf);
+        mf.setVisible(true);
+        
         /// start UDPListener Thread
         UDPListener udpListner = new UDPListener(context);
         new Thread(udpListner).start();
@@ -57,8 +61,6 @@ public class LanSHA {
 
         System.out.println("LanSHA: Hello World!");
         
-        MainFrame mf = new MainFrame(context);
-        context.setMainFrame(mf);
-        mf.setVisible(true);
+        
     }
 }
