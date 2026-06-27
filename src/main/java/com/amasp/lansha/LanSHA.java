@@ -42,14 +42,14 @@ public class LanSHA {
         MainFrame mf = new MainFrame(context);
         context.setMainFrame(mf);
         mf.setVisible(true);
-        
-        /// start UDPListener Thread
-        UDPListener udpListner = new UDPListener(context);
-        new Thread(udpListner).start();
 
         /// Start DiscoveryService (send a discovery packet)
         DiscoveryService discoveryService = new DiscoveryService(context);
         discoveryService.broadcastDiscovery();
+
+        /// start UDPListener Thread
+        UDPListener udpListner = new UDPListener(context);
+        new Thread(udpListner).start();
 
         /// Start HeartBeat sender Thread
         HeartBeatSender heartBeatSender = new HeartBeatSender(context);
@@ -60,7 +60,6 @@ public class LanSHA {
         new Thread(janitor).start();
 
         System.out.println("LanSHA: Hello World!");
-        
-        
+
     }
 }
