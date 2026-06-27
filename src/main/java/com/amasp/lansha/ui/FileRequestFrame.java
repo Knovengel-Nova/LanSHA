@@ -2,6 +2,8 @@ package com.amasp.lansha.ui;
 
 import com.amasp.lansha.network.transfer.TransferSession;
 import com.amasp.lansha.util.LanSHAContext;
+import java.nio.file.Path;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -113,8 +115,18 @@ public class FileRequestFrame extends javax.swing.JFrame {
 
     private void buttonAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAcceptActionPerformed
         // TODO add your handling code here:
-        context.getTransferManager()
-                .acceptTransfer(session.getTransferId());
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        if (chooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        Path folder = chooser.getSelectedFile().toPath();
+
+        session.setDestinationPath(folder.resolve(session.getFileName()));
+
+        context.getTransferManager().acceptTransfer(session.getTransferId());
 
         dispose();
     }//GEN-LAST:event_buttonAcceptActionPerformed
