@@ -6,6 +6,7 @@ import com.amasp.lansha.device.DeviceStatus;
 import com.amasp.lansha.network.DiscoveryService;
 import com.amasp.lansha.network.HeartBeatSender;
 import com.amasp.lansha.network.Janitor;
+import com.amasp.lansha.network.TCPAcceptor;
 import com.amasp.lansha.network.UDPListener;
 import com.amasp.lansha.ui.MainFrame;
 import com.amasp.lansha.util.Constants;
@@ -58,6 +59,9 @@ public class LanSHA {
         /// Start the Janitor Thread
         Janitor janitor = new Janitor(context);
         new Thread(janitor).start();
+        
+        TCPAcceptor acceptorThread = new TCPAcceptor(context);
+        new Thread(acceptorThread).start();
 
         System.out.println("LanSHA: Hello World!");
 

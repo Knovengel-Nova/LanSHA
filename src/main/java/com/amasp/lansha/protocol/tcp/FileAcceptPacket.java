@@ -19,4 +19,8 @@ public class FileAcceptPacket extends Packet {
         super(PacketType.FILE_ACCEPT, deviceUID, deviceName, tcpPort);
         this.transferID = transferID;
     }
+    
+    public FileAcceptPacket(){
+        
+    }
 }
