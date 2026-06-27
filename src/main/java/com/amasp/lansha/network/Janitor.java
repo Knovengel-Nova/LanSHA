@@ -12,10 +12,12 @@ import java.util.Collection;
  * @author knovengel
  */
 public class Janitor implements Runnable {
+    private LanSHAContext context;
     private final DeviceRegistry reg;
 
     public Janitor(LanSHAContext context) {
         this.reg = context.getDeviceRegistry();
+        this.context = context;
     }
 
     private void scanAndClean() {
@@ -28,6 +30,7 @@ public class Janitor implements Runnable {
             if (dev.getLastSeen().isBefore(cutoff)) {
                 reg.removeDevice(dev.getDeviceUID());
                 System.out.println("Janitor: Device " + dev + " removed due to inactivity");
+                context.getMainFrame().refreshDeviceList();
             }
         }
     }

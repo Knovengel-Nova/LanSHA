@@ -54,7 +54,7 @@ public class UDPListener implements Runnable {
                 context.getDeviceInfo().getDeviceName(), context.getDeviceInfo().getTcpPort());
 
         context.sendUDPPacket(drPkt, packet.getAddress());
-        context.getMainFrame().addDevice(newDevice);
+        context.getMainFrame().refreshDeviceList();
     }
 
     private void handleDiscoveryReply(DatagramPacket packet, Packet pkt) {
@@ -65,7 +65,7 @@ public class UDPListener implements Runnable {
         DeviceInfo newDevice = new DeviceInfo(pkt.getDeviceName(), pkt.getDeviceUID(), packet.getAddress(),
                 pkt.getTcpPort(), Instant.now(), DeviceStatus.ONLINE);
         context.getDeviceRegistry().addOrUpdateDevice(newDevice);
-        context.getMainFrame().addDevice(newDevice);
+        context.getMainFrame().refreshDeviceList();
     }
 
     private void handleHeartBeat(DatagramPacket packet, Packet pkt) {
@@ -85,9 +85,8 @@ public class UDPListener implements Runnable {
                 "UDPListner: GoodBye Packet Received from " + pkt.getDeviceName() + "[" + packet.getAddress() + "]");
 
         /// remove the device from our registry
-        DeviceInfo device = context.getDeviceRegistry().getDevice(pkt.getDeviceUID());
         context.getDeviceRegistry().removeDevice(pkt.getDeviceUID());
-        context.getMainFrame().removeDevice(device);
+        context.getMainFrame().refreshDeviceList();
     }
 
     private void processPacket(DatagramPacket packet) {

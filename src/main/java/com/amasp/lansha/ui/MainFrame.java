@@ -25,31 +25,18 @@ public class MainFrame extends javax.swing.JFrame {
         listAvailableDevices.setModel(model);
     }
 
-    public void addDevice(DeviceInfo device) {
-        model.addElement(device);
-        refreshUI();
-    }
-
-    public void removeDevice(DeviceInfo device) {
-        model.removeElement(device);
-        refreshUI();
-    }
-
-    public void clearDevices() {
-        model.clear();
-    }
-
-    public void refreshUI() {
+    public void refreshDeviceList() {
 
         SwingUtilities.invokeLater(() -> {
 
             model.clear();
 
-            for (DeviceInfo device : context.getDeviceRegistry().getAllDevices()) {
-                model.addElement(device);
-            }
+            context.getDeviceRegistry()
+                    .getAllDevices()
+                    .forEach(model::addElement);
 
         });
+
     }
 
     @SuppressWarnings("unchecked")
