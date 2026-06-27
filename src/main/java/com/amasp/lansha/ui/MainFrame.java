@@ -45,18 +45,18 @@ public class MainFrame extends javax.swing.JFrame {
 
         panelAvailableDevices = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listAvailableDevices = new javax.swing.JList<>();
-        buttonConnect = new javax.swing.JButton();
+        listAvailableDevices = new javax.swing.JList<DeviceInfo>();
         jPanel1 = new javax.swing.JPanel();
         buttonChooseFile = new javax.swing.JButton();
-        buttonChooseFile1 = new javax.swing.JButton();
+        buttonSendFile = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        textAreaFileInfo = new javax.swing.JTextArea();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LanSHA");
 
         jScrollPane1.setViewportView(listAvailableDevices);
-
-        buttonConnect.setText("Connect");
 
         javax.swing.GroupLayout panelAvailableDevicesLayout = new javax.swing.GroupLayout(panelAvailableDevices);
         panelAvailableDevices.setLayout(panelAvailableDevicesLayout);
@@ -64,26 +64,28 @@ public class MainFrame extends javax.swing.JFrame {
             panelAvailableDevicesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAvailableDevicesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelAvailableDevicesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
-                    .addComponent(buttonConnect, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelAvailableDevicesLayout.setVerticalGroup(
             panelAvailableDevicesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAvailableDevicesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buttonConnect, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         buttonChooseFile.setText("Choose File");
         buttonChooseFile.addActionListener(this::buttonChooseFileActionPerformed);
 
-        buttonChooseFile1.setText("Send File");
-        buttonChooseFile1.addActionListener(this::buttonChooseFile1ActionPerformed);
+        buttonSendFile.setText("Send File");
+        buttonSendFile.addActionListener(this::buttonSendFileActionPerformed);
+
+        textAreaFileInfo.setColumns(20);
+        textAreaFileInfo.setLineWrap(true);
+        textAreaFileInfo.setRows(5);
+        textAreaFileInfo.setText("No preview Available.\nPlease Select a File first...");
+        jScrollPane2.setViewportView(textAreaFileInfo);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -92,18 +94,32 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonChooseFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonChooseFile1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE))
+                    .addComponent(buttonChooseFile, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                    .addComponent(buttonSendFile, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(buttonChooseFile)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buttonChooseFile1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(buttonSendFile)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 411, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -112,16 +128,20 @@ public class MainFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelAvailableDevices, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 454, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panelAvailableDevices, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -136,20 +156,28 @@ public class MainFrame extends javax.swing.JFrame {
             selectedFile = chooser.getSelectedFile().toPath();
             fileName = selectedFile.getFileName().toString();
             //  send file
+            String textFileName = "Name: " + fileName + "\n\n";
+            String textFileSize = "Size: " + selectedFile.toFile().length() + "B\n\n";
+            String textFilePath = "Path: " + selectedFile.toFile().getAbsolutePath() + "\n\n";
+
+            textAreaFileInfo.setText(textFileName + textFileSize + textFilePath);
         }
     }//GEN-LAST:event_buttonChooseFileActionPerformed
 
-    private void buttonChooseFile1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonChooseFile1ActionPerformed
+    private void buttonSendFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSendFileActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_buttonChooseFile1ActionPerformed
+        
+    }//GEN-LAST:event_buttonSendFileActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonChooseFile;
-    private javax.swing.JButton buttonChooseFile1;
-    private javax.swing.JButton buttonConnect;
+    private javax.swing.JButton buttonSendFile;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList<DeviceInfo> listAvailableDevices;
     private javax.swing.JPanel panelAvailableDevices;
+    private javax.swing.JTextArea textAreaFileInfo;
     // End of variables declaration//GEN-END:variables
 }
