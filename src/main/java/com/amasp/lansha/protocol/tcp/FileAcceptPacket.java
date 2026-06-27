@@ -10,15 +10,15 @@ import java.util.UUID;
  */
 public class FileAcceptPacket extends Packet {
 
-    private UUID transferID;
+    private UUID transferId;
 
     public UUID getTransferId() {
-        return transferID;
+        return transferId;
     }
 
-    public FileAcceptPacket(UUID transferID, UUID deviceUID, String deviceName, int tcpPort) {
+    public FileAcceptPacket(UUID transferId, UUID deviceUID, String deviceName, int tcpPort) {
         super(PacketType.FILE_ACCEPT, deviceUID, deviceName, tcpPort);
-        this.transferID = transferID;
+        this.transferId = transferId;
     }
 
     public FileAcceptPacket() {
@@ -27,11 +27,11 @@ public class FileAcceptPacket extends Packet {
     }
 
     public UUID getTransferID() {
-        return transferID;
+        return transferId;
     }
 
     public void setTransferID(UUID transferID) {
-        this.transferID = transferID;
+        this.transferId = transferID;
     }
 
 }

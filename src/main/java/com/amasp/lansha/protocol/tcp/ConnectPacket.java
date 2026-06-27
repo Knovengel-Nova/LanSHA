@@ -9,6 +9,7 @@ import java.util.UUID;
  * @author knovengel
  */
 public class ConnectPacket extends Packet {
+
     public ConnectPacket() {
         super();
         packetType = PacketType.CONNECT;

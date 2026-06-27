@@ -7,6 +7,7 @@ import java.util.UUID;
  * @author knovengel
  */
 public class Packet {
+
     protected PacketType packetType;
     protected UUID deviceUID;
     protected String deviceName;
@@ -53,6 +54,5 @@ public class Packet {
     public void setTcpPort(int tcpPort) {
         this.tcpPort = tcpPort;
     }
-    
-    
+
 }
