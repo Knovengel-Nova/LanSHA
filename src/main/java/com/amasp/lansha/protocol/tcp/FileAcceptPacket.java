@@ -21,6 +21,7 @@ public class FileAcceptPacket extends Packet {
     }
     
     public FileAcceptPacket(){
-        
+        super();
+        packetType = PacketType.FILE_ACCEPT;
     }
 }

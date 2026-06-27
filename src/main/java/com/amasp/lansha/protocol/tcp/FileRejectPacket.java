@@ -11,6 +11,11 @@ import java.util.UUID;
 public class FileRejectPacket extends Packet {
 
     private UUID transferId;
+    
+    public FileRejectPacket(){
+        super();
+        this.packetType = PacketType.FILE_REJECT;
+    }
 
     public FileRejectPacket(UUID transferId, UUID deviceUID, String deviceName, int tcpPort) {
         super(PacketType.FILE_REJECT, deviceUID, deviceName, tcpPort);
