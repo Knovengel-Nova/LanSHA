@@ -10,6 +10,8 @@ import java.net.Socket;
  *
  * @author knovengel
  */
+/// Always running thread listening for incomming TCP requests.
+/// send them to ConnectionHandler
 public class TCPAcceptor implements Runnable {
 
     private final LanSHAContext context;

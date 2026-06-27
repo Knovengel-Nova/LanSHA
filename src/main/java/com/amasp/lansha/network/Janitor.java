@@ -12,11 +12,9 @@ import java.util.Collection;
  * @author knovengel
  */
 public class Janitor implements Runnable {
-    private final LanSHAContext context;
     private final DeviceRegistry reg;
 
     public Janitor(LanSHAContext context) {
-        this.context = context;
         this.reg = context.getDeviceRegistry();
     }
 

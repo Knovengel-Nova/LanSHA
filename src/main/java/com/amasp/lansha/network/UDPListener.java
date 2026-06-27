@@ -21,7 +21,7 @@ import java.util.Arrays;
  */
 ///
 /// Always running thread
-/// Listens for UDP Packets on port 60704
+/// Only Listens for UDP Packets on port 60704
 ///
 
 public class UDPListener implements Runnable {
@@ -40,7 +40,7 @@ public class UDPListener implements Runnable {
         }
     }
 
-    public void handleDiscovery(DatagramPacket packet, Packet pkt) {
+    private void handleDiscovery(DatagramPacket packet, Packet pkt) {
         System.out.println(
                 "UDPListner: Discovery Packet Received from " + pkt.getDeviceName() + "[" + packet.getAddress() + "]");
 
@@ -56,7 +56,7 @@ public class UDPListener implements Runnable {
         context.sendUDPPacket(drPkt, packet.getAddress());
     }
 
-    public void handleDiscoveryReply(DatagramPacket packet, Packet pkt) {
+    private void handleDiscoveryReply(DatagramPacket packet, Packet pkt) {
         System.out.println("UDPListner: DiscoveryReply Packet Received from " + pkt.getDeviceName() + "["
                 + packet.getAddress() + "]");
 
@@ -66,7 +66,7 @@ public class UDPListener implements Runnable {
         context.getDeviceRegistry().addOrUpdateDevice(newDevice);
     }
 
-    public void handleHeartBeat(DatagramPacket packet, Packet pkt) {
+    private void handleHeartBeat(DatagramPacket packet, Packet pkt) {
         System.out.println(
                 "UDPListner: HeartBeat Packet Received from " + pkt.getDeviceName() + "[" + packet.getAddress() + "]");
 
@@ -78,7 +78,7 @@ public class UDPListener implements Runnable {
         }
     }
 
-    public void handleGoodBye(DatagramPacket packet, Packet pkt) {
+    private void handleGoodBye(DatagramPacket packet, Packet pkt) {
         System.out.println(
                 "UDPListner: GoodBye Packet Received from " + pkt.getDeviceName() + "[" + packet.getAddress() + "]");
 
@@ -86,17 +86,17 @@ public class UDPListener implements Runnable {
         context.getDeviceRegistry().removeDevice(pkt.getDeviceUID());
     }
 
-    public void processPacket(DatagramPacket packet) {
+    private void processPacket(DatagramPacket packet) {
         Packet pkt = null;
         byte data[] = Arrays.copyOf(packet.getData(), packet.getLength());
 
         try {
             pkt = PacketSerializer.deserialize(data, Packet.class);
         } catch (Exception e) {
-            System.out.println("exception in UDP listner packet deserilinss/....");
             e.printStackTrace();
         }
 
+        // ignore packets sent by us
         if (pkt == null || pkt.getDeviceName().equals(NetworkUtil.getHostName())) {
             return;
         }
@@ -104,25 +104,21 @@ public class UDPListener implements Runnable {
         switch (pkt.getPacketType()) {
             case DISCOVERY:
                 /// 1 device sent a discover packet.
-                /// note the device in the registry and send a discovery reply packet.
                 handleDiscovery(packet, pkt);
                 break;
 
             case DISCOVERY_REPLY:
                 /// a device sent a discovery reply packet
-                /// note the device in the registry.
                 handleDiscoveryReply(packet, pkt);
                 break;
 
             case HEART_BEAT:
                 /// a device is alive.
-                /// update the last seen field of the device in the registry
                 handleHeartBeat(packet, pkt);
                 break;
 
             case GOODBYE:
                 /// a device left
-                /// remove the device from the registry
                 handleGoodBye(packet, pkt);
                 break;
 
@@ -142,7 +138,6 @@ public class UDPListener implements Runnable {
                 listenerSocket.receive(packet);
                 processPacket(packet);
             } catch (IOException e) {
-                System.out.println("IOException in packet in UDPListner...");
                 e.printStackTrace();
             }
         }

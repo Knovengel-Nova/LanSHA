@@ -13,7 +13,6 @@ import java.net.Socket;
  *
  * @author knovengel
  */
-
 public class ConnectionHandler implements Runnable {
 
     private LanSHAContext context;
@@ -63,7 +62,7 @@ public class ConnectionHandler implements Runnable {
 
     }
 
-    public void close() {
+    private void close() {
         if (!running) {
             return;
         }

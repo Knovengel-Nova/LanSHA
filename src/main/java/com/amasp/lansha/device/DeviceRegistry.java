@@ -9,7 +9,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author knovengel
  */
 public class DeviceRegistry {
-    private final ConcurrentHashMap<UUID, DeviceInfo> registry = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<UUID, DeviceInfo> registry = new ConcurrentHashMap<>(); // avaialable devices:
+                                                                                            // <DeviceUID, DeviceInfo>
 
     public void addOrUpdateDevice(DeviceInfo device) {
         registry.put(device.getDeviceUID(), device);

@@ -45,18 +45,18 @@ public class TransferReceiver {
         }
     }
 
-    public void finish() {
-        try {
-            out.flush();
-            out.close();
+    // public void finish() {
+    //     try {
+    //         out.flush();
+    //         out.close();
 
-            session.setState(TransferState.COMPLETED);
+    //         session.setState(TransferState.COMPLETED);
 
-            System.out.println("Transfer Complete.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    //         System.out.println("Transfer Complete.");
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     public void cancel() {
         try {

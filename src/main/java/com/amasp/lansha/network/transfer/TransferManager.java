@@ -21,8 +21,10 @@ public class TransferManager {
 
     LanSHAContext context;
 
-    private final ConcurrentHashMap<UUID, ConnectionHandler> connections;
-    private final ConcurrentHashMap<UUID, TransferSession> sessions;
+    private final ConcurrentHashMap<UUID, ConnectionHandler> connections; // all active connection: <deviceUID,
+                                                                          // ConnectionHandler>
+    private final ConcurrentHashMap<UUID, TransferSession> sessions; // all file transfers: <transferUID,
+                                                                     // TransferSession>
 
     public TransferManager(LanSHAContext context) {
         this.context = context;
@@ -62,6 +64,8 @@ public class TransferManager {
                 case TRANSFER_COMPLETE:
                     TransferCompletePacket tCPacket = PacketSerializer.deserialize(data, TransferCompletePacket.class);
                     handleTransferComplete(tCPacket, handler);
+                    break;
+                default:
                     break;
             }
         } catch (Exception e) {
@@ -120,7 +124,6 @@ public class TransferManager {
             return;
         }
 
-        // delegate to receiver
         session.getReceiver().receive(packet);
     }
 
