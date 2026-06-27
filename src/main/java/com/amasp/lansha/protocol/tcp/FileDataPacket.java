@@ -65,4 +65,5 @@ public class FileDataPacket extends Packet {
     public void setData(byte[] data) {
         this.data = data;
     }
+
 }

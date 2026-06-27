@@ -11,8 +11,8 @@ import java.util.UUID;
 public class FileRejectPacket extends Packet {
 
     private UUID transferId;
-    
-    public FileRejectPacket(){
+
+    public FileRejectPacket() {
         super();
         this.packetType = PacketType.FILE_REJECT;
     }
@@ -25,4 +25,9 @@ public class FileRejectPacket extends Packet {
     public UUID getTransferId() {
         return transferId;
     }
+
+    public void setTransferId(UUID transferId) {
+        this.transferId = transferId;
+    }
+
 }

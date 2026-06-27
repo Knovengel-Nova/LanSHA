@@ -31,4 +31,6 @@ public class TransferCompletePacket extends Packet {
     public void setTransferId(UUID transferId) {
         this.transferId = transferId;
     }
+    
+    
 }

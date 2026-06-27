@@ -9,6 +9,7 @@ import java.util.UUID;
  * @author knovengel
  */
 public class FileAcceptPacket extends Packet {
+
     private UUID transferID;
 
     public UUID getTransferId() {
@@ -19,9 +20,18 @@ public class FileAcceptPacket extends Packet {
         super(PacketType.FILE_ACCEPT, deviceUID, deviceName, tcpPort);
         this.transferID = transferID;
     }
-    
-    public FileAcceptPacket(){
+
+    public FileAcceptPacket() {
         super();
         packetType = PacketType.FILE_ACCEPT;
     }
+
+    public UUID getTransferID() {
+        return transferID;
+    }
+
+    public void setTransferID(UUID transferID) {
+        this.transferID = transferID;
+    }
+
 }

@@ -42,4 +42,16 @@ public class FileRequestPacket extends Packet {
         this.transferId = transferUid;
     }
 
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void setFileSize(long fileSize) {
+        this.fileSize = fileSize;
+    }
+
+    public void setTransferId(UUID transferId) {
+        this.transferId = transferId;
+    }
+
 }

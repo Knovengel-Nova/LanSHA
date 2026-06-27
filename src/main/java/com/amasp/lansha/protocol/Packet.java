@@ -38,4 +38,21 @@ public class Packet {
         return tcpPort;
     }
 
+    public void setPacketType(PacketType packetType) {
+        this.packetType = packetType;
+    }
+
+    public void setDeviceUID(UUID deviceUID) {
+        this.deviceUID = deviceUID;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
+    }
+
+    public void setTcpPort(int tcpPort) {
+        this.tcpPort = tcpPort;
+    }
+    
+    
 }
