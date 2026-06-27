@@ -159,6 +159,12 @@ public class TransferManager {
             return;
         }
 
+        try{
+            session.setReceiver(new TransferReceiver(session));
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
         session.setState(TransferState.ACCEPTED);
 
         FileAcceptPacket packet = new FileAcceptPacket(transferId, context.getDeviceInfo().getDeviceUID(),
