@@ -69,12 +69,7 @@ public class DeviceInfo {
 
     @Override
     public String toString() {
-        return String.format(
-                "%s [%s] (%s:%d)",
-                deviceName,
-                deviceUID,
-                ipAddress.getHostAddress(),
-                tcpPort);
+        return deviceName;
     }
 
 }

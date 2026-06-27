@@ -48,13 +48,12 @@ public class UDPListener implements Runnable {
         DeviceInfo newDevice = new DeviceInfo(pkt.getDeviceName(), pkt.getDeviceUID(), packet.getAddress(),
                 pkt.getTcpPort(), Instant.now(), DeviceStatus.ONLINE);
         context.getDeviceRegistry().addOrUpdateDevice(newDevice);
-
+        context.getMainFrame().refreshDeviceList();
         /// create and send the discoveryReply Packet to the new device
         DiscoveryReplyPacket drPkt = new DiscoveryReplyPacket(context.getDeviceInfo().getDeviceUID(),
                 context.getDeviceInfo().getDeviceName(), context.getDeviceInfo().getTcpPort());
 
         context.sendUDPPacket(drPkt, packet.getAddress());
-        context.getMainFrame().refreshDeviceList();
     }
 
     private void handleDiscoveryReply(DatagramPacket packet, Packet pkt) {

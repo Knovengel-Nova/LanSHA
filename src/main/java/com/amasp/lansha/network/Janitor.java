@@ -33,6 +33,7 @@ public class Janitor implements Runnable {
                 context.getMainFrame().refreshDeviceList();
             }
         }
+        context.getMainFrame().refreshDeviceList();
     }
 
     private void startCleaning() {
