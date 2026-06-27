@@ -13,7 +13,6 @@ public class FileRequestFrame extends javax.swing.JFrame {
 
     private TransferSession session;
     private LanSHAContext context;
-    private boolean response = false;
 
     public FileRequestFrame(LanSHAContext context, TransferSession session) {
         this.session = session;
