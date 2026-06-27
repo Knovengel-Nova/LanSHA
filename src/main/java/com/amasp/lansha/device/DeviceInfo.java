@@ -17,7 +17,8 @@ public class DeviceInfo {
     private Instant lastSeen;
     private DeviceStatus status;
 
-    public DeviceInfo(String deviceName, UUID deviceUID, InetAddress ipAddress, int tcpPort, Instant lastSeen, DeviceStatus status) {
+    public DeviceInfo(String deviceName, UUID deviceUID, InetAddress ipAddress, int tcpPort, Instant lastSeen,
+            DeviceStatus status) {
         this.deviceName = deviceName;
         this.deviceUID = deviceUID;
         this.ipAddress = ipAddress;
@@ -73,8 +74,7 @@ public class DeviceInfo {
                 deviceName,
                 deviceUID,
                 ipAddress.getHostAddress(),
-                tcpPort
-        );
+                tcpPort);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.amasp.lansha.protocol;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -19,5 +20,15 @@ public final class PacketSerializer {
 
     public static <T> T deserialize(byte[] data, Class<T> clazz) throws Exception {
         return mapper.readValue(data, clazz);
+    }
+
+    public static PacketType getPacketType(byte[] data) {
+        JsonNode root = null;
+        try {
+            root = mapper.readTree(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return PacketType.valueOf(root.get("packetType").asText());
     }
 }

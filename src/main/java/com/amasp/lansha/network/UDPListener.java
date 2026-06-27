@@ -2,7 +2,7 @@ package com.amasp.lansha.network;
 
 import com.amasp.lansha.device.DeviceInfo;
 import com.amasp.lansha.device.DeviceStatus;
-import com.amasp.lansha.protocol.DiscoveryReplyPacket;
+import com.amasp.lansha.protocol.udp.DiscoveryReplyPacket;
 import com.amasp.lansha.protocol.Packet;
 import com.amasp.lansha.protocol.PacketSerializer;
 import com.amasp.lansha.util.Constants;
@@ -41,39 +41,47 @@ public class UDPListener implements Runnable {
     }
 
     public void handleDiscovery(DatagramPacket packet, Packet pkt) {
-        System.out.println("UDPListner: Discovery Packet Received from " + pkt.getDeviceName() + "[" + packet.getAddress() + "]");
+        System.out.println(
+                "UDPListner: Discovery Packet Received from " + pkt.getDeviceName() + "[" + packet.getAddress() + "]");
 
         /// add the device to our registry
-        DeviceInfo newDevice = new DeviceInfo(pkt.getDeviceName(), pkt.getDeviceUID(), packet.getAddress(), pkt.getTcpPort(), Instant.now(), DeviceStatus.ONLINE);
+        DeviceInfo newDevice = new DeviceInfo(pkt.getDeviceName(), pkt.getDeviceUID(), packet.getAddress(),
+                pkt.getTcpPort(), Instant.now(), DeviceStatus.ONLINE);
         context.getDeviceRegistry().addOrUpdateDevice(newDevice);
 
         /// create and send the discoveryReply Packet to the new device
-        DiscoveryReplyPacket drPkt = new DiscoveryReplyPacket(context.getDeviceInfo().getDeviceUID(), context.getDeviceInfo().getDeviceName(), context.getDeviceInfo().getTcpPort());
+        DiscoveryReplyPacket drPkt = new DiscoveryReplyPacket(context.getDeviceInfo().getDeviceUID(),
+                context.getDeviceInfo().getDeviceName(), context.getDeviceInfo().getTcpPort());
 
         context.sendUDPPacket(drPkt, packet.getAddress());
     }
 
     public void handleDiscoveryReply(DatagramPacket packet, Packet pkt) {
-        System.out.println("UDPListner: DiscoveryReply Packet Received from " + pkt.getDeviceName() + "[" + packet.getAddress() + "]");
+        System.out.println("UDPListner: DiscoveryReply Packet Received from " + pkt.getDeviceName() + "["
+                + packet.getAddress() + "]");
 
         /// add the new device to our registry
-        DeviceInfo newDevice = new DeviceInfo(pkt.getDeviceName(), pkt.getDeviceUID(), packet.getAddress(), pkt.getTcpPort(), Instant.now(), DeviceStatus.ONLINE);
+        DeviceInfo newDevice = new DeviceInfo(pkt.getDeviceName(), pkt.getDeviceUID(), packet.getAddress(),
+                pkt.getTcpPort(), Instant.now(), DeviceStatus.ONLINE);
         context.getDeviceRegistry().addOrUpdateDevice(newDevice);
     }
 
     public void handleHeartBeat(DatagramPacket packet, Packet pkt) {
-        System.out.println("UDPListner: HeartBeat Packet Received from " + pkt.getDeviceName() + "[" + packet.getAddress() + "]");
-        
-        /// if the device is present in our registry update its last seen to current time
+        System.out.println(
+                "UDPListner: HeartBeat Packet Received from " + pkt.getDeviceName() + "[" + packet.getAddress() + "]");
+
+        /// if the device is present in our registry update its last seen to current
+        /// time
         DeviceInfo oldDevice = context.getDeviceRegistry().getDevice(pkt.getDeviceUID());
-        if(oldDevice != null){
+        if (oldDevice != null) {
             oldDevice.setLastSeen(Instant.now());
         }
     }
 
     public void handleGoodBye(DatagramPacket packet, Packet pkt) {
-        System.out.println("UDPListner: GoodBye Packet Received from " + pkt.getDeviceName() + "[" + packet.getAddress() + "]");
-        
+        System.out.println(
+                "UDPListner: GoodBye Packet Received from " + pkt.getDeviceName() + "[" + packet.getAddress() + "]");
+
         /// remove the device from our registry
         context.getDeviceRegistry().removeDevice(pkt.getDeviceUID());
     }

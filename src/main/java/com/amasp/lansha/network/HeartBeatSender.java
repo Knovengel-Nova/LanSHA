@@ -1,7 +1,7 @@
 package com.amasp.lansha.network;
 
 import com.amasp.lansha.device.DeviceInfo;
-import com.amasp.lansha.protocol.HeartBeatPacket;
+import com.amasp.lansha.protocol.udp.HeartBeatPacket;
 import com.amasp.lansha.util.Constants;
 import com.amasp.lansha.util.LanSHAContext;
 import com.amasp.lansha.util.NetworkUtil;
@@ -26,18 +26,18 @@ public class HeartBeatSender implements Runnable {
     private void sendBeat() {
         packet = new HeartBeatPacket(self.getDeviceUID(), self.getDeviceName(), self.getTcpPort());
         context.sendUDPPacket(packet, broadcastAddress);
-        System.out.println("HeartBeatSender: HeartBeat Packet Sent on "+broadcastAddress);
+        System.out.println("HeartBeatSender: HeartBeat Packet Sent on " + broadcastAddress);
     }
 
     private void startBeats() {
         while (!Thread.currentThread().isInterrupted()) {
-            //  send a heartbeat
+            // send a heartbeat
             sendBeat();
             try {
-                Thread.sleep(interval);    //  wait for some time
+                Thread.sleep(interval); // wait for some time
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                break;  
+                break;
             }
 
         }
@@ -46,7 +46,7 @@ public class HeartBeatSender implements Runnable {
     public HeartBeatSender(LanSHAContext context) {
         this.context = context;
         this.self = context.getDeviceInfo();
-        this.interval = 60000L/Constants.HEARTBEAT_BPM;
+        this.interval = 60000L / Constants.HEARTBEAT_BPM;
         this.broadcastAddress = NetworkUtil.getBroadcastAddress();
     }
 

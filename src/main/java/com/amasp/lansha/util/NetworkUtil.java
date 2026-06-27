@@ -15,8 +15,7 @@ public class NetworkUtil {
 
     public static InetAddress getBroadcastAddress() {
         try {
-            Enumeration<NetworkInterface> interfaces
-                    = NetworkInterface.getNetworkInterfaces();
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
 
             while (interfaces.hasMoreElements()) {
 
@@ -28,8 +27,7 @@ public class NetworkUtil {
                     continue;
                 }
 
-                for (InterfaceAddress address
-                        : networkInterface.getInterfaceAddresses()) {
+                for (InterfaceAddress address : networkInterface.getInterfaceAddresses()) {
 
                     InetAddress broadcast = address.getBroadcast();
 
@@ -50,8 +48,7 @@ public class NetworkUtil {
 
         try {
 
-            Enumeration<NetworkInterface> interfaces
-                    = NetworkInterface.getNetworkInterfaces();
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
 
             while (interfaces.hasMoreElements()) {
 

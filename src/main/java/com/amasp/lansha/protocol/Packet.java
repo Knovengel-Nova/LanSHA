@@ -37,6 +37,5 @@ public class Packet {
     public int getTcpPort() {
         return tcpPort;
     }
-    
-    
+
 }

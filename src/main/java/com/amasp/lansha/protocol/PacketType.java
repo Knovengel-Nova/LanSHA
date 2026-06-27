@@ -9,8 +9,11 @@ public enum PacketType {
     DISCOVERY_REPLY,
     HEART_BEAT,
     GOODBYE,
-    
+
     FILE_REQUEST,
     FILE_ACCEPT,
-    FILE_REJECT
+    FILE_REJECT,
+    CONNECT,
+    FILE_DATA,
+    TRANSFER_COMPLETE
 }

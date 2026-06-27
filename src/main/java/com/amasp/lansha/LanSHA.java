@@ -21,10 +21,10 @@ import java.util.UUID;
 /// LanSHA will be the main class and the entry point of the overall Application
 ///
 /// Responsibilities:
-///     1.  Start UI
-///     2.  Start Network Services
-///     3.  Initialize Registries
-///     4.  Initialize Transfer Manager
+/// 1. Start UI
+/// 2. Start Network Services
+/// 3. Initialize Registries
+/// 4. Initialize Transfer Manager
 ///
 
 public class LanSHA {
@@ -33,7 +33,8 @@ public class LanSHA {
         DeviceInfo selfInfo;
         DeviceRegistry registry = new DeviceRegistry();
 
-        selfInfo = new DeviceInfo(NetworkUtil.getHostName(), UUID.randomUUID(), NetworkUtil.getLocalAddress(), Constants.TCP_PORT, Instant.now(), DeviceStatus.ONLINE);
+        selfInfo = new DeviceInfo(NetworkUtil.getHostName(), UUID.randomUUID(), NetworkUtil.getLocalAddress(),
+                Constants.TCP_PORT, Instant.now(), DeviceStatus.ONLINE);
 
         LanSHAContext context = new LanSHAContext(selfInfo, registry);
 
@@ -52,7 +53,7 @@ public class LanSHA {
         /// Start the Janitor Thread
         Janitor janitor = new Janitor(context);
         new Thread(janitor).start();
-        
+
         System.out.println("LanSHA: Hello World!");
     }
 }
