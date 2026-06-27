@@ -7,6 +7,7 @@ import com.amasp.lansha.network.DiscoveryService;
 import com.amasp.lansha.network.HeartBeatSender;
 import com.amasp.lansha.network.Janitor;
 import com.amasp.lansha.network.UDPListener;
+import com.amasp.lansha.ui.MainFrame;
 import com.amasp.lansha.util.Constants;
 import com.amasp.lansha.util.LanSHAContext;
 import com.amasp.lansha.util.NetworkUtil;
@@ -55,5 +56,9 @@ public class LanSHA {
         new Thread(janitor).start();
 
         System.out.println("LanSHA: Hello World!");
+        
+        MainFrame mf = new MainFrame(context);
+        context.setMainFrame(mf);
+        mf.setVisible(true);
     }
 }

@@ -2,9 +2,9 @@ package com.amasp.lansha.network;
 
 import com.amasp.lansha.device.DeviceInfo;
 import com.amasp.lansha.device.DeviceStatus;
-import com.amasp.lansha.protocol.udp.DiscoveryReplyPacket;
 import com.amasp.lansha.protocol.Packet;
 import com.amasp.lansha.protocol.PacketSerializer;
+import com.amasp.lansha.protocol.udp.DiscoveryReplyPacket;
 import com.amasp.lansha.util.Constants;
 import com.amasp.lansha.util.LanSHAContext;
 import com.amasp.lansha.util.NetworkUtil;
@@ -54,6 +54,7 @@ public class UDPListener implements Runnable {
                 context.getDeviceInfo().getDeviceName(), context.getDeviceInfo().getTcpPort());
 
         context.sendUDPPacket(drPkt, packet.getAddress());
+        context.getMainFrame().addDevice(newDevice);
     }
 
     private void handleDiscoveryReply(DatagramPacket packet, Packet pkt) {
@@ -64,6 +65,7 @@ public class UDPListener implements Runnable {
         DeviceInfo newDevice = new DeviceInfo(pkt.getDeviceName(), pkt.getDeviceUID(), packet.getAddress(),
                 pkt.getTcpPort(), Instant.now(), DeviceStatus.ONLINE);
         context.getDeviceRegistry().addOrUpdateDevice(newDevice);
+        context.getMainFrame().addDevice(newDevice);
     }
 
     private void handleHeartBeat(DatagramPacket packet, Packet pkt) {
@@ -83,7 +85,9 @@ public class UDPListener implements Runnable {
                 "UDPListner: GoodBye Packet Received from " + pkt.getDeviceName() + "[" + packet.getAddress() + "]");
 
         /// remove the device from our registry
+        DeviceInfo device = context.getDeviceRegistry().getDevice(pkt.getDeviceUID());
         context.getDeviceRegistry().removeDevice(pkt.getDeviceUID());
+        context.getMainFrame().removeDevice(device);
     }
 
     private void processPacket(DatagramPacket packet) {
