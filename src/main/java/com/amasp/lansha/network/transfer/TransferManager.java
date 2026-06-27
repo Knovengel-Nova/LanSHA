@@ -1,5 +1,6 @@
 package com.amasp.lansha.network.transfer;
 
+import com.amasp.lansha.device.DeviceInfo;
 import com.amasp.lansha.network.ConnectionHandler;
 import com.amasp.lansha.protocol.tcp.ConnectPacket;
 import com.amasp.lansha.protocol.tcp.FileAcceptPacket;
@@ -10,8 +11,15 @@ import com.amasp.lansha.protocol.PacketSerializer;
 import com.amasp.lansha.protocol.PacketType;
 import com.amasp.lansha.protocol.tcp.TransferCompletePacket;
 import com.amasp.lansha.util.LanSHAContext;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.Socket;
+import java.nio.file.Path;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -79,17 +87,18 @@ public class TransferManager {
     }
 
     private void handleFileRequest(FileRequestPacket packet, ConnectionHandler handler) {
-        TransferSession session = new TransferSession(packet.getTransferId(), packet.getFileName(),
-                packet.getDeviceUID(), packet.getFileSize(), 0, TransferState.WAITING_FOR_RESPONSE, handler);
+        TransferSession session = new TransferSession(
+                packet.getTransferId(),
+                packet.getFileName(),
+                packet.getDeviceUID(),
+                packet.getFileSize(),
+                0,
+                TransferState.WAITING_FOR_RESPONSE,
+                handler);
+
         sessions.put(packet.getTransferId(), session);
 
-        boolean accepted = context.getConsole().promptFileRequest(session);
-
-        if (accepted) {
-            acceptTransfer(packet.getTransferId());
-        } else {
-            rejectTransfer(packet.getTransferId());
-        }
+        SwingUtilities.invokeLater(() -> context.getMainFrame().showFileRequest(session));
     }
 
     private void handleFileAccept(FileAcceptPacket packet, ConnectionHandler handler) {
@@ -188,6 +197,53 @@ public class TransferManager {
         TransferSender sender = new TransferSender(session);
         session.setSender(sender);
         new Thread(sender).start();
+    }
+
+    public void sendFile(DeviceInfo remoteDevice, Path sourceFile) {
+        try {
+            ConnectionHandler handler = connections.get(remoteDevice.getDeviceUID());
+
+            if (handler == null) {
+                Socket socket = new Socket(remoteDevice.getIpAddress(), remoteDevice.getTcpPort());
+
+                handler = new ConnectionHandler(context, socket);
+
+                context.getConnectionPool().submit(handler);
+
+                ConnectPacket packet = new ConnectPacket(context.getDeviceInfo().getDeviceUID(),
+                        context.getDeviceInfo().getDeviceName(), context.getDeviceInfo().getTcpPort());
+
+                handler.send(packet);
+
+                connections.put(remoteDevice.getDeviceUID(), handler);
+            }
+
+            UUID transferId = UUID.randomUUID();
+
+            TransferSession session = new TransferSession(
+                    transferId,
+                    sourceFile.getFileName().toString(),
+                    remoteDevice.getDeviceUID(),
+                    sourceFile.toFile().length(),
+                    0,
+                    TransferState.WAITING_FOR_RESPONSE,
+                    handler);
+
+            session.setSourcePath(sourceFile);
+            sessions.put(transferId, session);
+
+            FileRequestPacket requestPacket = new FileRequestPacket(
+                    transferId,
+                    context.getDeviceInfo().getDeviceUID(),
+                    context.getDeviceInfo().getDeviceName(),
+                    context.getDeviceInfo().getTcpPort(),
+                    sourceFile.getFileName().toString(),
+                    sourceFile.toFile().length());
+
+            handler.send(requestPacket);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void cancelTransfer(UUID transferId) {

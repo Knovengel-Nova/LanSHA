@@ -30,9 +30,9 @@ public class FileRequestPacket extends Packet {
         this.transferId = transferUid;
     }
 
-    public FileRequestPacket(UUID deviceUID, String deviceName, int tcpPort, String fileName, long fileSize) {
+    public FileRequestPacket(UUID transferId, UUID deviceUID, String deviceName, int tcpPort, String fileName, long fileSize) {
         super(PacketType.FILE_REQUEST, deviceUID, deviceName, tcpPort);
-
+        this.transferId = transferId;
         this.fileName = fileName;
         this.fileSize = fileSize;
     }

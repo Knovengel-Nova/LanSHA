@@ -1,6 +1,7 @@
 package com.amasp.lansha.ui;
 
 import com.amasp.lansha.device.DeviceInfo;
+import com.amasp.lansha.network.transfer.TransferSession;
 import com.amasp.lansha.util.LanSHAContext;
 import java.nio.file.Path;
 import javax.swing.DefaultListModel;
@@ -37,6 +38,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         });
 
+    }
+
+    public void showFileRequest(TransferSession session) {
+        SwingUtilities.invokeLater(() -> {
+            FileRequestFrame frame
+                    = new FileRequestFrame(context, session);
+            frame.setVisible(true);
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -103,7 +112,7 @@ public class MainFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(buttonChooseFile)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -161,12 +170,29 @@ public class MainFrame extends javax.swing.JFrame {
             String textFilePath = "Path: " + selectedFile.toFile().getAbsolutePath() + "\n\n";
 
             textAreaFileInfo.setText(textFileName + textFileSize + textFilePath);
+
         }
     }//GEN-LAST:event_buttonChooseFileActionPerformed
 
     private void buttonSendFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSendFileActionPerformed
         // TODO add your handling code here:
-        
+        if (selectedFile == null) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Please choose a file first.");
+            return;
+        }
+
+        DeviceInfo device = listAvailableDevices.getSelectedValue();
+
+        if (device == null) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Please select a device.");
+            return;
+        }
+
+        context.getTransferManager().sendFile(device, selectedFile);
     }//GEN-LAST:event_buttonSendFileActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

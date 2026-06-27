@@ -14,6 +14,8 @@ public class TransferSession {
 
     private UUID remoteDevice;
 
+    private String remoteDeviceName;
+
     private TransferState state;
 
     private Path sourceFile;
@@ -41,6 +43,14 @@ public class TransferSession {
         this.bytesTransferred = bytesTransferred;
         this.state = state;
         this.handler = handler;
+    }
+
+    public void setRemoteDeviceName(String name){
+        this.remoteDeviceName = name;
+    }
+
+    public String getRemoteDeviceName(){
+        return remoteDeviceName;
     }
 
     public void setSourcePath(Path path) {

@@ -91,13 +91,13 @@
         <Component class="javax.swing.JLabel" name="labelFileName">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Name: Jumanji.mp4"/>
+            <Property name="text" type="java.lang.String" value="Name: NoName.NoExt"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="labelFileSize">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Size: 3.4GB"/>
+            <Property name="text" type="java.lang.String" value="Size: 0B"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">

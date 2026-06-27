@@ -1,25 +1,29 @@
 package com.amasp.lansha.ui;
 
 import com.amasp.lansha.network.transfer.TransferSession;
+import com.amasp.lansha.util.LanSHAContext;
 
 /**
  *
  * @author knovengel
  */
 public class FileRequestFrame extends javax.swing.JFrame {
-    
+
     private TransferSession session;
-    
-    public FileRequestFrame(TransferSession session) {
+    private LanSHAContext context;
+    private boolean response = false;
+
+    public FileRequestFrame(LanSHAContext context, TransferSession session) {
         this.session = session;
+        this.context = context;
         initComponents();
         initUIs();
     }
-    
-    private void initUIs(){
-        labelSenderName.setText(session.getHandler().getContext().getDeviceInfo().getDeviceName());
-        labelFileName.setText("Name: "+session.getFileName());
-        labelFileSize.setText("Size: "+Long.toString(session.getFileSize()));
+
+    private void initUIs() {
+        labelSenderName.setText(session.getRemoteDeviceName());
+        labelFileName.setText("Name: " + session.getFileName());
+        labelFileSize.setText("Size: " + Long.toString(session.getFileSize()));
     }
 
     @SuppressWarnings("unchecked")
@@ -43,10 +47,10 @@ public class FileRequestFrame extends javax.swing.JFrame {
         labelSenderName.setText("Knov");
 
         labelFileName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelFileName.setText("Name: Jumanji.mp4");
+        labelFileName.setText("Name: NoName.NoExt");
 
         labelFileSize.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelFileSize.setText("Size: 3.4GB");
+        labelFileSize.setText("Size: 0B");
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("File From");
@@ -109,10 +113,18 @@ public class FileRequestFrame extends javax.swing.JFrame {
 
     private void buttonAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAcceptActionPerformed
         // TODO add your handling code here:
+        context.getTransferManager()
+                .acceptTransfer(session.getTransferId());
+
+        dispose();
     }//GEN-LAST:event_buttonAcceptActionPerformed
 
     private void buttonRejectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRejectActionPerformed
         // TODO add your handling code here:
+        context.getTransferManager()
+                .rejectTransfer(session.getTransferId());
+
+        dispose();
     }//GEN-LAST:event_buttonRejectActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
