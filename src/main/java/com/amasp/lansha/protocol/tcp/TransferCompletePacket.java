@@ -12,18 +12,21 @@ public class TransferCompletePacket extends Packet {
 
     private UUID transferId;
 
+    // no args constructor
     public TransferCompletePacket() {
         super();
         packetType = PacketType.TRANSFER_COMPLETE;
     }
 
-    public TransferCompletePacket(PacketType type, UUID deviceUID, String deviceName, int tcpPort, UUID transferId) {
+    // all args constructor
+    public TransferCompletePacket(PacketType type, UUID deviceId, String deviceName, int tcpPort, UUID transferId) {
 
-        super(type, deviceUID, deviceName, tcpPort);
+        super(type, deviceId, deviceName, tcpPort);
 
         this.transferId = transferId;
     }
 
+    // getters and setters
     public UUID getTransferId() {
         return transferId;
     }
@@ -31,6 +34,5 @@ public class TransferCompletePacket extends Packet {
     public void setTransferId(UUID transferId) {
         this.transferId = transferId;
     }
-    
-    
+
 }

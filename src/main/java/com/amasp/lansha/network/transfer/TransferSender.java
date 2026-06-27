@@ -28,6 +28,7 @@ public class TransferSender implements Runnable {
 
     private volatile boolean cancelled = false;
 
+    // all args constructor
     public TransferSender(TransferSession session) {
         this.session = session;
     }
@@ -52,7 +53,7 @@ public class TransferSender implements Runnable {
                 /// encryption
 
                 FileDataPacket packet = new FileDataPacket(PacketType.FILE_DATA,
-                        session.getHandler().getContext().getDeviceInfo().getDeviceUID(),
+                        session.getHandler().getContext().getDeviceInfo().getDeviceId(),
                         session.getHandler().getContext().getDeviceInfo().getDeviceName(),
                         session.getHandler().getContext().getDeviceInfo().getTcpPort(), session.getTransferId(),
                         chunkNumber, totalChunks, chunk);
@@ -70,7 +71,7 @@ public class TransferSender implements Runnable {
 
             if (!cancelled) {
                 TransferCompletePacket packet = new TransferCompletePacket(
-                        PacketType.TRANSFER_COMPLETE, session.getHandler().getContext().getDeviceInfo().getDeviceUID(),
+                        PacketType.TRANSFER_COMPLETE, session.getHandler().getContext().getDeviceInfo().getDeviceId(),
                         session.getHandler().getContext().getDeviceInfo().getDeviceName(),
                         session.getHandler().getContext().getDeviceInfo().getTcpPort(), session.getTransferId());
                 session.getHandler().send(packet);
@@ -79,6 +80,7 @@ public class TransferSender implements Runnable {
                 System.out.println("Transfer Complete.");
             }
         } catch (IOException e) {
+            System.out.println("TransferSender: Error in run()");
             session.setState(TransferState.FAILED);
             e.printStackTrace();
         }

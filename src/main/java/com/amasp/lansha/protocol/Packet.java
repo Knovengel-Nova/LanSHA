@@ -9,26 +9,29 @@ import java.util.UUID;
 public class Packet {
 
     protected PacketType packetType;
-    protected UUID deviceUID;
+    protected UUID deviceId;
     protected String deviceName;
     protected int tcpPort;
 
+    // no arg constructor for jackson
     public Packet() {
     }
 
-    public Packet(PacketType packetType, UUID deviceUID, String deviceName, int tcpPort) {
+    // all args constructor
+    public Packet(PacketType packetType, UUID deviceId, String deviceName, int tcpPort) {
         this.packetType = packetType;
-        this.deviceUID = deviceUID;
+        this.deviceId = deviceId;
         this.deviceName = deviceName;
         this.tcpPort = tcpPort;
     }
 
+    // getters and setters
     public PacketType getPacketType() {
         return packetType;
     }
 
-    public UUID getDeviceUID() {
-        return deviceUID;
+    public UUID getDeviceId() {
+        return deviceId;
     }
 
     public String getDeviceName() {
@@ -43,8 +46,8 @@ public class Packet {
         this.packetType = packetType;
     }
 
-    public void setDeviceUID(UUID deviceUID) {
-        this.deviceUID = deviceUID;
+    public void setDeviceId(UUID deviceId) {
+        this.deviceId = deviceId;
     }
 
     public void setDeviceName(String deviceName) {

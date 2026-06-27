@@ -17,11 +17,13 @@ public class TCPAcceptor implements Runnable {
     private final LanSHAContext context;
     private ServerSocket serverSocket;
 
+    // all args constructor
     public TCPAcceptor(LanSHAContext context) {
         this.context = context;
         try {
             serverSocket = new ServerSocket(Constants.TCP_PORT);
         } catch (IOException e) {
+            System.out.println("TCPAcceptor: Error in constructor()");
             e.printStackTrace();
         }
     }
@@ -30,9 +32,11 @@ public class TCPAcceptor implements Runnable {
         try {
             serverSocket.close();
         } catch (IOException e) {
+            System.out.println("TCPAcceptor: Error in shutDown()");
             e.printStackTrace();
         }
 
+        // close the connectionpool
         context.getConnectionPool().shutdownNow();
     }
 
@@ -43,6 +47,7 @@ public class TCPAcceptor implements Runnable {
                 Socket socket = serverSocket.accept();
                 context.getConnectionPool().submit(new ConnectionHandler(context, socket));
             } catch (IOException e) {
+                System.out.println("TCPAcceptor: Error in run()");
                 if (serverSocket.isClosed()) {
                     break;
                 }

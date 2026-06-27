@@ -14,18 +14,22 @@ public class FileRequestPacket extends Packet {
     private long fileSize;
     private UUID transferId;
 
-    public FileRequestPacket(UUID transferId, UUID deviceUID, String deviceName, int tcpPort, String fileName, long fileSize) {
+    // no args constructor
+    public FileRequestPacket() {
+        super();
+        packetType = PacketType.FILE_REQUEST;
+    }
+
+    // all args constructor
+    public FileRequestPacket(UUID transferId, UUID deviceUID, String deviceName, int tcpPort, String fileName,
+            long fileSize) {
         super(PacketType.FILE_REQUEST, deviceUID, deviceName, tcpPort);
         this.transferId = transferId;
         this.fileName = fileName;
         this.fileSize = fileSize;
     }
 
-    public FileRequestPacket() {
-        super();
-        packetType = PacketType.FILE_REQUEST;
-    }
-
+    // getters and setters
     public UUID getTransferId() {
         return transferId;
     }
@@ -38,8 +42,8 @@ public class FileRequestPacket extends Packet {
         return fileSize;
     }
 
-    public void setTransferUid(UUID transferUid) {
-        this.transferId = transferUid;
+    public void setTransferId(UUID transferId) {
+        this.transferId = transferId;
     }
 
     public void setFileName(String fileName) {
@@ -48,10 +52,6 @@ public class FileRequestPacket extends Packet {
 
     public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
-    }
-
-    public void setTransferId(UUID transferId) {
-        this.transferId = transferId;
     }
 
 }

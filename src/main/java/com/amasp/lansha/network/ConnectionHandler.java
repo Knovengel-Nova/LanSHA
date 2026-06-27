@@ -15,16 +15,17 @@ import java.net.Socket;
  */
 public class ConnectionHandler implements Runnable {
 
-    private LanSHAContext context;
+    private final LanSHAContext context;
     private Socket socket; // other device socket
 
-    private TransferManager transferManager;
+    private TransferManager transferManager;// will manage all transfers with the 1 other connected device (socket)
 
     private DataInputStream in;
     private DataOutputStream out;
 
     private volatile boolean running = true;
 
+    // all args constructor
     public ConnectionHandler(LanSHAContext context, Socket socket) throws IOException {
         this.context = context;
         this.socket = socket;
@@ -32,10 +33,6 @@ public class ConnectionHandler implements Runnable {
 
         this.in = new DataInputStream(socket.getInputStream());
         this.out = new DataOutputStream(socket.getOutputStream());
-    }
-
-    public LanSHAContext getContext() {
-        return context;
     }
 
     public synchronized void send(Packet packet) {
@@ -51,17 +48,18 @@ public class ConnectionHandler implements Runnable {
             out.flush();
 
         } catch (IOException e) {
-
+            System.out.println("ConnectionHandler: Error in send()");
             close();
 
         } catch (Exception e) {
-
+            System.out.println("ConnectionHandler: Error in send()");
             e.printStackTrace();
 
         }
 
     }
 
+    // release all resources
     private void close() {
         if (!running) {
             return;
@@ -85,15 +83,21 @@ public class ConnectionHandler implements Runnable {
         }
     }
 
+    // getter
+    public LanSHAContext getContext() {
+        return context;
+    }
+
     @Override
     public void run() {
         while (running) {
             try {
-                int size = in.readInt();
-                byte data[] = in.readNBytes(size);
-                transferManager.processPacket(data, this);
+                int size = in.readInt(); // get the size of incomming buffer
+                byte data[] = in.readNBytes(size);// read the buffer
+                transferManager.processPacket(data, this);// process the packet
 
             } catch (Exception e) {
+                System.out.println("ConnectionHandler: Error in run()");
                 close();
             }
         }

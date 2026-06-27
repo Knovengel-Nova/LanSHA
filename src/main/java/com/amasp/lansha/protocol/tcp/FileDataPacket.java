@@ -10,23 +10,25 @@ import java.util.UUID;
  */
 public class FileDataPacket extends Packet {
 
-    private UUID transferId;
+    private UUID transferId; // fixed transferId for a particular transfer
 
-    private int chunkNumber;
+    private int chunkNumber;// current chunk
 
-    private int totalChunks;
+    private int totalChunks;// TODO: remove this from here and then send it with File Accept Packet
 
-    private byte[] data;
+    private byte[] data; // buffer (actual file data)
 
+    // no args constructor
     public FileDataPacket() {
         super();
         packetType = PacketType.FILE_DATA;
     }
 
-    public FileDataPacket(PacketType type, UUID deviceUID, String deviceName, int tcpPort, UUID transferId,
+    // all args constructor
+    public FileDataPacket(PacketType type, UUID deviceId, String deviceName, int tcpPort, UUID transferId,
             int chunkNumber, int totalChunks, byte[] data) {
 
-        super(type, deviceUID, deviceName, tcpPort);
+        super(type, deviceId, deviceName, tcpPort);
 
         this.transferId = transferId;
         this.chunkNumber = chunkNumber;
@@ -34,32 +36,33 @@ public class FileDataPacket extends Packet {
         this.data = data;
     }
 
+    // getters abd setters
     public UUID getTransferId() {
         return transferId;
     }
 
-    public void setTransferId(UUID transferId) {
-        this.transferId = transferId;
+    public byte[] getData() {
+        return data;
     }
 
     public int getChunkNumber() {
         return chunkNumber;
     }
 
-    public void setChunkNumber(int chunkNumber) {
-        this.chunkNumber = chunkNumber;
-    }
-
     public int getTotalChunks() {
         return totalChunks;
     }
 
-    public void setTotalChunks(int totalChunks) {
-        this.totalChunks = totalChunks;
+    public void setTransferId(UUID transferId) {
+        this.transferId = transferId;
     }
 
-    public byte[] getData() {
-        return data;
+    public void setChunkNumber(int chunkNumber) {
+        this.chunkNumber = chunkNumber;
+    }
+
+    public void setTotalChunks(int totalChunks) {
+        this.totalChunks = totalChunks;
     }
 
     public void setData(byte[] data) {

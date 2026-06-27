@@ -27,26 +27,39 @@ public class LanSHAContext {
     private MainFrame mainFrame;
     private DatagramSocket udpSenderSocket = null;
 
+    // all args constructor
+    public LanSHAContext(DeviceInfo info, DeviceRegistry reg) {
+        this.selfInfo = info;
+        this.registry = reg;
+        this.connectionPool = Executors.newCachedThreadPool();
+        this.transferManager = new TransferManager(this);
+        this.console = new ConsoleManager();
+
+        try {
+            udpSenderSocket = new DatagramSocket();
+        } catch (SocketException e) {
+            System.out.println("LanSHAContext: Error in counstructor()");
+            e.printStackTrace();
+        }
+    }
+
+    // send a packet to other device from our device's one UDP sending socket
     public void sendUDPPacket(Packet packet, InetAddress destinationAddress) {
         try {
             byte data[] = PacketSerializer.serialize(packet);
             DatagramPacket pkt = new DatagramPacket(data, data.length, destinationAddress, Constants.UDP_PORT);
             udpSenderSocket.send(pkt);
         } catch (Exception e) {
+            System.out.println("LanSHAContext: Error in sendUDPPacket");
             e.printStackTrace();
         }
     }
 
+    // getters and setters
     public MainFrame getMainFrame() {
         return mainFrame;
     }
 
-    public void setMainFrame(MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
-    }
-
-    
-    
     public ConsoleManager getConsole() {
         return console;
     }
@@ -67,17 +80,8 @@ public class LanSHAContext {
         return connectionPool;
     }
 
-    public LanSHAContext(DeviceInfo info, DeviceRegistry reg) {
-        this.selfInfo = info;
-        this.registry = reg;
-        this.connectionPool = Executors.newCachedThreadPool();
-        this.transferManager = new TransferManager(this);
-        this.console = new ConsoleManager();
-
-        try {
-            udpSenderSocket = new DatagramSocket();
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
+    public void setMainFrame(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
     }
+
 }

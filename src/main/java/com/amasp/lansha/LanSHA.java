@@ -59,7 +59,8 @@ public class LanSHA {
         /// Start the Janitor Thread
         Janitor janitor = new Janitor(context);
         new Thread(janitor).start();
-        
+
+        // Start the TCP Acceptor Thread
         TCPAcceptor acceptorThread = new TCPAcceptor(context);
         new Thread(acceptorThread).start();
 

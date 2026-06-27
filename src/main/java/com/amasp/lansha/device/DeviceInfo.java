@@ -1,5 +1,6 @@
 package com.amasp.lansha.device;
 
+import com.amasp.lansha.util.Constants;
 import java.net.InetAddress;
 import java.time.Instant;
 import java.util.UUID;
@@ -10,61 +11,77 @@ import java.util.UUID;
  */
 public class DeviceInfo {
 
-    private final String deviceName;
-    private final UUID deviceUID;
+    private String deviceName;
+    private final UUID deviceId;
     private InetAddress ipAddress;
-    private int tcpPort;
+    private int tcpPort; // receiving tcp server port
     private Instant lastSeen;
     private DeviceStatus status;
 
-    public DeviceInfo(String deviceName, UUID deviceUID, InetAddress ipAddress, int tcpPort, Instant lastSeen,
+    // no args constructor
+    public DeviceInfo() {
+        this.deviceName = "NO_NAME";
+        this.deviceId = UUID.randomUUID();
+        this.ipAddress = InetAddress.getLoopbackAddress();
+        this.tcpPort = Constants.TCP_PORT;
+        this.lastSeen = Instant.now();
+        this.status = DeviceStatus.OFFLINE;
+    }
+
+    // all args constructor
+    public DeviceInfo(String deviceName, UUID deviceId, InetAddress ipAddress, int tcpPort, Instant lastSeen,
             DeviceStatus status) {
         this.deviceName = deviceName;
-        this.deviceUID = deviceUID;
+        this.deviceId = deviceId;
         this.ipAddress = ipAddress;
         this.tcpPort = tcpPort;
         this.lastSeen = lastSeen;
         this.status = status;
     }
 
+    // Getters and Setters
     public String getDeviceName() {
         return deviceName;
     }
 
-    public UUID getDeviceUID() {
-        return deviceUID;
+    public UUID getDeviceId() {
+        return deviceId;
     }
 
     public InetAddress getIpAddress() {
         return ipAddress;
     }
 
-    public void setIpAddress(InetAddress ipAddress) {
-        this.ipAddress = ipAddress;
-    }
-
     public int getTcpPort() {
         return tcpPort;
-    }
-
-    public void setTcpPort(int tcpPort) {
-        this.tcpPort = tcpPort;
     }
 
     public Instant getLastSeen() {
         return lastSeen;
     }
 
-    public void setLastSeen(Instant lastSeen) {
-        this.lastSeen = lastSeen;
-    }
-
     public DeviceStatus getStatus() {
         return status;
     }
 
+    public void setIpAddress(InetAddress ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public void setTcpPort(int tcpPort) {
+        this.tcpPort = tcpPort;
+    }
+
+    public void setLastSeen(Instant lastSeen) {
+        this.lastSeen = lastSeen;
+    }
+
     public void setStatus(DeviceStatus status) {
         this.status = status;
+    }
+
+    public void setDeviceName(String name){
+        this.deviceName = name;
     }
 
     @Override

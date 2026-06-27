@@ -23,8 +23,17 @@ public class HeartBeatSender implements Runnable {
     private DeviceInfo self;
     private final InetAddress broadcastAddress;
 
+    // all args constructor
+    public HeartBeatSender(LanSHAContext context) {
+        this.context = context;
+        this.self = context.getDeviceInfo();
+        this.interval = 60000L / Constants.HEARTBEAT_BPM;
+        this.broadcastAddress = NetworkUtil.getBroadcastAddress();
+    }
+
     private void sendBeat() {
-        packet = new HeartBeatPacket(self.getDeviceUID(), self.getDeviceName(), self.getTcpPort());
+        // crafft a hheartbeat packet and broadcast it to all devices on LAN
+        packet = new HeartBeatPacket(self.getDeviceId(), self.getDeviceName(), self.getTcpPort());
         context.sendUDPPacket(packet, broadcastAddress);
         System.out.println("HeartBeatSender: HeartBeat Packet Sent on " + broadcastAddress);
     }
@@ -36,18 +45,12 @@ public class HeartBeatSender implements Runnable {
             try {
                 Thread.sleep(interval); // wait for some time
             } catch (InterruptedException e) {
+                System.out.println("HeartBeatSender: Error in startBeats()");
                 Thread.currentThread().interrupt();
                 break;
             }
 
         }
-    }
-
-    public HeartBeatSender(LanSHAContext context) {
-        this.context = context;
-        this.self = context.getDeviceInfo();
-        this.interval = 60000L / Constants.HEARTBEAT_BPM;
-        this.broadcastAddress = NetworkUtil.getBroadcastAddress();
     }
 
     @Override

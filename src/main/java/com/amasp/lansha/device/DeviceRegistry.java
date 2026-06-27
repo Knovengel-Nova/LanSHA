@@ -13,7 +13,7 @@ public class DeviceRegistry {
                                                                                             // <DeviceUID, DeviceInfo>
 
     public void addOrUpdateDevice(DeviceInfo device) {
-        registry.put(device.getDeviceUID(), device);
+        registry.put(device.getDeviceId(), device);
     }
 
     public void removeDevice(UUID deviceUID) {

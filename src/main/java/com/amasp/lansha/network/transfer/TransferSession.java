@@ -12,15 +12,15 @@ public class TransferSession {
 
     private UUID transferId;
 
-    private UUID remoteDevice;
+    private UUID remoteDevice; // other device
 
-    private String remoteDeviceName;
+    private String remoteDeviceName; // other device name
 
     private TransferState state;
 
-    private Path sourceFile;
+    private Path sourceFile; // file path if we are sending
 
-    private Path destinationFile;
+    private Path destinationFile; // file path if we are receiving
 
     private String fileName;
 
@@ -34,31 +34,21 @@ public class TransferSession {
 
     private TransferSender sender;
 
+    // all args constructor
     public TransferSession(UUID transferId, String fileName, UUID remoteDevice, long fileSize, long bytesTransferred,
             TransferState state, ConnectionHandler handler) {
         this.transferId = transferId;
         this.fileName = fileName;
-        this.remoteDevice = remoteDevice;
+        this.remoteDevice = remoteDevice; // other device
         this.fileSize = fileSize;
         this.bytesTransferred = bytesTransferred;
         this.state = state;
         this.handler = handler;
     }
 
-    public void setRemoteDeviceName(String name){
-        this.remoteDeviceName = name;
-    }
-
-    public String getRemoteDeviceName(){
+    // getters and setters
+    public String getRemoteDeviceName() {
         return remoteDeviceName;
-    }
-
-    public void setSourcePath(Path path) {
-        this.sourceFile = path;
-    }
-
-    public void setDestinationPath(Path path) {
-        this.destinationFile = path;
     }
 
     public Path getSourceFile() {
@@ -69,14 +59,6 @@ public class TransferSession {
         return destinationFile;
     }
 
-    public void setReceiver(TransferReceiver rec) {
-        this.receiver = rec;
-    }
-
-    public void setSender(TransferSender sender) {
-        this.sender = sender;
-    }
-
     public TransferReceiver getReceiver() {
         return receiver;
     }
@@ -85,22 +67,8 @@ public class TransferSession {
         return sender;
     }
 
-    public TransferSession() {
-    }
-
     public String getFileName() {
         return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public TransferSession(UUID transferId, UUID remoteDevice, TransferState state, ConnectionHandler handler) {
-        this.transferId = transferId;
-        this.remoteDevice = remoteDevice;
-        this.state = state;
-        this.handler = handler;
     }
 
     public UUID getTransferId() {
@@ -125,6 +93,30 @@ public class TransferSession {
 
     public ConnectionHandler getHandler() {
         return handler;
+    }
+
+    public void setRemoteDeviceName(String name) {
+        this.remoteDeviceName = name;
+    }
+
+    public void setSourcePath(Path path) {
+        this.sourceFile = path;
+    }
+
+    public void setDestinationPath(Path path) {
+        this.destinationFile = path;
+    }
+
+    public void setReceiver(TransferReceiver rec) {
+        this.receiver = rec;
+    }
+
+    public void setSender(TransferSender sender) {
+        this.sender = sender;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public void setTransferId(UUID transferId) {

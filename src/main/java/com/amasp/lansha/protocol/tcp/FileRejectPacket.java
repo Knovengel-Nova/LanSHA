@@ -12,16 +12,19 @@ public class FileRejectPacket extends Packet {
 
     private UUID transferId;
 
+    // no args constructor
     public FileRejectPacket() {
         super();
         this.packetType = PacketType.FILE_REJECT;
     }
 
-    public FileRejectPacket(UUID transferId, UUID deviceUID, String deviceName, int tcpPort) {
-        super(PacketType.FILE_REJECT, deviceUID, deviceName, tcpPort);
+    // all args constructor
+    public FileRejectPacket(UUID transferId, UUID deviceId, String deviceName, int tcpPort) {
+        super(PacketType.FILE_REJECT, deviceId, deviceName, tcpPort);
         this.transferId = transferId;
     }
 
+    // getters and setters
     public UUID getTransferId() {
         return transferId;
     }

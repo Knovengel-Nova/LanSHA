@@ -18,7 +18,7 @@ import com.amasp.lansha.protocol.tcp.FileDataPacket;
 
 public class TransferReceiver {
     private final TransferSession session;
-    private final BufferedOutputStream out;
+    private final BufferedOutputStream out; // to write received file in our file system
 
     public TransferReceiver(TransferSession session) throws IOException {
         this.session = session;
@@ -54,6 +54,8 @@ public class TransferReceiver {
 
     //         System.out.println("Transfer Complete.");
     //     } catch (IOException e) {
+//            System.out.println("TransferReceiver: Error in finish()");
+
     //         e.printStackTrace();
     //     }
     // }
@@ -62,6 +64,7 @@ public class TransferReceiver {
         try {
             out.close();
         } catch (IOException e) {
+            System.out.println("TransferReceiver: Error in cancel()");
             e.printStackTrace();
         }
 

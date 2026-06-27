@@ -9,7 +9,7 @@ import java.util.UUID;
  * @author knovengel
  */
 public class DiscoveryPacket extends Packet {
-    public DiscoveryPacket(UUID deviceUID, String deviceName, int tcpPort) {
-        super(PacketType.DISCOVERY, deviceUID, deviceName, tcpPort);
+    public DiscoveryPacket(UUID deviceId, String deviceName, int tcpPort) {
+        super(PacketType.DISCOVERY, deviceId, deviceName, tcpPort);
     }
 }

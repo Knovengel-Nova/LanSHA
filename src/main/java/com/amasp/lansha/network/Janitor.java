@@ -16,13 +16,16 @@ public class Janitor implements Runnable {
     private LanSHAContext context;
     private final DeviceRegistry reg;
 
+    // all args constructor
     public Janitor(LanSHAContext context) {
         this.reg = context.getDeviceRegistry();
         this.context = context;
     }
 
     private void scanAndClean() {
+        // scan the entire registry and remove inactive devices
         boolean changed = false;
+
         System.out.println("Janitor: Scanning And Cleaning...");
         Instant cutoff = Instant.now().minusMillis(Constants.DEVICE_TIMEOUT);
 
@@ -30,12 +33,12 @@ public class Janitor implements Runnable {
 
         for (DeviceInfo dev : devs) {
             if (dev.getLastSeen().isBefore(cutoff)) {
-                reg.removeDevice(dev.getDeviceUID());
+                reg.removeDevice(dev.getDeviceId());
                 System.out.println("Janitor: Device " + dev + " removed due to inactivity");
                 changed = true;
             }
         }
-        if (changed == true) {
+        if (changed == true) { // update UI if registry changed
             context.getMainFrame().refreshDeviceList();
         }
     }
@@ -47,6 +50,7 @@ public class Janitor implements Runnable {
             try {
                 Thread.sleep(Constants.DEVICE_CLEANING_INTERVAL);
             } catch (InterruptedException e) {
+                System.out.println("Janitor: Error in startCleaning()");
                 Thread.currentThread().interrupt();
                 break;
             }

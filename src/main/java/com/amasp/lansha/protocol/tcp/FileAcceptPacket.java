@@ -10,27 +10,26 @@ import java.util.UUID;
  */
 public class FileAcceptPacket extends Packet {
 
-    private UUID transferId;
+    private UUID transferId;// unique id for a particular transfer
 
-    public UUID getTransferId() {
-        return transferId;
-    }
-
-    public FileAcceptPacket(UUID transferId, UUID deviceUID, String deviceName, int tcpPort) {
-        super(PacketType.FILE_ACCEPT, deviceUID, deviceName, tcpPort);
-        this.transferId = transferId;
-    }
-
+    // no args constructor
     public FileAcceptPacket() {
         super();
         packetType = PacketType.FILE_ACCEPT;
     }
 
-    public UUID getTransferID() {
+    // all args constructor
+    public FileAcceptPacket(UUID transferId, UUID deviceId, String deviceName, int tcpPort) {
+        super(PacketType.FILE_ACCEPT, deviceId, deviceName, tcpPort);
+        this.transferId = transferId;
+    }
+
+    // getters and setters
+    public UUID getTransferId() {
         return transferId;
     }
 
-    public void setTransferID(UUID transferID) {
+    public void setTransferId(UUID transferID) {
         this.transferId = transferID;
     }
 

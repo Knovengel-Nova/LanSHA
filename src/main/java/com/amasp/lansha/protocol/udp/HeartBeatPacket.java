@@ -9,7 +9,7 @@ import java.util.UUID;
  * @author knovengel
  */
 public class HeartBeatPacket extends Packet {
-    public HeartBeatPacket(UUID deviceUID, String deviceName, int tcpPort) {
-        super(PacketType.HEART_BEAT, deviceUID, deviceName, tcpPort);
+    public HeartBeatPacket(UUID deviceId, String deviceName, int tcpPort) {
+        super(PacketType.HEART_BEAT, deviceId, deviceName, tcpPort);
     }
 }

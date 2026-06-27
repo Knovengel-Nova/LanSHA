@@ -15,7 +15,7 @@ public class ConnectPacket extends Packet {
         packetType = PacketType.CONNECT;
     }
 
-    public ConnectPacket(UUID deviceUID, String deviceName, int tcpPort) {
-        super(PacketType.CONNECT, deviceUID, deviceName, tcpPort);
+    public ConnectPacket(UUID deviceId, String deviceName, int tcpPort) {
+        super(PacketType.CONNECT, deviceId, deviceName, tcpPort);
     }
 }
