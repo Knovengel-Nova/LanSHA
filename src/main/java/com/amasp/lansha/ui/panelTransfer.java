@@ -15,17 +15,14 @@ public class panelTransfer extends javax.swing.JPanel {
         this.session = session;
 
         initComponents();
-
-        setPreferredSize(new Dimension(380, 120));
-        setMinimumSize(new Dimension(380, 120));
-        setMaximumSize(new Dimension(Short.MAX_VALUE, 120));
-        setAlignmentX(LEFT_ALIGNMENT);
-
         initUIs();
+        packPanel();
+
     }
 
     private void initUIs() {
 
+        labelFileName.setText(session.getFileName());
         progressBarProgress.setMinimum(0);
         progressBarProgress.setMaximum(100);
         progressBarProgress.setStringPainted(true);
@@ -89,6 +86,20 @@ public class panelTransfer extends javax.swing.JPanel {
             default -> {
             }
         }
+    }
+
+    private void packPanel() {
+        revalidate();
+        doLayout();
+
+        Dimension d = getPreferredSize();
+
+        // Width expands to fill parent, height stays fixed to preferred height
+        setPreferredSize(new Dimension(0, d.height));
+        setMinimumSize(new Dimension(0, d.height));
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, d.height));
+
+        revalidate();
     }
 
     private String formatSize(long bytes) {
