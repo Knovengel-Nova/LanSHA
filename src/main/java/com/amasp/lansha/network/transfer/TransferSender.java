@@ -14,7 +14,6 @@ import java.util.Arrays;
  *
  * @author knovengel
  */
-
 /// open a file
 /// read 64KB
 /// encrypt it
@@ -26,6 +25,8 @@ import java.util.Arrays;
 public class TransferSender implements Runnable {
 
     private final TransferSession session;
+
+    private long lastUIUpdate = 0;
 
     private LanSHAContext context;
 
@@ -66,13 +67,20 @@ public class TransferSender implements Runnable {
                 chunkNumber++;
 
                 session.setBytesTransferred(session.getBytesTransferred() + bytesRead);
-                context.getMainFrame().updateTransfer(session);
+                long now = System.currentTimeMillis();
 
-                System.out.printf(
-                        "sent %d/%d chunks %n",
-                        chunkNumber,
-                        totalChunks);
+                if (now - lastUIUpdate >= 100) {
+                    context.getMainFrame().updateTransfer(session);
+                    lastUIUpdate = now;
+                }
+
+                context.print(
+                        "sent %d/%d chunks %n"
+                        + chunkNumber
+                        + totalChunks);
             }
+
+            context.getMainFrame().updateTransfer(session);
 
             if (!cancelled) {
                 TransferCompletePacket packet = new TransferCompletePacket(

@@ -34,17 +34,90 @@ public class TransferSession {
 
     private TransferSender sender;
 
+    private boolean senderTransfer;
+
+    private long transferStartTime;
+
+    private long lastSpeedBytes;
+    private long lastSpeedTime;
+
+    private double currentSpeed;
+
     // all args constructor
     public TransferSession(UUID transferId, String fileName, UUID remoteDevice, String remoteDeviceName, long fileSize, long bytesTransferred,
             TransferState state, ConnectionHandler handler) {
         this.transferId = transferId;
         this.fileName = fileName;
         this.remoteDevice = remoteDevice; // other device
-        this.remoteDeviceName= remoteDeviceName;
+        this.remoteDeviceName = remoteDeviceName;
         this.fileSize = fileSize;
         this.bytesTransferred = bytesTransferred;
         this.state = state;
         this.handler = handler;
+    }
+
+    public void startTransferTimer() {
+        transferStartTime = System.currentTimeMillis();
+        lastSpeedTime = transferStartTime;
+        lastSpeedBytes = bytesTransferred;
+    }
+
+    public String getFormattedSpeed() {
+
+        long now = System.currentTimeMillis();
+
+        if (now - lastSpeedTime >= 1000) {
+
+            long deltaBytes = bytesTransferred - lastSpeedBytes;
+            long deltaTime = now - lastSpeedTime;
+
+            currentSpeed = deltaBytes / (deltaTime / 1000.0);
+
+            lastSpeedBytes = bytesTransferred;
+            lastSpeedTime = now;
+        }
+
+        double speed = currentSpeed;
+
+        String[] units = {"B/s", "KB/s", "MB/s", "GB/s"};
+
+        int i = 0;
+
+        while (speed >= 1024 && i < units.length - 1) {
+            speed /= 1024;
+            i++;
+        }
+
+        return String.format("%.1f %s", speed, units[i]);
+    }
+
+    public String getFormattedETA() {
+
+        if (currentSpeed <= 0) {
+            return "--:--";
+        }
+
+        long remaining = fileSize - bytesTransferred;
+
+        long seconds = (long) (remaining / currentSpeed);
+
+        long h = seconds / 3600;
+        long m = (seconds % 3600) / 60;
+        long s = seconds % 60;
+
+        if (h > 0) {
+            return String.format("%02d:%02d:%02d", h, m, s);
+        }
+
+        return String.format("%02d:%02d", m, s);
+    }
+
+    public boolean isSender() {
+        return senderTransfer;
+    }
+
+    public void setSender(boolean senderTransfer) {
+        this.senderTransfer = senderTransfer;
     }
 
     // getters and setters
@@ -138,6 +211,14 @@ public class TransferSession {
 
     public void setState(TransferState state) {
         this.state = state;
+
+        if (state == TransferState.TRANSFERRING) {
+            startTransferTimer();
+        }
+
+        if (state == TransferState.COMPLETED) {
+            bytesTransferred = fileSize;
+        }
     }
 
     public void setHandler(ConnectionHandler handler) {

@@ -163,6 +163,8 @@ public class TransferManager {
 
         session.setState(TransferState.COMPLETED);
 
+        context.getMainFrame().updateTransfer(session);
+        
         context.print("Transfer complete.");
 
         /// receive ACK then remove

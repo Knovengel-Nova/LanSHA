@@ -19,7 +19,6 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="labelRemoteDevice" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="progressBarProgress" pref="434" max="32767" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -27,11 +26,14 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="buttonCancel" min="-2" pref="25" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="labelTransferId" alignment="0" max="32767" attributes="0"/>
                   <Component id="labelFileName" alignment="0" max="32767" attributes="0"/>
-                  <Component id="labelFileSize" alignment="0" max="32767" attributes="0"/>
-                  <Component id="labelState" alignment="0" max="32767" attributes="0"/>
+                  <Component id="labelReceivingFromOrSendingTo" alignment="0" max="32767" attributes="0"/>
                   <Component id="labelProgress" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="labelSpeed" min="-2" pref="210" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="labelEta" min="-2" pref="210" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -41,24 +43,22 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="labelTransferId" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="labelRemoteDevice" min="-2" pref="30" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="labelFileName" min="-2" max="-2" attributes="0"/>
+              <Component id="labelFileName" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="labelFileSize" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="labelState" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Component id="labelReceivingFromOrSendingTo" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
               <Component id="labelProgress" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                  <Component id="buttonPause" pref="25" max="32767" attributes="0"/>
+                  <Component id="buttonPause" max="32767" attributes="0"/>
                   <Component id="buttonCancel" max="32767" attributes="0"/>
-                  <Component id="progressBarProgress" alignment="1" max="32767" attributes="0"/>
+                  <Component id="progressBarProgress" alignment="1" min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="labelSpeed" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="labelEta" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
           </Group>
       </Group>
     </DimensionLayout>
@@ -79,34 +79,28 @@
         <Property name="text" type="java.lang.String" value="||"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="labelRemoteDevice">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Remote Device: "/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="labelTransferId">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Transfer ID: "/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JLabel" name="labelFileName">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="File Name:"/>
-      </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="labelFileSize">
+    <Component class="javax.swing.JLabel" name="labelReceivingFromOrSendingTo">
       <Properties>
-        <Property name="text" type="java.lang.String" value="File Size:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="labelState">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="State: "/>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Receiving from Knov"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="labelProgress">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Progress:"/>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="progress:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelSpeed">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Speed:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelEta">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="ETA:"/>
       </Properties>
     </Component>
   </SubComponents>

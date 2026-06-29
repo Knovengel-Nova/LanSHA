@@ -30,9 +30,18 @@ public class MainFrame extends javax.swing.JFrame {
 
     public MainFrame(LanSHAContext context) {
         initComponents();
+
         this.context = context;
-        panelTransfers.setLayout(new BoxLayout(panelTransfers, BoxLayout.Y_AXIS));
+
         listAvailableDevices.setModel(model);
+
+        panelTransfers.setLayout(
+                new BoxLayout(panelTransfers, BoxLayout.Y_AXIS));
+
+        panelTransfers.setAlignmentX(LEFT_ALIGNMENT);
+        panelTransfers.setOpaque(false);
+
+        jScrollPane3.getVerticalScrollBar().setUnitIncrement(16);
     }
 
     public void refreshDeviceList() {
@@ -260,13 +269,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         SwingUtilities.invokeLater(() -> {
 
-            panelTransfer panel
-                    = transferPanels.get(session.getTransferId());
+            panelTransfer panel = transferPanels.get(session.getTransferId());
 
             if (panel != null) {
-                panel.updateProgress();
-                panel.updateState();
+                panel.refresh();
             }
+
         });
     }
 
@@ -278,7 +286,6 @@ public class MainFrame extends javax.swing.JFrame {
 
             if (panel != null) {
                 panelTransfers.remove(panel);
-
                 panelTransfers.revalidate();
                 panelTransfers.repaint();
             }

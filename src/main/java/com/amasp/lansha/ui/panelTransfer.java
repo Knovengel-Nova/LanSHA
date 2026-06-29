@@ -2,7 +2,6 @@ package com.amasp.lansha.ui;
 
 import com.amasp.lansha.network.transfer.TransferSession;
 import java.awt.Dimension;
-import javax.swing.BorderFactory;
 
 /**
  *
@@ -17,37 +16,92 @@ public class panelTransfer extends javax.swing.JPanel {
 
         initComponents();
 
-        setPreferredSize(new Dimension(400, 180));
-        setBorder(BorderFactory.createTitledBorder("Transfer"));
+        setPreferredSize(new Dimension(380, 120));
+        setMinimumSize(new Dimension(380, 120));
+        setMaximumSize(new Dimension(Short.MAX_VALUE, 120));
+        setAlignmentX(LEFT_ALIGNMENT);
 
         initUIs();
     }
 
     private void initUIs() {
-        this.labelTransferId.setText("Transfer ID: " + session.getTransferId().toString());
-        this.labelRemoteDevice.setText("Remote Device: " + session.getRemoteDeviceName());
-        this.labelFileName.setText("File Name: " + session.getFileName());
-        this.labelFileSize.setText("File Size: " + Long.toString(session.getFileSize()) + "B");
-        this.labelState.setText("State: " + session.getState().toString());
 
-        int progress = (int) ((100.0 * session.getBytesTransferred())
-                / session.getFileSize());
+        progressBarProgress.setMinimum(0);
+        progressBarProgress.setMaximum(100);
+        progressBarProgress.setStringPainted(true);
 
-        labelProgress.setText("Progress: " + progress + "%");
-        progressBarProgress.setValue(progress);
+        refresh();
     }
 
-    public void updateProgress() {
+    public void refresh() {
 
-        int progress = (int) ((100.0 * session.getBytesTransferred())
+        int progress = (int) (100.0
+                * session.getBytesTransferred()
                 / session.getFileSize());
 
-        labelProgress.setText("Progress: " + progress + "%");
         progressBarProgress.setValue(progress);
+        progressBarProgress.setStringPainted(true);
+        progressBarProgress.setString(progress + "%");
+
+        labelProgress.setText(
+                formatSize(session.getBytesTransferred())
+                + " / "
+                + formatSize(session.getFileSize()));
+
+        labelReceivingFromOrSendingTo.setText(
+                session.isSender()
+                ? "Sending to " + session.getRemoteDeviceName()
+                : "Receiving from " + session.getRemoteDeviceName());
+
+        labelSpeed.setText(session.getFormattedSpeed());
+
+        switch (session.getState()) {
+
+            case WAITING_FOR_RESPONSE ->
+                labelEta.setText("Waiting...");
+
+            case ACCEPTED ->
+                labelEta.setText("Preparing...");
+
+            case TRANSFERRING ->
+                labelEta.setText(session.getFormattedETA());
+
+            case COMPLETED -> {
+                buttonPause.setEnabled(false);
+                buttonCancel.setEnabled(false);
+                labelEta.setText("Completed");
+                progressBarProgress.setValue(100);
+                progressBarProgress.setString("100%");
+            }
+
+            case FAILED -> {
+                buttonPause.setEnabled(false);
+                buttonCancel.setEnabled(false);
+                labelEta.setText("Failed");
+            }
+
+            case CANCELLED -> {
+                buttonPause.setEnabled(false);
+                buttonCancel.setEnabled(false);
+                labelEta.setText("Cancelled");
+            }
+
+            default -> {
+            }
+        }
     }
 
-    public void updateState() {
-        this.labelState.setText("State: " + session.getState().toString());
+    private String formatSize(long bytes) {
+        double value = bytes;
+        String[] units = {"B", "KB", "MB", "GB", "TB"};
+
+        int i = 0;
+        while (value >= 1024 && i < units.length - 1) {
+            value /= 1024;
+            i++;
+        }
+
+        return String.format("%.1f %s", value, units[i]);
     }
 
     @SuppressWarnings("unchecked")
@@ -57,12 +111,11 @@ public class panelTransfer extends javax.swing.JPanel {
         progressBarProgress = new javax.swing.JProgressBar();
         buttonCancel = new javax.swing.JButton();
         buttonPause = new javax.swing.JButton();
-        labelRemoteDevice = new javax.swing.JLabel();
-        labelTransferId = new javax.swing.JLabel();
         labelFileName = new javax.swing.JLabel();
-        labelFileSize = new javax.swing.JLabel();
-        labelState = new javax.swing.JLabel();
+        labelReceivingFromOrSendingTo = new javax.swing.JLabel();
         labelProgress = new javax.swing.JLabel();
+        labelSpeed = new javax.swing.JLabel();
+        labelEta = new javax.swing.JLabel();
 
         progressBarProgress.setValue(27);
 
@@ -70,17 +123,15 @@ public class panelTransfer extends javax.swing.JPanel {
 
         buttonPause.setText("||");
 
-        labelRemoteDevice.setText("Remote Device: ");
+        labelReceivingFromOrSendingTo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelReceivingFromOrSendingTo.setText("Receiving from Knov");
 
-        labelTransferId.setText("Transfer ID: ");
+        labelProgress.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelProgress.setText("progress:");
 
-        labelFileName.setText("File Name:");
+        labelSpeed.setText("Speed:");
 
-        labelFileSize.setText("File Size:");
-
-        labelState.setText("State: ");
-
-        labelProgress.setText("Progress:");
+        labelEta.setText("ETA:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -89,53 +140,50 @@ public class panelTransfer extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelRemoteDevice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(progressBarProgress, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(buttonPause, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(buttonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(labelTransferId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelFileName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelFileSize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelProgress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(labelReceivingFromOrSendingTo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelProgress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(labelSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(labelEta, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(labelTransferId)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(labelRemoteDevice, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(labelFileName)
+                .addComponent(labelFileName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelFileSize)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelState)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelReceivingFromOrSendingTo)
+                .addGap(24, 24, 24)
                 .addComponent(labelProgress)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(buttonPause, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                    .addComponent(buttonPause, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(buttonCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(progressBarProgress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(progressBarProgress, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelSpeed)
+                    .addComponent(labelEta)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonCancel;
     private javax.swing.JButton buttonPause;
+    private javax.swing.JLabel labelEta;
     private javax.swing.JLabel labelFileName;
-    private javax.swing.JLabel labelFileSize;
     private javax.swing.JLabel labelProgress;
-    private javax.swing.JLabel labelRemoteDevice;
-    private javax.swing.JLabel labelState;
-    private javax.swing.JLabel labelTransferId;
+    private javax.swing.JLabel labelReceivingFromOrSendingTo;
+    private javax.swing.JLabel labelSpeed;
     private javax.swing.JProgressBar progressBarProgress;
     // End of variables declaration//GEN-END:variables
 }

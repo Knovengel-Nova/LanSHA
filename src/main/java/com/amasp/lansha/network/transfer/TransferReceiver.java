@@ -10,7 +10,6 @@ import java.nio.file.Files;
  *
  * @author knovengel
  */
-
 /// receive filedatapacket
 /// decrypt
 /// write chunk to a file
@@ -18,8 +17,10 @@ import java.nio.file.Files;
 /// wait for next chunk or transfercomplete
 
 public class TransferReceiver {
+
     private LanSHAContext context;
     private final TransferSession session;
+    private long lastUIUpdate = 0;
     private final BufferedOutputStream out; // to write received file in our file system
 
     public TransferReceiver(LanSHAContext context, TransferSession session) throws IOException {
@@ -33,16 +34,16 @@ public class TransferReceiver {
             byte[] chunk = packet.getData();
 
             // Decryption
-
             out.write(chunk);
 
             session.setBytesTransferred(session.getBytesTransferred() + chunk.length);
-            context.getMainFrame().updateTransfer(session);context.getMainFrame().updateTransfer(session);
+            context.getMainFrame().updateTransfer(session);
+            context.getMainFrame().updateTransfer(session);
 
-            System.out.printf(
-                    "Received %d/%d chunk.%n",
-                    packet.getChunkNumber() + 1,
-                    packet.getTotalChunks());
+            context.print(
+                    "Received %d/%d chunk.%n"
+                    + (packet.getChunkNumber() + 1)
+                    + packet.getTotalChunks());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,17 +53,13 @@ public class TransferReceiver {
     //     try {
     //         out.flush();
     //         out.close();
-
     //         session.setState(TransferState.COMPLETED);
-
     //         context.print("Transfer Complete.");
     //     } catch (IOException e) {
 //            context.print("TransferReceiver: Error in finish()");
-
     //         e.printStackTrace();
     //     }
     // }
-
     public void cancel() {
         try {
             out.close();
