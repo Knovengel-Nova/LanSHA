@@ -103,6 +103,8 @@ public class TransferManager {
                 0, // initially 0 Bs transferred
                 TransferState.WAITING_FOR_RESPONSE, // currently he is waiting for approval
                 handler);// our handler
+        
+        session.setSender(false);
 
         sessions.put(packet.getTransferId(), session);
         context.getMainFrame().addTransfer(session);

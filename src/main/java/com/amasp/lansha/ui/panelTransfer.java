@@ -1,7 +1,9 @@
 package com.amasp.lansha.ui;
 
 import com.amasp.lansha.network.transfer.TransferSession;
+import java.awt.Color;
 import java.awt.Dimension;
+import javax.swing.BorderFactory;
 
 /**
  *
@@ -15,6 +17,10 @@ public class panelTransfer extends javax.swing.JPanel {
         this.session = session;
 
         initComponents();
+        setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(80, 80, 80)),
+                BorderFactory.createEmptyBorder(10, 10, 10, 10)
+        ));
         initUIs();
         packPanel();
 
@@ -69,6 +75,16 @@ public class panelTransfer extends javax.swing.JPanel {
                 labelEta.setText("Completed");
                 progressBarProgress.setValue(100);
                 progressBarProgress.setString("100%");
+            }
+
+            case REJECTED -> {
+                buttonPause.setEnabled(false);
+                buttonCancel.setEnabled(false);
+
+                labelSpeed.setText("");
+                labelEta.setText("Rejected");
+
+                progressBarProgress.setString("Rejected");
             }
 
             case FAILED -> {
