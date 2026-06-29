@@ -98,6 +98,7 @@ public class TransferManager {
                 packet.getTransferId(), // fixed transferId for a file
                 packet.getFileName(), // file that he wants to send us
                 packet.getDeviceId(), // his deviceId (remote device)
+                packet.getDeviceName(),
                 packet.getFileSize(), // file size in B
                 0, // initially 0 Bs transferred
                 TransferState.WAITING_FOR_RESPONSE, // currently he is waiting for approval
@@ -257,6 +258,7 @@ public class TransferManager {
                     transferId,
                     sourceFile.getFileName().toString(),
                     remoteDevice.getDeviceId(),
+                    remoteDevice.getDeviceName(),
                     sourceFile.toFile().length(),
                     0,
                     TransferState.WAITING_FOR_RESPONSE,

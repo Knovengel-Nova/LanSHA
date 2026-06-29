@@ -35,11 +35,12 @@ public class TransferSession {
     private TransferSender sender;
 
     // all args constructor
-    public TransferSession(UUID transferId, String fileName, UUID remoteDevice, long fileSize, long bytesTransferred,
+    public TransferSession(UUID transferId, String fileName, UUID remoteDevice, String remoteDeviceName, long fileSize, long bytesTransferred,
             TransferState state, ConnectionHandler handler) {
         this.transferId = transferId;
         this.fileName = fileName;
         this.remoteDevice = remoteDevice; // other device
+        this.remoteDeviceName= remoteDeviceName;
         this.fileSize = fileSize;
         this.bytesTransferred = bytesTransferred;
         this.state = state;

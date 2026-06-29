@@ -1,6 +1,8 @@
 package com.amasp.lansha.ui;
 
 import com.amasp.lansha.network.transfer.TransferSession;
+import java.awt.Dimension;
+import javax.swing.BorderFactory;
 
 /**
  *
@@ -12,7 +14,12 @@ public class panelTransfer extends javax.swing.JPanel {
 
     public panelTransfer(TransferSession session) {
         this.session = session;
+
         initComponents();
+
+        setPreferredSize(new Dimension(400, 180));
+        setBorder(BorderFactory.createTitledBorder("Transfer"));
+
         initUIs();
     }
 
@@ -22,15 +29,21 @@ public class panelTransfer extends javax.swing.JPanel {
         this.labelFileName.setText("File Name: " + session.getFileName());
         this.labelFileSize.setText("File Size: " + Long.toString(session.getFileSize()) + "B");
         this.labelState.setText("State: " + session.getState().toString());
-        this.labelProgress.setText("Progress: " + Long.toString((session.getBytesTransferred() / session.getFileSize()) * 100) + "%");
-        this.progressBarProgress.setMaximum((int) session.getFileSize());
-        this.progressBarProgress.setValue((int) session.getBytesTransferred());
+
+        int progress = (int) ((100.0 * session.getBytesTransferred())
+                / session.getFileSize());
+
+        labelProgress.setText("Progress: " + progress + "%");
+        progressBarProgress.setValue(progress);
     }
 
     public void updateProgress() {
-        this.labelProgress.setText("Progress: " + Long.toString((session.getBytesTransferred() / session.getFileSize()) * 100) + "%");
-        this.progressBarProgress.setMaximum((int) session.getFileSize());
-        this.progressBarProgress.setValue((int) session.getBytesTransferred());
+
+        int progress = (int) ((100.0 * session.getBytesTransferred())
+                / session.getFileSize());
+
+        labelProgress.setText("Progress: " + progress + "%");
+        progressBarProgress.setValue(progress);
     }
 
     public void updateState() {
