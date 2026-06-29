@@ -1,13 +1,14 @@
 package com.amasp.lansha.network.transfer;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Arrays;
 import com.amasp.lansha.protocol.PacketType;
 import com.amasp.lansha.protocol.tcp.FileDataPacket;
 import com.amasp.lansha.protocol.tcp.TransferCompletePacket;
 import com.amasp.lansha.util.Constants;
+import com.amasp.lansha.util.LanSHAContext;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Arrays;
 
 /**
  *
@@ -26,11 +27,14 @@ public class TransferSender implements Runnable {
 
     private final TransferSession session;
 
+    private LanSHAContext context;
+
     private volatile boolean cancelled = false;
 
     // all args constructor
-    public TransferSender(TransferSession session) {
+    public TransferSender(LanSHAContext context, TransferSession session) {
         this.session = session;
+        this.context = context;
     }
 
     public void cancel() {
@@ -62,6 +66,7 @@ public class TransferSender implements Runnable {
                 chunkNumber++;
 
                 session.setBytesTransferred(session.getBytesTransferred() + bytesRead);
+                context.getMainFrame().updateTransfer(session);
 
                 System.out.printf(
                         "sent %d/%d chunks %n",
@@ -77,10 +82,10 @@ public class TransferSender implements Runnable {
                 session.getHandler().send(packet);
 
                 session.setState(TransferState.COMPLETED);
-                System.out.println("Transfer Complete.");
+                context.print("Transfer Complete.");
             }
         } catch (IOException e) {
-            System.out.println("TransferSender: Error in run()");
+            context.print("TransferSender: Error in run()");
             session.setState(TransferState.FAILED);
             e.printStackTrace();
         }

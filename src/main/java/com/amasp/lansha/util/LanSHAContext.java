@@ -5,6 +5,7 @@ import com.amasp.lansha.device.DeviceRegistry;
 import com.amasp.lansha.network.transfer.TransferManager;
 import com.amasp.lansha.protocol.Packet;
 import com.amasp.lansha.protocol.PacketSerializer;
+import com.amasp.lansha.ui.Console;
 import com.amasp.lansha.ui.MainFrame;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -23,7 +24,7 @@ public class LanSHAContext {
     private final DeviceRegistry registry;
     private final ExecutorService connectionPool;
     private TransferManager transferManager;
-    private ConsoleManager console;
+    private Console console;
     private MainFrame mainFrame;
     private DatagramSocket udpSenderSocket = null;
 
@@ -33,14 +34,20 @@ public class LanSHAContext {
         this.registry = reg;
         this.connectionPool = Executors.newCachedThreadPool();
         this.transferManager = new TransferManager(this);
-        this.console = new ConsoleManager();
+        this.console = new Console();
+        console.setVisible(true);
 
         try {
             udpSenderSocket = new DatagramSocket();
         } catch (SocketException e) {
-            System.out.println("LanSHAContext: Error in counstructor()");
+            print("LanSHAContext: Error in counstructor()");
             e.printStackTrace();
         }
+    }
+
+    public void print(String message) {
+        System.out.println(message);
+        console.appendMessage(message);
     }
 
     // send a packet to other device from our device's one UDP sending socket
@@ -50,7 +57,7 @@ public class LanSHAContext {
             DatagramPacket pkt = new DatagramPacket(data, data.length, destinationAddress, Constants.UDP_PORT);
             udpSenderSocket.send(pkt);
         } catch (Exception e) {
-            System.out.println("LanSHAContext: Error in sendUDPPacket");
+            print("LanSHAContext: Error in sendUDPPacket");
             e.printStackTrace();
         }
     }
@@ -58,10 +65,6 @@ public class LanSHAContext {
     // getters and setters
     public MainFrame getMainFrame() {
         return mainFrame;
-    }
-
-    public ConsoleManager getConsole() {
-        return console;
     }
 
     public DeviceInfo getDeviceInfo() {

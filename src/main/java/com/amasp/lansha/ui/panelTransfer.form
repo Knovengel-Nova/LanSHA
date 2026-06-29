@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="3"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="labelRemoteDevice" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="progressBarProgress" pref="434" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="buttonPause" min="-2" pref="25" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="buttonCancel" min="-2" pref="25" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="labelTransferId" alignment="0" max="32767" attributes="0"/>
+                  <Component id="labelFileName" alignment="0" max="32767" attributes="0"/>
+                  <Component id="labelFileSize" alignment="0" max="32767" attributes="0"/>
+                  <Component id="labelState" alignment="0" max="32767" attributes="0"/>
+                  <Component id="labelProgress" alignment="0" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="labelTransferId" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="labelRemoteDevice" min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="labelFileName" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="labelFileSize" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="labelState" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="labelProgress" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                  <Component id="buttonPause" pref="25" max="32767" attributes="0"/>
+                  <Component id="buttonCancel" max="32767" attributes="0"/>
+                  <Component id="progressBarProgress" alignment="1" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JProgressBar" name="progressBarProgress">
+      <Properties>
+        <Property name="value" type="int" value="27"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="buttonCancel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="X"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="buttonPause">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="||"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelRemoteDevice">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Remote Device: "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelTransferId">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Transfer ID: "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelFileName">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="File Name:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelFileSize">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="File Size:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelState">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="State: "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelProgress">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Progress:"/>
+      </Properties>
+    </Component>
+  </SubComponents>
+</Form>

@@ -87,7 +87,7 @@ public class TransferManager {
     // Handler
     private void handleConnection(ConnectPacket packet, ConnectionHandler handler) {
         connections.put(packet.getDeviceId(), handler);
-        context.getConsole().printMsg("Device: " + packet.getDeviceName() + " connected.");
+        context.print("Device: " + packet.getDeviceName() + " connected.");
     }
 
     // other device wants to send us a file (sent his file request packet) on our
@@ -104,10 +104,11 @@ public class TransferManager {
                 handler);// our handler
 
         sessions.put(packet.getTransferId(), session);
+        context.getMainFrame().addTransfer(session);
 
         // ask for our approval on UI
         SwingUtilities.invokeLater(() -> context.getMainFrame().showFileRequest(session));
-        System.out.println(packet.getDeviceName() + "is Asking for file approval for <" + packet.getFileName() + ">("
+        context.print(packet.getDeviceName() + "is Asking for file approval for <" + packet.getFileName() + ">("
                 + packet.getFileSize() + "B)");
     }
 
@@ -120,7 +121,7 @@ public class TransferManager {
         }
 
         session.setState(TransferState.ACCEPTED);
-        context.getConsole().printMsg("Transfer Accepted.");
+        context.print("Transfer Accepted.");
 
         // begin transfer
         beginTransfer(packet.getTransferId());
@@ -135,7 +136,7 @@ public class TransferManager {
         }
 
         session.setState(TransferState.REJECTED);
-        context.getConsole().printMsg("Transfer Rejected.");
+        context.print("Transfer Rejected.");
     }
 
     private void handleFileData(FileDataPacket packet, ConnectionHandler handler) {
@@ -161,7 +162,7 @@ public class TransferManager {
 
         session.setState(TransferState.COMPLETED);
 
-        context.getConsole().printMsg("Transfer complete.");
+        context.print("Transfer complete.");
 
         /// receive ACK then remove
 
@@ -178,9 +179,9 @@ public class TransferManager {
         }
 
         try {
-            session.setReceiver(new TransferReceiver(session));// set the receiver for this transferSession
+            session.setReceiver(new TransferReceiver(context, session));// set the receiver for this transferSession
         } catch (IOException e) {
-            System.out.println("TransferManager: Error in acceptTransfer()");
+            context.print("TransferManager: Error in acceptTransfer()");
             e.printStackTrace();
         }
 
@@ -224,7 +225,7 @@ public class TransferManager {
 
         session.setState(TransferState.TRANSFERRING);
 
-        TransferSender sender = new TransferSender(session);
+        TransferSender sender = new TransferSender(context, session);
         session.setSender(sender);
         new Thread(sender).start();
     }
@@ -263,6 +264,7 @@ public class TransferManager {
 
             session.setSourcePath(sourceFile);
             sessions.put(transferId, session);
+            context.getMainFrame().addTransfer(session);
 
             // send a filerequest packet to him first
             FileRequestPacket requestPacket = new FileRequestPacket(
@@ -275,7 +277,7 @@ public class TransferManager {
 
             handler.send(requestPacket);
         } catch (IOException e) {
-            System.out.println("TransferManager: Error in sendFile()");
+            context.print("TransferManager: Error in sendFile()");
             e.printStackTrace();
         }
     }
@@ -290,6 +292,6 @@ public class TransferManager {
 
         session.setState(TransferState.CANCELLED);
 
-        context.getConsole().printMsg("Transfer Cancelled.");
+        context.print("Transfer Cancelled.");
     }
 }

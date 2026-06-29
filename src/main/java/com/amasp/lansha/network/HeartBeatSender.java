@@ -35,7 +35,7 @@ public class HeartBeatSender implements Runnable {
         // crafft a hheartbeat packet and broadcast it to all devices on LAN
         packet = new HeartBeatPacket(self.getDeviceId(), self.getDeviceName(), self.getTcpPort());
         context.sendUDPPacket(packet, broadcastAddress);
-        System.out.println("HeartBeatSender: HeartBeat Packet Sent on " + broadcastAddress);
+        context.print("HeartBeatSender: HeartBeat Packet Sent on " + broadcastAddress);
     }
 
     private void startBeats() {
@@ -45,7 +45,7 @@ public class HeartBeatSender implements Runnable {
             try {
                 Thread.sleep(interval); // wait for some time
             } catch (InterruptedException e) {
-                System.out.println("HeartBeatSender: Error in startBeats()");
+                context.print("HeartBeatSender: Error in startBeats()");
                 Thread.currentThread().interrupt();
                 break;
             }
@@ -55,7 +55,7 @@ public class HeartBeatSender implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("HeartBeatSender: Thread Started!");
+        context.print("HeartBeatSender: Thread Started!");
         startBeats();
     }
 }

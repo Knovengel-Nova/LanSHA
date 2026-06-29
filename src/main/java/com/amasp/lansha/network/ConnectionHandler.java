@@ -48,11 +48,11 @@ public class ConnectionHandler implements Runnable {
             out.flush();
 
         } catch (IOException e) {
-            System.out.println("ConnectionHandler: Error in send()");
+            context.print("ConnectionHandler: Error in send()");
             close();
 
         } catch (Exception e) {
-            System.out.println("ConnectionHandler: Error in send()");
+            context.print("ConnectionHandler: Error in send()");
             e.printStackTrace();
 
         }
@@ -97,7 +97,7 @@ public class ConnectionHandler implements Runnable {
                 transferManager.processPacket(data, this);// process the packet
 
             } catch (Exception e) {
-                System.out.println("ConnectionHandler: Error in run()");
+                context.print("ConnectionHandler: Error in run()");
                 close();
             }
         }

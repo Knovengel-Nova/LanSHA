@@ -11,8 +11,8 @@ import javax.swing.JFileChooser;
  */
 public class FileRequestFrame extends javax.swing.JFrame {
 
-    private TransferSession session;
-    private LanSHAContext context;
+    private final TransferSession session;
+    private final LanSHAContext context;
 
     public FileRequestFrame(LanSHAContext context, TransferSession session) {
         this.session = session;
@@ -25,6 +25,8 @@ public class FileRequestFrame extends javax.swing.JFrame {
         labelSenderName.setText(session.getRemoteDeviceName());
         labelFileName.setText("Name: " + session.getFileName());
         labelFileSize.setText("Size: " + Long.toString(session.getFileSize()));
+        labelFileName.setToolTipText(session.getFileName());
+        labelFileSize.setToolTipText(Long.toString(session.getFileSize()));
     }
 
     @SuppressWarnings("unchecked")

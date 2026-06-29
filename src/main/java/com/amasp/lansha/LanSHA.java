@@ -12,6 +12,7 @@ import com.amasp.lansha.ui.MainFrame;
 import com.amasp.lansha.util.Constants;
 import com.amasp.lansha.util.LanSHAContext;
 import com.amasp.lansha.util.NetworkUtil;
+import com.formdev.flatlaf.intellijthemes.FlatDarkFlatIJTheme;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -38,8 +39,12 @@ public class LanSHA {
         selfInfo = new DeviceInfo(NetworkUtil.getHostName(), UUID.randomUUID(), NetworkUtil.getLocalAddress(),
                 Constants.TCP_PORT, Instant.now(), DeviceStatus.ONLINE);
 
-        LanSHAContext context = new LanSHAContext(selfInfo, registry);
+        
 
+        FlatDarkFlatIJTheme.setup();
+
+        LanSHAContext context = new LanSHAContext(selfInfo, registry);
+        
         MainFrame mf = new MainFrame(context);
         context.setMainFrame(mf);
         mf.setVisible(true);

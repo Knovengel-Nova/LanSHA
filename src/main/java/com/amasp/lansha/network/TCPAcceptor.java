@@ -23,7 +23,7 @@ public class TCPAcceptor implements Runnable {
         try {
             serverSocket = new ServerSocket(Constants.TCP_PORT);
         } catch (IOException e) {
-            System.out.println("TCPAcceptor: Error in constructor()");
+            context.print("TCPAcceptor: Error in constructor()");
             e.printStackTrace();
         }
     }
@@ -32,7 +32,7 @@ public class TCPAcceptor implements Runnable {
         try {
             serverSocket.close();
         } catch (IOException e) {
-            System.out.println("TCPAcceptor: Error in shutDown()");
+            context.print("TCPAcceptor: Error in shutDown()");
             e.printStackTrace();
         }
 
@@ -45,9 +45,10 @@ public class TCPAcceptor implements Runnable {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 Socket socket = serverSocket.accept();
+                context.print("TCPAcceptor: "+socket.getInetAddress()+" Connected");
                 context.getConnectionPool().submit(new ConnectionHandler(context, socket));
             } catch (IOException e) {
-                System.out.println("TCPAcceptor: Error in run()");
+                context.print("TCPAcceptor: Error in run()");
                 if (serverSocket.isClosed()) {
                     break;
                 }

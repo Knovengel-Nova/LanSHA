@@ -36,7 +36,7 @@ public class UDPListener implements Runnable {
             listenerSocket = new DatagramSocket(Constants.UDP_PORT);
             listenerSocket.setBroadcast(true);
         } catch (SocketException e) {
-            System.out.println("Error Creating UDP Socket in UDPListener...");
+            context.print("Error Creating UDP Socket in UDPListener...");
             e.printStackTrace();
         }
     }
@@ -44,7 +44,7 @@ public class UDPListener implements Runnable {
     private void handleDiscovery(DatagramPacket packet, Packet pkt) {
         // packet is from other device.
         // he sent startup discovery packet
-        System.out.println(
+        context.print(
                 "UDPListner: Discovery Packet Received from " + pkt.getDeviceName() + "[" + packet.getAddress() + "]");
 
         // add the device to our registry
@@ -68,7 +68,7 @@ public class UDPListener implements Runnable {
     private void handleDiscoveryReply(DatagramPacket packet, Packet pkt) {
         // Packet is from other device
         // he sent this to acknowledge our discovery packet.
-        System.out.println("UDPListner: DiscoveryReply Packet Received from " + pkt.getDeviceName() + "["
+        context.print("UDPListner: DiscoveryReply Packet Received from " + pkt.getDeviceName() + "["
                 + packet.getAddress() + "]");
 
         /// add the new device to our registry
@@ -83,7 +83,7 @@ public class UDPListener implements Runnable {
     }
 
     private void handleHeartBeat(DatagramPacket packet, Packet pkt) {
-        System.out.println(
+        context.print(
                 "UDPListner: HeartBeat Packet Received from " + pkt.getDeviceName() + "[" + packet.getAddress() + "]");
 
         // update the device if present or add the device to our registry if new device
@@ -102,7 +102,7 @@ public class UDPListener implements Runnable {
     }
 
     private void handleGoodBye(DatagramPacket packet, Packet pkt) {
-        System.out.println(
+        context.print(
                 "UDPListner: GoodBye Packet Received from " + pkt.getDeviceName() + "[" + packet.getAddress() + "]");
 
         /// remove the device from our registry
@@ -119,7 +119,7 @@ public class UDPListener implements Runnable {
         try {
             pkt = PacketSerializer.deserialize(data, Packet.class);
         } catch (Exception e) {
-            System.out.println("UDPListener: Error in processPacket()");
+            context.print("UDPListener: Error in processPacket()");
             e.printStackTrace();
         }
 
@@ -147,7 +147,7 @@ public class UDPListener implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("UDPListner: Thread Started!");
+        context.print("UDPListner: Thread Started!");
 
         DatagramPacket packet;
         byte[] buffer = new byte[Constants.BUFFER_SIZE];
@@ -158,7 +158,7 @@ public class UDPListener implements Runnable {
                 listenerSocket.receive(packet); // listen for incomming packets from other devices
                 processPacket(packet);
             } catch (IOException e) {
-                System.out.println("UDPListener: Error in run()");
+                context.print("UDPListener: Error in run()");
                 e.printStackTrace();
             }
         }

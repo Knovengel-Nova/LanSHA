@@ -1,9 +1,10 @@
 package com.amasp.lansha.network.transfer;
 
+import com.amasp.lansha.protocol.tcp.FileDataPacket;
+import com.amasp.lansha.util.LanSHAContext;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import com.amasp.lansha.protocol.tcp.FileDataPacket;
 
 /**
  *
@@ -17,12 +18,13 @@ import com.amasp.lansha.protocol.tcp.FileDataPacket;
 /// wait for next chunk or transfercomplete
 
 public class TransferReceiver {
+    private LanSHAContext context;
     private final TransferSession session;
     private final BufferedOutputStream out; // to write received file in our file system
 
-    public TransferReceiver(TransferSession session) throws IOException {
+    public TransferReceiver(LanSHAContext context, TransferSession session) throws IOException {
         this.session = session;
-
+        this.context = context;
         this.out = new BufferedOutputStream(Files.newOutputStream(session.getDestinationFile()));
     }
 
@@ -35,6 +37,7 @@ public class TransferReceiver {
             out.write(chunk);
 
             session.setBytesTransferred(session.getBytesTransferred() + chunk.length);
+            context.getMainFrame().updateTransfer(session);context.getMainFrame().updateTransfer(session);
 
             System.out.printf(
                     "Received %d/%d chunk.%n",
@@ -52,9 +55,9 @@ public class TransferReceiver {
 
     //         session.setState(TransferState.COMPLETED);
 
-    //         System.out.println("Transfer Complete.");
+    //         context.print("Transfer Complete.");
     //     } catch (IOException e) {
-//            System.out.println("TransferReceiver: Error in finish()");
+//            context.print("TransferReceiver: Error in finish()");
 
     //         e.printStackTrace();
     //     }
@@ -64,7 +67,7 @@ public class TransferReceiver {
         try {
             out.close();
         } catch (IOException e) {
-            System.out.println("TransferReceiver: Error in cancel()");
+            context.print("TransferReceiver: Error in cancel()");
             e.printStackTrace();
         }
 

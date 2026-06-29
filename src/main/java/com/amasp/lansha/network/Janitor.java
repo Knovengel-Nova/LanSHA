@@ -26,7 +26,7 @@ public class Janitor implements Runnable {
         // scan the entire registry and remove inactive devices
         boolean changed = false;
 
-        System.out.println("Janitor: Scanning And Cleaning...");
+        context.print("Janitor: Scanning And Cleaning...");
         Instant cutoff = Instant.now().minusMillis(Constants.DEVICE_TIMEOUT);
 
         Collection<DeviceInfo> devs = reg.getAllDevices();
@@ -34,7 +34,7 @@ public class Janitor implements Runnable {
         for (DeviceInfo dev : devs) {
             if (dev.getLastSeen().isBefore(cutoff)) {
                 reg.removeDevice(dev.getDeviceId());
-                System.out.println("Janitor: Device " + dev + " removed due to inactivity");
+                context.print("Janitor: Device " + dev + " removed due to inactivity");
                 changed = true;
             }
         }
@@ -50,7 +50,7 @@ public class Janitor implements Runnable {
             try {
                 Thread.sleep(Constants.DEVICE_CLEANING_INTERVAL);
             } catch (InterruptedException e) {
-                System.out.println("Janitor: Error in startCleaning()");
+                context.print("Janitor: Error in startCleaning()");
                 Thread.currentThread().interrupt();
                 break;
             }
@@ -59,7 +59,7 @@ public class Janitor implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Janitor: Thread Started!");
+        context.print("Janitor: Thread Started!");
         startCleaning();
     }
 
