@@ -4,9 +4,9 @@ package com.amasp.lansha.ui.panels;
  *
  * @author knovengel
  */
-public class videoPanel extends javax.swing.JPanel {
+public class VideoPanel extends javax.swing.JPanel {
 
-    public videoPanel() {
+    public VideoPanel() {
         initComponents();
     }
     

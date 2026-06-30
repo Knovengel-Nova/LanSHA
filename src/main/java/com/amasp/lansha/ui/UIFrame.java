@@ -1,6 +1,14 @@
 package com.amasp.lansha.ui;
 
+import com.amasp.lansha.ui.panels.EmptyFilePanel;
+import com.amasp.lansha.ui.panels.GenericPanel;
+import com.amasp.lansha.ui.panels.ImagePanel;
+import com.amasp.lansha.ui.panels.MusicPanel;
+import com.amasp.lansha.ui.panels.VideoPanel;
 import com.formdev.flatlaf.FlatDarkLaf;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 /**
  *
@@ -8,8 +16,45 @@ import com.formdev.flatlaf.FlatDarkLaf;
  */
 public class UIFrame extends javax.swing.JFrame {
 
+    private EmptyFilePanel emptyfilePanel = new EmptyFilePanel();
+    private GenericPanel genericPanel = new GenericPanel();
+    private ImagePanel imagePanel = new ImagePanel();
+    private MusicPanel musicPanel = new MusicPanel();
+    private VideoPanel videoPanel = new VideoPanel();
+
     public UIFrame() {
         initComponents();
+
+        setMinimumSize(new Dimension(1000, 600));
+//        setSize(1280, 720);
+
+        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+
+        setSize(
+                (int) (screen.width * 0.67),
+                (int) (screen.height * 0.67)
+        );
+
+        setLocationRelativeTo(null);
+
+        panelDetails.add(emptyfilePanel, "EMPTY");
+        panelDetails.add(imagePanel, "IMAGE");
+        panelDetails.add(musicPanel, "MUSIC");
+        panelDetails.add(videoPanel, "VIDEO");
+        panelDetails.add(genericPanel, "GENERIC");
+
+        showDetails("EMPTY");
+
+        buttonChooseFile.setVisible(true);
+        buttonSendFile.setVisible(false);
+
+    }
+
+    private void showDetails(String card) {
+
+        CardLayout cl = (CardLayout) panelDetails.getLayout();
+
+        cl.show(panelDetails, card);
     }
 
     @SuppressWarnings("unchecked")
@@ -17,6 +62,11 @@ public class UIFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         panelFileInput = new javax.swing.JPanel();
+        panelDetails = new javax.swing.JPanel();
+        wrapperPanel = new javax.swing.JPanel();
+        buttonPanel = new javax.swing.JPanel();
+        buttonChooseFile = new javax.swing.JButton();
+        buttonSendFile = new javax.swing.JButton();
         panelAvailableDevice = new javax.swing.JPanel();
         panelTransfers = new javax.swing.JPanel();
         menuBarUiFrame = new javax.swing.JMenuBar();
@@ -39,7 +89,25 @@ public class UIFrame extends javax.swing.JFrame {
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         panelFileInput.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        panelFileInput.setLayout(new java.awt.CardLayout());
+        panelFileInput.setLayout(new java.awt.BorderLayout());
+
+        panelDetails.setLayout(new java.awt.CardLayout());
+        panelFileInput.add(panelDetails, java.awt.BorderLayout.CENTER);
+
+        buttonPanel.setLayout(new java.awt.GridLayout(2, 1, 0, 10));
+
+        buttonChooseFile.setText("Choose File");
+        buttonChooseFile.addActionListener(this::buttonChooseFileActionPerformed);
+        buttonPanel.add(buttonChooseFile);
+
+        buttonSendFile.setText("Send File");
+        buttonSendFile.addActionListener(this::buttonSendFileActionPerformed);
+        buttonPanel.add(buttonSendFile);
+
+        wrapperPanel.add(buttonPanel);
+
+        panelFileInput.add(wrapperPanel, java.awt.BorderLayout.SOUTH);
+
         getContentPane().add(panelFileInput);
 
         panelAvailableDevice.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -58,6 +126,7 @@ public class UIFrame extends javax.swing.JFrame {
 
         menuItemQuit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menuItemQuit.setText("Quit");
+        menuItemQuit.addActionListener(this::menuItemQuitActionPerformed);
         menuFile.add(menuItemQuit);
 
         menuBarUiFrame.add(menuFile);
@@ -105,12 +174,32 @@ public class UIFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buttonChooseFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonChooseFileActionPerformed
+        // TODO add your handling code here:
+        buttonChooseFile.setText("Change File");
+        buttonSendFile.setVisible(true);
+    }//GEN-LAST:event_buttonChooseFileActionPerformed
+
+    private void buttonSendFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSendFileActionPerformed
+        // TODO add your handling code here:
+        buttonChooseFile.setText("Choose File");
+        buttonSendFile.setVisible(false);
+    }//GEN-LAST:event_buttonSendFileActionPerformed
+
+    private void menuItemQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemQuitActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_menuItemQuitActionPerformed
+
     public static void main(String args[]) {
         FlatDarkLaf.setup();
         java.awt.EventQueue.invokeLater(() -> new UIFrame().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonChooseFile;
+    private javax.swing.JPanel buttonPanel;
+    private javax.swing.JButton buttonSendFile;
     private javax.swing.JMenuBar menuBarUiFrame;
     private javax.swing.JMenu menuFile;
     private javax.swing.JMenu menuHelp;
@@ -126,7 +215,9 @@ public class UIFrame extends javax.swing.JFrame {
     private javax.swing.JMenu menuTheme;
     private javax.swing.JMenu menuTransfers;
     private javax.swing.JPanel panelAvailableDevice;
+    private javax.swing.JPanel panelDetails;
     private javax.swing.JPanel panelFileInput;
     private javax.swing.JPanel panelTransfers;
+    private javax.swing.JPanel wrapperPanel;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,14 +4,14 @@ package com.amasp.lansha.ui.panels;
  *
  * @author knovengel
  */
-public class musicPanel extends javax.swing.JPanel {
+public class ImagePanel extends javax.swing.JPanel {
 
-    public musicPanel() {
+    public ImagePanel() {
         initComponents();
     }
-    
-    
 
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

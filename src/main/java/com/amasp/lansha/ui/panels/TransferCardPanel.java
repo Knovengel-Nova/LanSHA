@@ -4,9 +4,9 @@ package com.amasp.lansha.ui.panels;
  *
  * @author knovengel
  */
-public class transferCardPanel extends javax.swing.JPanel {
+public class TransferCardPanel extends javax.swing.JPanel {
 
-    public transferCardPanel() {
+    public TransferCardPanel() {
         initComponents();
     }
     

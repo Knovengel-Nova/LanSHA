@@ -4,9 +4,9 @@ package com.amasp.lansha.ui.panels;
  *
  * @author knovengel
  */
-public class emptyFilePanel extends javax.swing.JPanel {
+public class MusicPanel extends javax.swing.JPanel {
 
-    public emptyFilePanel() {
+    public MusicPanel() {
         initComponents();
     }
     
