@@ -54,8 +54,6 @@ public class UIFrame extends javax.swing.JFrame {
 
     private FileMetaData metaData;
 
-    private DefaultListModel<DeviceInfo> modelList = new DefaultListModel<>();
-
     private Path selectedFile;
 
     public UIFrame(LanSHAContext context) {
@@ -63,15 +61,7 @@ public class UIFrame extends javax.swing.JFrame {
 
         initComponents();
 
-        listAvailableDevices.setModel(modelList);
-
-        initUIs();
-    }
-
-    public UIFrame() {
-        initComponents();
-
-        listAvailableDevices.setModel(modelList);
+        listAvailableDevices.setModel(model);
 
         initUIs();
     }
