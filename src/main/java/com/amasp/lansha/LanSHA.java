@@ -8,7 +8,7 @@ import com.amasp.lansha.network.HeartBeatSender;
 import com.amasp.lansha.network.Janitor;
 import com.amasp.lansha.network.TCPAcceptor;
 import com.amasp.lansha.network.UDPListener;
-import com.amasp.lansha.ui.MainFrame;
+import com.amasp.lansha.ui.UIFrame;
 import com.amasp.lansha.util.Constants;
 import com.amasp.lansha.util.LanSHAContext;
 import com.amasp.lansha.util.NetworkUtil;
@@ -45,7 +45,7 @@ public class LanSHA {
 
         LanSHAContext context = new LanSHAContext(selfInfo, registry);
         
-        MainFrame mf = new MainFrame(context);
+        UIFrame mf = new UIFrame(context);
         context.setMainFrame(mf);
         mf.setVisible(true);
 

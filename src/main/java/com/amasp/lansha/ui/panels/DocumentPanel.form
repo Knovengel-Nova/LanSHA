@@ -125,52 +125,52 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="imageDetails">
+                <Container class="javax.swing.JPanel" name="documentDetails">
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout">
                     <Property name="axis" type="int" value="1"/>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="labelImageDetailsTitle">
+                    <Component class="javax.swing.JLabel" name="labelDocumentDetails">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Liberation Sans" size="18" style="3"/>
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="2"/>
-                        <Property name="text" type="java.lang.String" value="Image Details:"/>
+                        <Property name="text" type="java.lang.String" value="Document Details:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="labelWidth">
+                    <Component class="javax.swing.JLabel" name="labelTitle">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="2"/>
                         <Property name="text" type="java.lang.String" value="jLabel1"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="labelHeight">
+                    <Component class="javax.swing.JLabel" name="labelAuthor">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="2"/>
                         <Property name="text" type="java.lang.String" value="jLabel1"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="labelAspectRatio">
+                    <Component class="javax.swing.JLabel" name="labelSubject">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="2"/>
                         <Property name="text" type="java.lang.String" value="jLabel1"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="labelHasAlpha">
+                    <Component class="javax.swing.JLabel" name="labelKeywords">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="2"/>
                         <Property name="text" type="java.lang.String" value="jLabel1"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="labelColorComponents">
+                    <Component class="javax.swing.JLabel" name="labelLanguage">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="2"/>
                         <Property name="text" type="java.lang.String" value="jLabel1"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="labelBitsPerPx">
+                    <Component class="javax.swing.JLabel" name="labelDescription">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="2"/>
                         <Property name="text" type="java.lang.String" value="jLabel1"/>
@@ -178,76 +178,46 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="cameraDetails1">
+                <Container class="javax.swing.JPanel" name="statsDetails">
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout">
                     <Property name="axis" type="int" value="1"/>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="labelCameraDetailsTitle1">
+                    <Component class="javax.swing.JLabel" name="labelStatsDetails">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Liberation Sans" size="18" style="3"/>
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="2"/>
-                        <Property name="text" type="java.lang.String" value="Camera Details:"/>
+                        <Property name="text" type="java.lang.String" value="Statistics:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="labelCameraMake">
+                    <Component class="javax.swing.JLabel" name="labelPageCount">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="2"/>
                         <Property name="text" type="java.lang.String" value="jLabel1"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="labelCameraModel">
+                    <Component class="javax.swing.JLabel" name="labelWordCount">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="2"/>
                         <Property name="text" type="java.lang.String" value="jLabel1"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="labelLensModel">
+                    <Component class="javax.swing.JLabel" name="labelCharacterCount">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="2"/>
                         <Property name="text" type="java.lang.String" value="jLabel1"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="labelDateTaken">
+                    <Component class="javax.swing.JLabel" name="labelLineCount">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="2"/>
                         <Property name="text" type="java.lang.String" value="jLabel1"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="labelExposureTime">
-                      <Properties>
-                        <Property name="horizontalAlignment" type="int" value="2"/>
-                        <Property name="text" type="java.lang.String" value="jLabel1"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="labelShutterSpeed">
-                      <Properties>
-                        <Property name="horizontalAlignment" type="int" value="2"/>
-                        <Property name="text" type="java.lang.String" value="jLabel1"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="labelAperture">
-                      <Properties>
-                        <Property name="horizontalAlignment" type="int" value="2"/>
-                        <Property name="text" type="java.lang.String" value="jLabel1"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="labelIso">
-                      <Properties>
-                        <Property name="horizontalAlignment" type="int" value="2"/>
-                        <Property name="text" type="java.lang.String" value="jLabel1"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="labelFocalLength">
-                      <Properties>
-                        <Property name="horizontalAlignment" type="int" value="2"/>
-                        <Property name="text" type="java.lang.String" value="jLabel1"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="labelWb">
+                    <Component class="javax.swing.JLabel" name="labelParagraphCount">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="2"/>
                         <Property name="text" type="java.lang.String" value="jLabel1"/>
@@ -255,40 +225,52 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="gpsDetails">
+                <Container class="javax.swing.JPanel" name="technicalDetails">
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout">
                     <Property name="axis" type="int" value="1"/>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="labelGpsDetailsTitle">
+                    <Component class="javax.swing.JLabel" name="labelTechnicalDetails">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Liberation Sans" size="18" style="3"/>
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="2"/>
-                        <Property name="text" type="java.lang.String" value="GPS Details:"/>
+                        <Property name="text" type="java.lang.String" value="Technical Details:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="labelLatitude">
+                    <Component class="javax.swing.JLabel" name="labelApplication">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="2"/>
                         <Property name="text" type="java.lang.String" value="jLabel1"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="labelLongitude">
+                    <Component class="javax.swing.JLabel" name="labelCreator">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="2"/>
                         <Property name="text" type="java.lang.String" value="jLabel1"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="labelAltitude">
+                    <Component class="javax.swing.JLabel" name="labelProducer">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="2"/>
                         <Property name="text" type="java.lang.String" value="jLabel1"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="labelOrientation">
+                    <Component class="javax.swing.JLabel" name="labelCompany">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="2"/>
+                        <Property name="text" type="java.lang.String" value="jLabel1"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="labelVersion">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="2"/>
+                        <Property name="text" type="java.lang.String" value="jLabel1"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="labelEncrypted">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="2"/>
                         <Property name="text" type="java.lang.String" value="jLabel1"/>

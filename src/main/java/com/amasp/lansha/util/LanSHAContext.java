@@ -6,7 +6,7 @@ import com.amasp.lansha.network.transfer.TransferManager;
 import com.amasp.lansha.protocol.Packet;
 import com.amasp.lansha.protocol.PacketSerializer;
 import com.amasp.lansha.ui.Console;
-import com.amasp.lansha.ui.MainFrame;
+import com.amasp.lansha.ui.UIFrame;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -25,7 +25,7 @@ public class LanSHAContext {
     private final ExecutorService connectionPool;
     private TransferManager transferManager;
     private Console console;
-    private MainFrame mainFrame;
+    private UIFrame mainFrame;
     private DatagramSocket udpSenderSocket = null;
 
     // all args constructor
@@ -63,7 +63,7 @@ public class LanSHAContext {
     }
 
     // getters and setters
-    public MainFrame getMainFrame() {
+    public UIFrame getMainFrame() {
         return mainFrame;
     }
 
@@ -83,7 +83,7 @@ public class LanSHAContext {
         return connectionPool;
     }
 
-    public void setMainFrame(MainFrame mainFrame) {
+    public void setMainFrame(UIFrame mainFrame) {
         this.mainFrame = mainFrame;
     }
 

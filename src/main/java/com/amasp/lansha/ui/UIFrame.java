@@ -1,14 +1,35 @@
 package com.amasp.lansha.ui;
 
+import com.amasp.lansha.device.DeviceInfo;
+import com.amasp.lansha.network.transfer.TransferSession;
+import com.amasp.lansha.ui.panels.AudioPanel;
+import com.amasp.lansha.ui.panels.DocumentPanel;
 import com.amasp.lansha.ui.panels.EmptyFilePanel;
 import com.amasp.lansha.ui.panels.GenericPanel;
 import com.amasp.lansha.ui.panels.ImagePanel;
-import com.amasp.lansha.ui.panels.MusicPanel;
 import com.amasp.lansha.ui.panels.VideoPanel;
-import com.formdev.flatlaf.FlatDarkLaf;
+import com.amasp.lansha.util.FileUtil;
+import com.amasp.lansha.util.LanSHAContext;
+import com.amasp.lansha.util.metadata.AudioMetaData;
+import com.amasp.lansha.util.metadata.DocumentMetaData;
+import com.amasp.lansha.util.metadata.DocumentType;
+import com.amasp.lansha.util.metadata.FileMetaData;
+import com.amasp.lansha.util.metadata.ImageMetaData;
+import com.amasp.lansha.util.metadata.VideoMetaData;
+import com.amasp.lansha.util.metadata.reader.AudioMetaDataReader;
+import com.amasp.lansha.util.metadata.reader.DocumentMetaDataReader;
+import com.amasp.lansha.util.metadata.reader.ImageMetaDataReader;
+import com.amasp.lansha.util.metadata.reader.VideoMetaDataReader;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.nio.file.Path;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -16,17 +37,111 @@ import java.awt.Toolkit;
  */
 public class UIFrame extends javax.swing.JFrame {
 
+    private LanSHAContext context;
+
+    private final Map<UUID, panelTransfer> transferPanels
+            = new ConcurrentHashMap<>();
+
+    DefaultListModel<DeviceInfo> model
+            = new DefaultListModel<>();
+
     private EmptyFilePanel emptyfilePanel = new EmptyFilePanel();
     private GenericPanel genericPanel = new GenericPanel();
     private ImagePanel imagePanel = new ImagePanel();
-    private MusicPanel musicPanel = new MusicPanel();
+    private AudioPanel audioPanel = new AudioPanel();
     private VideoPanel videoPanel = new VideoPanel();
+    private DocumentPanel documentPanel = new DocumentPanel();
+
+    private FileMetaData metaData;
+
+    private DefaultListModel<DeviceInfo> modelList = new DefaultListModel<>();
+
+    private Path selectedFile;
+
+    public UIFrame(LanSHAContext context) {
+        this.context = context;
+
+        initComponents();
+
+        listAvailableDevices.setModel(modelList);
+
+        initUIs();
+    }
 
     public UIFrame() {
         initComponents();
 
+        listAvailableDevices.setModel(modelList);
+
+        initUIs();
+    }
+
+    public void refreshDeviceList() {
+
+        SwingUtilities.invokeLater(() -> {
+
+            model.clear();
+
+            context.getDeviceRegistry()
+                    .getAllDevices()
+                    .forEach(model::addElement);
+
+        });
+
+    }
+
+    public void showFileRequest(TransferSession session) {
+        SwingUtilities.invokeLater(() -> {
+            FileRequestFrame frame
+                    = new FileRequestFrame(context, session);
+            frame.setVisible(true);
+        });
+    }
+
+    public void addTransfer(TransferSession session) {
+
+        SwingUtilities.invokeLater(() -> {
+
+            panelTransfer panel = new panelTransfer(session);
+
+            transferPanels.put(session.getTransferId(), panel);
+
+            panelTransfers.add(panel);
+
+            panelTransfers.revalidate();
+            panelTransfers.repaint();
+        });
+    }
+
+    public void updateTransfer(TransferSession session) {
+
+        SwingUtilities.invokeLater(() -> {
+
+            panelTransfer panel = transferPanels.get(session.getTransferId());
+
+            if (panel != null) {
+                panel.refresh();
+            }
+
+        });
+    }
+
+    public void removeTransfer(UUID transferId) {
+
+        SwingUtilities.invokeLater(() -> {
+
+            panelTransfer panel = transferPanels.remove(transferId);
+
+            if (panel != null) {
+                panelTransfers.remove(panel);
+                panelTransfers.revalidate();
+                panelTransfers.repaint();
+            }
+        });
+    }
+
+    private void initUIs() {
         setMinimumSize(new Dimension(1000, 600));
-//        setSize(1280, 720);
 
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -39,15 +154,15 @@ public class UIFrame extends javax.swing.JFrame {
 
         panelDetails.add(emptyfilePanel, "EMPTY");
         panelDetails.add(imagePanel, "IMAGE");
-        panelDetails.add(musicPanel, "MUSIC");
+        panelDetails.add(audioPanel, "AUDIO");
         panelDetails.add(videoPanel, "VIDEO");
         panelDetails.add(genericPanel, "GENERIC");
+        panelDetails.add(documentPanel, "DOCUMENT");
 
         showDetails("EMPTY");
 
         buttonChooseFile.setVisible(true);
         buttonSendFile.setVisible(false);
-
     }
 
     private void showDetails(String card) {
@@ -55,6 +170,48 @@ public class UIFrame extends javax.swing.JFrame {
         CardLayout cl = (CardLayout) panelDetails.getLayout();
 
         cl.show(panelDetails, card);
+    }
+
+    private void updateFileChosenPanel() {
+        String mime = metaData.getMimeType();
+
+        if (mime == null) {
+            genericPanel.setMetaData(metaData);
+            showDetails("GENERIC");
+        } else if (mime.startsWith("image/")) {
+            ImageMetaData imgMetaData = ImageMetaDataReader.read(selectedFile);
+            imagePanel.setMetaData(imgMetaData);
+            showDetails("IMAGE");
+        } else if (mime.startsWith("video/")) {
+            VideoMetaData vidMetaData = VideoMetaDataReader.read(selectedFile);
+            videoPanel.setMetaData(vidMetaData);
+            showDetails("VIDEO");
+        } else if (mime.startsWith("audio/")) {
+            AudioMetaData audMetaData = AudioMetaDataReader.read(selectedFile);
+            audioPanel.setAudioMetaData(audMetaData);
+            showDetails("AUDIO");
+        } else {
+            DocumentType type = FileUtil.getDocumentType(metaData);
+
+            switch (type) {
+                case PDF:
+                case EXCEL:
+                case WORD:
+                case POWERPOINT:
+                case OPENDOCUMENT:
+                case TEXT:
+                    DocumentMetaData docMetaData = DocumentMetaDataReader.read(selectedFile);
+                    documentPanel.setMetaData(docMetaData);
+                    showDetails("DOCUMENT");
+                    break;
+
+                default:
+                    genericPanel.setMetaData(metaData);
+                    showDetails("GENERIC");
+                    break;
+
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -68,6 +225,8 @@ public class UIFrame extends javax.swing.JFrame {
         buttonChooseFile = new javax.swing.JButton();
         buttonSendFile = new javax.swing.JButton();
         panelAvailableDevice = new javax.swing.JPanel();
+        scrollPaneAvailableDevices = new javax.swing.JScrollPane();
+        listAvailableDevices = new javax.swing.JList<>();
         panelTransfers = new javax.swing.JPanel();
         menuBarUiFrame = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
@@ -112,6 +271,11 @@ public class UIFrame extends javax.swing.JFrame {
 
         panelAvailableDevice.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         panelAvailableDevice.setLayout(new java.awt.BorderLayout());
+
+        scrollPaneAvailableDevices.setViewportView(listAvailableDevices);
+
+        panelAvailableDevice.add(scrollPaneAvailableDevices, java.awt.BorderLayout.CENTER);
+
         getContentPane().add(panelAvailableDevice);
 
         panelTransfers.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -175,31 +339,60 @@ public class UIFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonChooseFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonChooseFileActionPerformed
-        // TODO add your handling code here:
-        buttonChooseFile.setText("Change File");
-        buttonSendFile.setVisible(true);
+        JFileChooser chooser = new JFileChooser();
+        int res = chooser.showOpenDialog(this);
+        if (res == JFileChooser.APPROVE_OPTION) {
+
+            selectedFile = chooser.getSelectedFile().toPath();
+
+            // check file type etc.
+            metaData = new FileMetaData(selectedFile);
+
+            updateFileChosenPanel();
+
+            buttonChooseFile.setText("Change File");
+            buttonSendFile.setVisible(true);
+        }
     }//GEN-LAST:event_buttonChooseFileActionPerformed
 
     private void buttonSendFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSendFileActionPerformed
-        // TODO add your handling code here:
+
+        if (selectedFile == null) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Please choose a file first.");
+            return;
+        }
+
+        DeviceInfo device = listAvailableDevices.getSelectedValue();
+
+        if (device == null) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Please select a device.");
+            return;
+        }
+
+        context.getTransferManager().sendFile(device, selectedFile);
+
         buttonChooseFile.setText("Choose File");
         buttonSendFile.setVisible(false);
     }//GEN-LAST:event_buttonSendFileActionPerformed
 
     private void menuItemQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemQuitActionPerformed
-        // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_menuItemQuitActionPerformed
 
-    public static void main(String args[]) {
-        FlatDarkLaf.setup();
-        java.awt.EventQueue.invokeLater(() -> new UIFrame().setVisible(true));
-    }
+//    public static void main(String args[]) {
+//        FlatDarkLaf.setup();
+//        java.awt.EventQueue.invokeLater(() -> new UIFrame().setVisible(true));
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonChooseFile;
     private javax.swing.JPanel buttonPanel;
     private javax.swing.JButton buttonSendFile;
+    private javax.swing.JList<DeviceInfo> listAvailableDevices;
     private javax.swing.JMenuBar menuBarUiFrame;
     private javax.swing.JMenu menuFile;
     private javax.swing.JMenu menuHelp;
@@ -218,6 +411,7 @@ public class UIFrame extends javax.swing.JFrame {
     private javax.swing.JPanel panelDetails;
     private javax.swing.JPanel panelFileInput;
     private javax.swing.JPanel panelTransfers;
+    private javax.swing.JScrollPane scrollPaneAvailableDevices;
     private javax.swing.JPanel wrapperPanel;
     // End of variables declaration//GEN-END:variables
 }
