@@ -10,22 +10,22 @@ import java.awt.Dimension;
  * @author knovengel
  */
 public class TransferCardPanel extends javax.swing.JPanel {
-
+    
     private TransferSession session;
     private boolean isPaused = false;
-
+    
     public TransferCardPanel(TransferSession session) {
         this.session = session;
         initComponents();
-
+        
         progressBar.setMinimum(0);
         progressBar.setMaximum(100);
         progressBar.setStringPainted(true);
-
+        
         initUIs();
         packPanel();
     }
-
+    
     private void initUIs() {
         labelFileName.setText(session.getFileName());
         labelProgress.setText(FileUtil.formatSize(session.getBytesTransferred()) + "/" + FileUtil.formatSize(session.getFileSize()));
@@ -38,59 +38,60 @@ public class TransferCardPanel extends javax.swing.JPanel {
             str.append("Receiving from ");
         }
         str.append(session.getRemoteDeviceName());
-
+        
         labelRemoteDevice.setText(str.toString());
+        String pat;
         switch (type) {
             case "image":
-                icon = new FlatSVGIcon("ImagesFiles/pixel/image.svg");
+                pat = "ImagesFiles/pixel/image.svg";
                 break;
-
+            
             case "video":
-                icon = new FlatSVGIcon("ImagesFiles/pixel/video.svg");
+                pat = "ImagesFiles/pixel/video.svg";
                 break;
-
+            
             case "audio":
-                icon = new FlatSVGIcon("ImagesFiles/pixel/music.svg");
+                pat = "ImagesFiles/pixel/music.svg";
                 break;
-
+            
             default:
-                icon = new FlatSVGIcon("ImagesFiles/pixel/file.svg");
-
+                pat = "ImagesFiles/pixel/file.svg";
+            
         }
-        labelIcon.setIcon(new FlatSVGIcon(icon));
-
-        buttonPause.setIcon(new FlatSVGIcon("ImagesFiles/pixel/pausecircle.svg"));
-        buttonCancel.setIcon(new FlatSVGIcon("ImagesFiles/pixel/crosscircle.svg"));
-        buttonCross.setIcon(new FlatSVGIcon("ImagesFiles/pixel/crosssquare.svg"));
-        buttonInfo.setIcon(new FlatSVGIcon("ImagesFiles/pixel/infocircle.svg"));
+        labelIcon.setIcon(new FlatSVGIcon(pat, labelIcon.getWidth()));
+        
+        buttonPause.setIcon(new FlatSVGIcon("ImagesFiles/pixel/pausecircle.svg", buttonPause.getWidth()));
+        buttonCancel.setIcon(new FlatSVGIcon("ImagesFiles/pixel/crosscircle.svg", buttonCancel.getWidth()));
+        buttonCross.setIcon(new FlatSVGIcon("ImagesFiles/pixel/crosssquare.svg", buttonCross.getWidth()));
+        buttonInfo.setIcon(new FlatSVGIcon("ImagesFiles/pixel/infocircle.svg", buttonInfo.getWidth()));
         refresh();
     }
-
+    
     public void refresh() {
         int progress = (int) (100.0
                 * session.getBytesTransferred()
                 / session.getFileSize());
-
+        
         progressBar.setValue(progress);
         progressBar.setStringPainted(true);
         progressBar.setString(progress + "%");
-
+        
         labelProgress.setText(FileUtil.formatSize(session.getBytesTransferred()) + "/" + FileUtil.formatSize(session.getFileSize()));
-
+        
         labelSpeed.setText(session.getFormattedSpeed());
         labelETA.setText(session.getFormattedETA());
-
+        
         switch (session.getState()) {
-
+            
             case WAITING_FOR_RESPONSE ->
                 labelETA.setText("Waiting...");
-
+            
             case ACCEPTED ->
                 labelETA.setText("Preparing...");
-
+            
             case TRANSFERRING ->
                 labelETA.setText(session.getFormattedETA());
-
+            
             case COMPLETED -> {
                 buttonPause.setEnabled(false);
                 buttonCancel.setEnabled(false);
@@ -98,45 +99,45 @@ public class TransferCardPanel extends javax.swing.JPanel {
                 progressBar.setValue(100);
                 progressBar.setString("100%");
             }
-
+            
             case REJECTED -> {
                 buttonPause.setEnabled(false);
                 buttonCancel.setEnabled(false);
-
+                
                 labelSpeed.setText("");
                 labelETA.setText("Rejected");
-
+                
                 progressBar.setString("Rejected");
             }
-
+            
             case FAILED -> {
                 buttonPause.setEnabled(false);
                 buttonCancel.setEnabled(false);
                 labelETA.setText("Failed");
             }
-
+            
             case CANCELLED -> {
                 buttonPause.setEnabled(false);
                 buttonCancel.setEnabled(false);
                 labelETA.setText("Cancelled");
             }
-
+            
             default -> {
             }
         }
     }
-
+    
     private void packPanel() {
         revalidate();
         doLayout();
-
+        
         Dimension d = getPreferredSize();
 
         // Width expands to fill parent, height stays fixed to preferred height
         setPreferredSize(new Dimension(0, d.height));
         setMinimumSize(new Dimension(0, d.height));
         setMaximumSize(new Dimension(Integer.MAX_VALUE, d.height));
-
+        
         revalidate();
     }
     
@@ -242,16 +243,18 @@ public class TransferCardPanel extends javax.swing.JPanel {
     private void buttonPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPauseActionPerformed
         // TODO add your handling code here:
         if (isPaused) {// unpause the transfer
-            buttonPause.setIcon(new FlatSVGIcon("ImagesFiles/pixel/pausecircle.svg"));
+            makePaused(false);
+            buttonPause.setIcon(new FlatSVGIcon("ImagesFiles/pixel/pausecircle.svg", buttonPause.getWidth()));
         } else {//pause the transfer
-            buttonPause.setIcon(new FlatSVGIcon("ImagesFiles/pixel/playcircle.svg"));
+            makePaused(true);
+            buttonPause.setIcon(new FlatSVGIcon("ImagesFiles/pixel/playcircle.svg", buttonPause.getWidth()));
         }
     }//GEN-LAST:event_buttonPauseActionPerformed
-
+    
     public void makePaused(boolean state) {
         this.isPaused = state;
     }
-
+    
     public boolean isPaused() {
         return isPaused;
     }
