@@ -9,11 +9,11 @@ import javax.swing.BorderFactory;
  *
  * @author knovengel
  */
-public class panelTransfer extends javax.swing.JPanel {
+public class ad extends javax.swing.JPanel {
 
     private TransferSession session;
 
-    public panelTransfer(TransferSession session) {
+    public ad(TransferSession session) {
         this.session = session;
 
         initComponents();
@@ -144,6 +144,8 @@ public class panelTransfer extends javax.swing.JPanel {
         labelSpeed = new javax.swing.JLabel();
         labelEta = new javax.swing.JLabel();
 
+        setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         progressBarProgress.setValue(27);
 
         buttonCancel.setText("X");
@@ -168,7 +170,7 @@ public class panelTransfer extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(progressBarProgress, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
+                        .addComponent(progressBarProgress, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(buttonPause, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

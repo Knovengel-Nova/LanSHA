@@ -1,6 +1,8 @@
 package com.amasp.lansha.network.transfer;
 
 import com.amasp.lansha.network.ConnectionHandler;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
@@ -23,6 +25,8 @@ public class TransferSession {
     private Path destinationFile; // file path if we are receiving
 
     private String fileName;
+    
+    private String mime;
 
     private long fileSize;
 
@@ -54,6 +58,11 @@ public class TransferSession {
         this.bytesTransferred = bytesTransferred;
         this.state = state;
         this.handler = handler;
+        try{
+            this.mime = Files.probeContentType(sourceFile);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void startTransferTimer() {
@@ -127,6 +136,10 @@ public class TransferSession {
 
     public Path getSourceFile() {
         return sourceFile;
+    }
+    
+    public String getMime(){
+        return mime;
     }
 
     public Path getDestinationFile() {

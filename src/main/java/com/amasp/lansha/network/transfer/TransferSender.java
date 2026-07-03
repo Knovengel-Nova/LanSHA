@@ -74,10 +74,7 @@ public class TransferSender implements Runnable {
                     lastUIUpdate = now;
                 }
 
-                context.print(
-                        "sent %d/%d chunks %n"
-                        + chunkNumber
-                        + totalChunks);
+                context.print("sent " + chunkNumber + "/" + totalChunks + " chunks");
             }
 
             context.getMainFrame().updateTransfer(session);

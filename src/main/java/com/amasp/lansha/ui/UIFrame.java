@@ -7,6 +7,7 @@ import com.amasp.lansha.ui.panels.DocumentPanel;
 import com.amasp.lansha.ui.panels.EmptyFilePanel;
 import com.amasp.lansha.ui.panels.GenericPanel;
 import com.amasp.lansha.ui.panels.ImagePanel;
+import com.amasp.lansha.ui.panels.TransferCardPanel;
 import com.amasp.lansha.ui.panels.VideoPanel;
 import com.amasp.lansha.util.FileUtil;
 import com.amasp.lansha.util.LanSHAContext;
@@ -39,7 +40,7 @@ public class UIFrame extends javax.swing.JFrame {
 
     private LanSHAContext context;
 
-    private final Map<UUID, panelTransfer> transferPanels
+    private final Map<UUID, TransferCardPanel> transferPanels
             = new ConcurrentHashMap<>();
 
     DefaultListModel<DeviceInfo> model
@@ -92,7 +93,7 @@ public class UIFrame extends javax.swing.JFrame {
 
         SwingUtilities.invokeLater(() -> {
 
-            panelTransfer panel = new panelTransfer(session);
+            TransferCardPanel panel = new TransferCardPanel(session);
 
             transferPanels.put(session.getTransferId(), panel);
 
@@ -107,7 +108,7 @@ public class UIFrame extends javax.swing.JFrame {
 
         SwingUtilities.invokeLater(() -> {
 
-            panelTransfer panel = transferPanels.get(session.getTransferId());
+            TransferCardPanel panel = transferPanels.get(session.getTransferId());
 
             if (panel != null) {
                 panel.refresh();
@@ -120,7 +121,7 @@ public class UIFrame extends javax.swing.JFrame {
 
         SwingUtilities.invokeLater(() -> {
 
-            panelTransfer panel = transferPanels.remove(transferId);
+            TransferCardPanel panel = transferPanels.remove(transferId);
 
             if (panel != null) {
                 panelTransfers.remove(panel);

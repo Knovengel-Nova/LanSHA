@@ -24,7 +24,7 @@ public class EmptyFilePanel extends javax.swing.JPanel {
             }
         });
 
-        labelImage.setIcon(new FlatSVGIcon("file.svg"));
+        labelImage.setIcon(new FlatSVGIcon("ImagesFiles/pixel/outbox.svg"));
         labelImage.setHorizontalAlignment(JLabel.CENTER);
         labelImage.setVerticalAlignment(JLabel.CENTER);
     }
@@ -38,7 +38,7 @@ public class EmptyFilePanel extends javax.swing.JPanel {
             return;
         }
 
-        labelImage.setIcon(new FlatSVGIcon("file.svg", size, size));
+        labelImage.setIcon(new FlatSVGIcon("ImagesFiles/pixel/outbox.svg", size, size));
     }
 
     @SuppressWarnings("unchecked")

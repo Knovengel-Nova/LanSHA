@@ -22,7 +22,7 @@ public class MainFrame extends javax.swing.JFrame {
     private String fileName;
     private LanSHAContext context;
 
-    private final Map<UUID, panelTransfer> transferPanels
+    private final Map<UUID, ad> transferPanels
             = new ConcurrentHashMap<>();
 
     DefaultListModel<DeviceInfo> model
@@ -254,7 +254,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         SwingUtilities.invokeLater(() -> {
 
-            panelTransfer panel = new panelTransfer(session);
+            ad panel = new ad(session);
 
             transferPanels.put(session.getTransferId(), panel);
 
@@ -269,7 +269,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         SwingUtilities.invokeLater(() -> {
 
-            panelTransfer panel = transferPanels.get(session.getTransferId());
+            ad panel = transferPanels.get(session.getTransferId());
 
             if (panel != null) {
                 panel.refresh();
@@ -282,7 +282,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         SwingUtilities.invokeLater(() -> {
 
-            panelTransfer panel = transferPanels.remove(transferId);
+            ad panel = transferPanels.remove(transferId);
 
             if (panel != null) {
                 panelTransfers.remove(panel);
