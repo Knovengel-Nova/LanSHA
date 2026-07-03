@@ -42,24 +42,29 @@ public class TransferReceiver {
 
             context.print(
                     "Received %d/%d chunk.%n"
-                    + (packet.getChunkNumber() + 1)
-                    + packet.getTotalChunks());
+                            + (packet.getChunkNumber() + 1)
+                            + packet.getTotalChunks());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     // public void finish() {
-    //     try {
-    //         out.flush();
-    //         out.close();
-    //         session.setState(TransferState.COMPLETED);
-    //         context.print("Transfer Complete.");
-    //     } catch (IOException e) {
-//            context.print("TransferReceiver: Error in finish()");
-    //         e.printStackTrace();
-    //     }
+    // try {
+    // out.flush();
+    // out.close();
+    // session.setState(TransferState.COMPLETED);
+    // context.print("Transfer Complete.");
+    // } catch (IOException e) {
+    // context.print("TransferReceiver: Error in finish()");
+    // e.printStackTrace();
     // }
+    // }
+
+    // TODO: add pause option
+    // where we will not the last chunk sent, and then when resumed we will continue
+    // from the next chunk
+
     public void cancel() {
         try {
             out.close();

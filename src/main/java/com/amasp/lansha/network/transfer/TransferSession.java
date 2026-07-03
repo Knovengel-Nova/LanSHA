@@ -38,7 +38,7 @@ public class TransferSession {
 
     private TransferSender sender;
 
-    private boolean senderTransfer;
+    private boolean amISender;
 
     private long transferStartTime;
 
@@ -48,7 +48,8 @@ public class TransferSession {
     private double currentSpeed;
 
     // all args constructor
-    public TransferSession(UUID transferId, String fileName, UUID remoteDevice, String remoteDeviceName, long fileSize, long bytesTransferred,
+    public TransferSession(UUID transferId, String fileName, UUID remoteDevice, String remoteDeviceName, long fileSize,
+            long bytesTransferred,
             TransferState state, ConnectionHandler handler) {
         this.transferId = transferId;
         this.fileName = fileName;
@@ -83,7 +84,7 @@ public class TransferSession {
 
         double speed = currentSpeed;
 
-        String[] units = {"B/s", "KB/s", "MB/s", "GB/s"};
+        String[] units = { "B/s", "KB/s", "MB/s", "GB/s" };
 
         int i = 0;
 
@@ -116,12 +117,12 @@ public class TransferSession {
         return String.format("%02d:%02d", m, s);
     }
 
-    public boolean isSender() {
-        return senderTransfer;
+    public boolean getAmISender() {
+        return amISender;
     }
 
-    public void setSender(boolean senderTransfer) {
-        this.senderTransfer = senderTransfer;
+    public void setAmISender(boolean senderTransfer) {
+        this.amISender = senderTransfer;
     }
 
     // getters and setters
@@ -184,7 +185,7 @@ public class TransferSession {
     public void setSourcePath(Path path) {
         this.sourceFile = path;
         try {
-            this.mime = Files.probeContentType(sourceFile);
+            this.mime = Files.probeContentType(path);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -192,6 +193,12 @@ public class TransferSession {
 
     public void setDestinationPath(Path path) {
         this.destinationFile = path;
+
+        try {
+            this.mime = Files.probeContentType(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setReceiver(TransferReceiver rec) {

@@ -12,5 +12,6 @@ public enum TransferState {
     ACCEPTED,
     REJECTED,
     CANCELLED,
+    PAUSED,
     FAILED
 }

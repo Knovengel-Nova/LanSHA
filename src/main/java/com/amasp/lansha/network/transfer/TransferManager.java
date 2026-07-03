@@ -103,8 +103,8 @@ public class TransferManager {
                 0, // initially 0 Bs transferred
                 TransferState.WAITING_FOR_RESPONSE, // currently he is waiting for approval
                 handler);// our handler
-        
-        session.setSender(false);
+
+        session.setAmISender(false);
 
         sessions.put(packet.getTransferId(), session);
         context.getMainFrame().addTransfer(session);
@@ -116,7 +116,7 @@ public class TransferManager {
     }
 
     private void handleFileAccept(FileAcceptPacket packet, ConnectionHandler handler) {
-        // we accepted the file transfer and now want to begin transfer
+        // other accepted the file transfer and now we want to begin transfer(sending)
         TransferSession session = sessions.get(packet.getTransferId());
 
         if (session == null) {
@@ -131,7 +131,7 @@ public class TransferManager {
     }
 
     private void handleFileReject(FileRejectPacket packet, ConnectionHandler handler) {
-        // we rejected the file transfer
+        // other rejected the file transfer
         TransferSession session = sessions.get(packet.getTransferId());
 
         if (session == null) {
@@ -166,7 +166,7 @@ public class TransferManager {
         session.setState(TransferState.COMPLETED);
 
         context.getMainFrame().updateTransfer(session);
-        
+
         context.print("Transfer complete.");
 
         /// receive ACK then remove
@@ -182,7 +182,7 @@ public class TransferManager {
         if (session == null) {
             return;
         }
-
+        session.setAmISender(false);
         try {
             session.setReceiver(new TransferReceiver(context, session));// set the receiver for this transferSession
         } catch (IOException e) {
@@ -229,14 +229,18 @@ public class TransferManager {
         }
 
         session.setState(TransferState.TRANSFERRING);
+        session.setAmISender(true);
 
         TransferSender sender = new TransferSender(context, session);
         session.setSender(sender);
         new Thread(sender).start();
     }
 
+    // actually this is just crafting a filerequest packet and then sending it to
+    // the remote device
     public void sendFile(DeviceInfo remoteDevice, Path sourceFile) {
         // we want to send a local file to the remote (other/server) connected device
+        // if not connected to him, connect to the remotedevices' socket
         try {
             ConnectionHandler handler = connections.get(remoteDevice.getDeviceId()); // our handler associated(his
                                                                                      // socket) to him
@@ -255,6 +259,8 @@ public class TransferManager {
 
                 connections.put(remoteDevice.getDeviceId(), handler);
             }
+
+            // make a transfer session
 
             UUID transferId = UUID.randomUUID(); // generate a unique uid for our transfer
 
@@ -297,6 +303,19 @@ public class TransferManager {
         }
 
         session.setState(TransferState.CANCELLED);
+
+        context.print("Transfer Cancelled.");
+    }
+
+    public void pauseTransfer(UUID transferId) {
+        // we cancelled the transfer
+        TransferSession session = sessions.get(transferId);
+
+        if (session == null) {
+            return;
+        }
+
+        session.setState(TransferState.PAUSED);
 
         context.print("Transfer Cancelled.");
     }

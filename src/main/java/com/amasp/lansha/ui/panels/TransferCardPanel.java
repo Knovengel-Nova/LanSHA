@@ -32,7 +32,7 @@ public class TransferCardPanel extends javax.swing.JPanel {
         FlatSVGIcon icon;
         String type = session.getMime().substring(0, session.getMime().indexOf("/"));
         StringBuilder str = new StringBuilder();
-        if (session.isSender()) {
+        if (session.getAmISender()) {
             str.append("Sending to ");
         } else {
             str.append("Receiving from ");

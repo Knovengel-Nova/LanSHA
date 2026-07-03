@@ -52,7 +52,7 @@ public class ad extends javax.swing.JPanel {
                 + formatSize(session.getFileSize()));
 
         labelReceivingFromOrSendingTo.setText(
-                session.isSender()
+                session.getAmISender()
                 ? "Sending to " + session.getRemoteDeviceName()
                 : "Receiving from " + session.getRemoteDeviceName());
 
