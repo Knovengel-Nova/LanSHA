@@ -25,7 +25,7 @@ public class TransferSession {
     private Path destinationFile; // file path if we are receiving
 
     private String fileName;
-    
+
     private String mime;
 
     private long fileSize;
@@ -58,11 +58,6 @@ public class TransferSession {
         this.bytesTransferred = bytesTransferred;
         this.state = state;
         this.handler = handler;
-        try{
-            this.mime = Files.probeContentType(sourceFile);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
     }
 
     public void startTransferTimer() {
@@ -137,8 +132,8 @@ public class TransferSession {
     public Path getSourceFile() {
         return sourceFile;
     }
-    
-    public String getMime(){
+
+    public String getMime() {
         return mime;
     }
 
@@ -188,6 +183,11 @@ public class TransferSession {
 
     public void setSourcePath(Path path) {
         this.sourceFile = path;
+        try {
+            this.mime = Files.probeContentType(sourceFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setDestinationPath(Path path) {

@@ -42,27 +42,27 @@ public class TransferCardPanel extends javax.swing.JPanel {
         labelRemoteDevice.setText(str.toString());
         switch (type) {
             case "image":
-                icon = new FlatSVGIcon("ImageFiles/pixel/image.svg");
+                icon = new FlatSVGIcon("ImagesFiles/pixel/image.svg");
                 break;
 
             case "video":
-                icon = new FlatSVGIcon("ImageFiles/pixel/video.svg");
+                icon = new FlatSVGIcon("ImagesFiles/pixel/video.svg");
                 break;
 
             case "audio":
-                icon = new FlatSVGIcon("ImageFiles/pixel/music.svg");
+                icon = new FlatSVGIcon("ImagesFiles/pixel/music.svg");
                 break;
 
             default:
-                icon = new FlatSVGIcon("ImageFiles/pixel/file.svg");
+                icon = new FlatSVGIcon("ImagesFiles/pixel/file.svg");
 
         }
         labelIcon.setIcon(new FlatSVGIcon(icon));
 
-        buttonPause.setIcon(new FlatSVGIcon("ImageFiles/pixel/pausecircle.svg"));
-        buttonCancel.setIcon(new FlatSVGIcon("ImageFiles/pixel/crosscircle.svg"));
-        buttonCross.setIcon(new FlatSVGIcon("ImageFiles/pixel/crosssquare.svg"));
-        buttonInfo.setIcon(new FlatSVGIcon("ImageFiles/pixel/infocircle.svg"));
+        buttonPause.setIcon(new FlatSVGIcon("ImagesFiles/pixel/pausecircle.svg"));
+        buttonCancel.setIcon(new FlatSVGIcon("ImagesFiles/pixel/crosscircle.svg"));
+        buttonCross.setIcon(new FlatSVGIcon("ImagesFiles/pixel/crosssquare.svg"));
+        buttonInfo.setIcon(new FlatSVGIcon("ImagesFiles/pixel/infocircle.svg"));
         refresh();
     }
 
@@ -242,9 +242,9 @@ public class TransferCardPanel extends javax.swing.JPanel {
     private void buttonPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPauseActionPerformed
         // TODO add your handling code here:
         if (isPaused) {// unpause the transfer
-            buttonPause.setIcon(new FlatSVGIcon("ImageFiles/pixel/pausecircle.svg"));
+            buttonPause.setIcon(new FlatSVGIcon("ImagesFiles/pixel/pausecircle.svg"));
         } else {//pause the transfer
-            buttonPause.setIcon(new FlatSVGIcon("ImageFiles/pixel/playcircle.svg"));
+            buttonPause.setIcon(new FlatSVGIcon("ImagesFiles/pixel/playcircle.svg"));
         }
     }//GEN-LAST:event_buttonPauseActionPerformed
 
