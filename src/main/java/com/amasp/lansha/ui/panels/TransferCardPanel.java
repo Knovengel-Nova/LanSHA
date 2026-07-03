@@ -30,7 +30,12 @@ public class TransferCardPanel extends javax.swing.JPanel {
         labelFileName.setText(session.getFileName());
         labelProgress.setText(FileUtil.formatSize(session.getBytesTransferred()) + "/" + FileUtil.formatSize(session.getFileSize()));
         FlatSVGIcon icon;
-        String type = session.getMime().substring(0, session.getMime().indexOf("/"));
+        String type = "nope";
+        if(!(session.getMime() == null || session.getMime().isBlank())){
+            type = session.getMime().substring(0, session.getMime().indexOf("/"));
+        }
+        
+        
         StringBuilder str = new StringBuilder();
         if (session.getAmISender()) {
             str.append("Sending to ");
@@ -58,12 +63,12 @@ public class TransferCardPanel extends javax.swing.JPanel {
                 pat = "ImagesFiles/pixel/file.svg";
             
         }
-        labelIcon.setIcon(new FlatSVGIcon(pat, labelIcon.getWidth()));
+        labelIcon.setIcon(new FlatSVGIcon(pat, labelIcon.getWidth(), labelIcon.getHeight()));
         
-        buttonPause.setIcon(new FlatSVGIcon("ImagesFiles/pixel/pausecircle.svg", buttonPause.getWidth()));
-        buttonCancel.setIcon(new FlatSVGIcon("ImagesFiles/pixel/crosscircle.svg", buttonCancel.getWidth()));
-        buttonCross.setIcon(new FlatSVGIcon("ImagesFiles/pixel/crosssquare.svg", buttonCross.getWidth()));
-        buttonInfo.setIcon(new FlatSVGIcon("ImagesFiles/pixel/infocircle.svg", buttonInfo.getWidth()));
+        buttonPause.setIcon(new FlatSVGIcon("ImagesFiles/pixel/pausecircle.svg", buttonPause.getWidth(), buttonPause.getHeight()));
+        buttonCancel.setIcon(new FlatSVGIcon("ImagesFiles/pixel/crosscircle.svg", buttonCancel.getWidth(), buttonCancel.getHeight()));
+        buttonCross.setIcon(new FlatSVGIcon("ImagesFiles/pixel/crosssquare.svg", buttonCross.getWidth(), buttonCross.getHeight()));
+        buttonInfo.setIcon(new FlatSVGIcon("ImagesFiles/pixel/infocircle.svg", buttonInfo.getWidth(), buttonInfo.getHeight()));
         refresh();
     }
     

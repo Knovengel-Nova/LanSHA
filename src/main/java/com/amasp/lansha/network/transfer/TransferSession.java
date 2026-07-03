@@ -121,8 +121,8 @@ public class TransferSession {
         return amISender;
     }
 
-    public void setAmISender(boolean senderTransfer) {
-        this.amISender = senderTransfer;
+    public void setAmISender(boolean amISender) {
+        this.amISender = amISender;
     }
 
     // getters and setters

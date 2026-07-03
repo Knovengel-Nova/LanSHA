@@ -122,6 +122,7 @@ public class TransferManager {
         if (session == null) {
             return;
         }
+        session.setAmISender(true);
 
         session.setState(TransferState.ACCEPTED);
         context.print("Transfer Accepted.");
@@ -151,6 +152,8 @@ public class TransferManager {
             return;
         }
 
+        session.setAmISender(false);
+
         session.getReceiver().receive(packet);
     }
 
@@ -162,6 +165,7 @@ public class TransferManager {
         if (session == null) {
             return;
         }
+        session.setAmISender(true);
 
         session.setState(TransferState.COMPLETED);
 
@@ -209,6 +213,7 @@ public class TransferManager {
         }
 
         session.setState(TransferState.REJECTED);
+        session.setAmISender(false);
 
         // send a fileReject packet to the sender to let him know that we rejected his
         // transfer request
@@ -274,6 +279,7 @@ public class TransferManager {
                     TransferState.WAITING_FOR_RESPONSE,
                     handler);
 
+            session.setAmISender(true);
             session.setSourcePath(sourceFile);
             sessions.put(transferId, session);
             context.getMainFrame().addTransfer(session);
