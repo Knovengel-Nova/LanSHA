@@ -2,6 +2,7 @@ package com.amasp.lansha.protocol.tcp;
 
 import com.amasp.lansha.protocol.Packet;
 import com.amasp.lansha.protocol.PacketType;
+import java.awt.image.BufferedImage;
 import java.util.UUID;
 
 /**
@@ -13,6 +14,7 @@ public class FileRequestPacket extends Packet {
     private String fileName;
     private long fileSize;
     private UUID transferId;
+    private BufferedImage preview;
 
     // no args constructor
     public FileRequestPacket() {
@@ -32,6 +34,14 @@ public class FileRequestPacket extends Packet {
     // getters and setters
     public UUID getTransferId() {
         return transferId;
+    }
+    
+    public void setPreview(BufferedImage image){
+        this.preview = image;
+    }
+    
+    public BufferedImage getPreview(){
+        return preview;
     }
 
     public String getFileName() {

@@ -109,6 +109,7 @@ public class TransferManager {
                 handler);// our handler
 
         session.setAmISender(false);
+        session.setPreview(packet.getPreview());
 
         sessions.put(packet.getTransferId(), session);
         context.getMainFrame().addTransfer(session);
