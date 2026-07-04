@@ -1,6 +1,7 @@
 package com.amasp.lansha.util.metadata.reader;
 
 import com.amasp.lansha.util.metadata.AudioMetaData;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.nio.file.Path;
 import javax.imageio.ImageIO;
@@ -100,6 +101,35 @@ public class AudioMetaDataReader {
 
         return audioMetaData;
 
+    }
+
+    public static BufferedImage getAlbumArt(Path path) {
+        BufferedImage img = null;
+        try {
+            AudioFile audioFile = AudioFileIO.read(path.toFile());
+
+            Tag tag = audioFile.getTag();
+
+            Artwork artwork = tag.getFirstArtwork();
+
+            if (artwork != null) {
+
+                img = (ImageIO.read(
+                        new ByteArrayInputStream(
+                                artwork.getBinaryData()
+                        )
+                ));
+
+            } else {
+
+                img = null;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return img;
     }
 
     /**

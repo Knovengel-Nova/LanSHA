@@ -7,7 +7,10 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.exif.GpsDirectory;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.nio.file.Path;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -117,5 +120,19 @@ public class ImageMetaDataReader {
         }
 
         return imageMetaData;
+    }
+    
+    public static BufferedImage gtePreview(Path path) {
+        BufferedImage image = null;
+        
+        
+       try {
+            image = ImageIO.read(path.toFile());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return image;
     }
 }

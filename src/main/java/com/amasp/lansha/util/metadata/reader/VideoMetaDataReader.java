@@ -166,5 +166,27 @@ public class VideoMetaDataReader {
         }
 
     }
+    
+    public static BufferedImage getThumbnail(Path path){
+        BufferedImage image = null;
+        
+        try {
+
+            FrameGrab grab = FrameGrab.createFrameGrab(
+                    NIOUtils.readableChannel(path.toFile()));
+
+            Picture picture = grab.getNativeFrame();
+
+            if (picture != null) {
+
+                image = AWTUtil.toBufferedImage(picture);
+            }
+
+        } catch (Exception e) {
+            // Ignore. Thumbnail is optional.
+        }
+        
+        return image;
+    }
 
 }

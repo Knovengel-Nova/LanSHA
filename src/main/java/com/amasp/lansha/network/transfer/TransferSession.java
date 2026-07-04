@@ -1,6 +1,7 @@
 package com.amasp.lansha.network.transfer;
 
 import com.amasp.lansha.network.ConnectionHandler;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,6 +13,8 @@ import java.util.UUID;
  */
 public class TransferSession {
 
+    private BufferedImage preview;
+    
     private UUID transferId;
 
     private UUID remoteDevice; // other device
@@ -125,6 +128,14 @@ public class TransferSession {
         this.amISender = amISender;
     }
 
+    public void setPreview(BufferedImage image){
+        this.preview = image;
+    }
+    
+    public BufferedImage getPreviewImage(){
+        return preview;
+    }
+    
     // getters and setters
     public String getRemoteDeviceName() {
         return remoteDeviceName;

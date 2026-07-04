@@ -47,15 +47,15 @@ public class TransferCardPanel extends javax.swing.JPanel {
         labelRemoteDevice.setText(str.toString());
         String pat;
         switch (type) {
-            case "image":
+            case "Image":
                 pat = "ImagesFiles/pixel/image.svg";
                 break;
             
-            case "video":
+            case "Video":
                 pat = "ImagesFiles/pixel/video.svg";
                 break;
             
-            case "audio":
+            case "Audio":
                 pat = "ImagesFiles/pixel/music.svg";
                 break;
             

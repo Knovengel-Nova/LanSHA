@@ -11,6 +11,10 @@ import com.amasp.lansha.protocol.tcp.FileRejectPacket;
 import com.amasp.lansha.protocol.tcp.FileRequestPacket;
 import com.amasp.lansha.protocol.tcp.TransferCompletePacket;
 import com.amasp.lansha.util.LanSHAContext;
+import com.amasp.lansha.util.metadata.reader.AudioMetaDataReader;
+import com.amasp.lansha.util.metadata.reader.ImageMetaDataReader;
+import com.amasp.lansha.util.metadata.reader.VideoMetaDataReader;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.file.Path;
@@ -28,10 +32,10 @@ public class TransferManager {
 
     // all connected devices with us
     private final ConcurrentHashMap<UUID, ConnectionHandler> connections; // all active connection: <deviceId,
-                                                                          // ConnectionHandler>
+    // ConnectionHandler>
     // all transfers belonging to us and all connected devices
     private final ConcurrentHashMap<UUID, TransferSession> sessions; // all file transfers: <transferId,
-                                                                     // TransferSession>
+    // TransferSession>
 
     // all args constructor
     public TransferManager(LanSHAContext context) {
@@ -248,7 +252,7 @@ public class TransferManager {
         // if not connected to him, connect to the remotedevices' socket
         try {
             ConnectionHandler handler = connections.get(remoteDevice.getDeviceId()); // our handler associated(his
-                                                                                     // socket) to him
+            // socket) to him
 
             if (handler == null) {
                 Socket socket = new Socket(remoteDevice.getIpAddress(), remoteDevice.getTcpPort());
@@ -266,7 +270,6 @@ public class TransferManager {
             }
 
             // make a transfer session
-
             UUID transferId = UUID.randomUUID(); // generate a unique uid for our transfer
 
             TransferSession session = new TransferSession(
@@ -282,6 +285,23 @@ public class TransferManager {
             session.setAmISender(true);
             session.setSourcePath(sourceFile);
             sessions.put(transferId, session);
+            BufferedImage img = null;
+            switch (session.getMime()) {
+                case "Image":
+                    img = ImageMetaDataReader.gtePreview(sourceFile);
+                    break;
+
+                case "Video":
+                    img = VideoMetaDataReader.getThumbnail(sourceFile);
+                    break;
+
+                case "Audio":
+                    img = AudioMetaDataReader.getAlbumArt(sourceFile);
+                    break;
+
+                default:
+
+            }
             context.getMainFrame().addTransfer(session);
 
             // send a filerequest packet to him first
