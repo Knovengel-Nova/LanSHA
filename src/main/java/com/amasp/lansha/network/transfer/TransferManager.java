@@ -16,7 +16,6 @@ import com.amasp.lansha.util.metadata.reader.ImageMetaDataReader;
 import com.amasp.lansha.util.metadata.reader.VideoMetaDataReader;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.file.Path;
@@ -323,12 +322,8 @@ public class TransferManager {
                     sourceFile.getFileName().toString(),
                     sourceFile.toFile().length()
             );
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-            ImageIO.write(img, "png", baos);
-
-            requestPacket.setPreview(baos.toByteArray());
+            
+            requestPacket.setPreview(img);
 
             handler.send(requestPacket);
         } catch (IOException e) {
