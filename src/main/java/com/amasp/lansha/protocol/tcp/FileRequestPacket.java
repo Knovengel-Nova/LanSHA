@@ -24,24 +24,25 @@ public class FileRequestPacket extends Packet {
 
     // all args constructor
     public FileRequestPacket(UUID transferId, UUID deviceUID, String deviceName, int tcpPort, String fileName,
-            long fileSize) {
+            long fileSize, BufferedImage preview) {
         super(PacketType.FILE_REQUEST, deviceUID, deviceName, tcpPort);
         this.transferId = transferId;
         this.fileName = fileName;
         this.fileSize = fileSize;
+        this.preview = preview;
     }
 
     // getters and setters
     public UUID getTransferId() {
         return transferId;
     }
-    
-    public void setPreview(BufferedImage image){
-        this.preview = image;
-    }
-    
-    public BufferedImage getPreview(){
+
+    public BufferedImage getPreview() {
         return preview;
+    }
+
+    public void setPreview(BufferedImage preview) {
+        this.preview = preview;
     }
 
     public String getFileName() {

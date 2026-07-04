@@ -312,7 +312,9 @@ public class TransferManager {
                     context.getDeviceInfo().getDeviceName(),
                     context.getDeviceInfo().getTcpPort(),
                     sourceFile.getFileName().toString(),
-                    sourceFile.toFile().length());
+                    sourceFile.toFile().length(),
+                    img
+            );
 
             handler.send(requestPacket);
         } catch (IOException e) {
