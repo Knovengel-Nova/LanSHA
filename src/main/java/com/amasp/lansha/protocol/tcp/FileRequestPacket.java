@@ -17,7 +17,6 @@ public class FileRequestPacket extends Packet {
     private String fileName;
     private long fileSize;
     private UUID transferId;
-//    private BufferedImage preview;
     private byte[] preview;
 
     // no args constructor
@@ -35,7 +34,7 @@ public class FileRequestPacket extends Packet {
         this.fileSize = fileSize;
     }
 
-    public void setPreview(BufferedImage img) {
+    public void setPreviewImage(BufferedImage img) {
 
         if (img == null) {
             preview = null;
@@ -66,6 +65,10 @@ public class FileRequestPacket extends Packet {
 
     public long getFileSize() {
         return fileSize;
+    }
+
+    public void setPreview(byte[] preview) {
+        this.preview = preview;
     }
 
     public void setTransferId(UUID transferId) {

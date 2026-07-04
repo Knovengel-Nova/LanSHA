@@ -323,7 +323,7 @@ public class TransferManager {
                     sourceFile.toFile().length()
             );
             
-            requestPacket.setPreview(img);
+            requestPacket.setPreviewImage(img);
 
             handler.send(requestPacket);
         } catch (IOException e) {
