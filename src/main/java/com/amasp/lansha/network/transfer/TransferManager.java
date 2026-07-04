@@ -15,11 +15,14 @@ import com.amasp.lansha.util.metadata.reader.AudioMetaDataReader;
 import com.amasp.lansha.util.metadata.reader.ImageMetaDataReader;
 import com.amasp.lansha.util.metadata.reader.VideoMetaDataReader;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.file.Path;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
 
 /**
@@ -109,7 +112,13 @@ public class TransferManager {
                 handler);// our handler
 
         session.setAmISender(false);
-        session.setPreview(packet.getPreview());
+
+        try {
+            BufferedImage image = ImageIO.read(new ByteArrayInputStream(packet.getPreview()));
+            session.setPreview(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         sessions.put(packet.getTransferId(), session);
         context.getMainFrame().addTransfer(session);
@@ -312,9 +321,14 @@ public class TransferManager {
                     context.getDeviceInfo().getDeviceName(),
                     context.getDeviceInfo().getTcpPort(),
                     sourceFile.getFileName().toString(),
-                    sourceFile.toFile().length(),
-                    img
+                    sourceFile.toFile().length()
             );
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            ImageIO.write(img, "png", baos);
+
+            requestPacket.setPreview(baos.toByteArray());
 
             handler.send(requestPacket);
         } catch (IOException e) {

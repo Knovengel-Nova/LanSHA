@@ -2,7 +2,6 @@ package com.amasp.lansha.protocol.tcp;
 
 import com.amasp.lansha.protocol.Packet;
 import com.amasp.lansha.protocol.PacketType;
-import java.awt.image.BufferedImage;
 import java.util.UUID;
 
 /**
@@ -14,7 +13,8 @@ public class FileRequestPacket extends Packet {
     private String fileName;
     private long fileSize;
     private UUID transferId;
-    private BufferedImage preview;
+//    private BufferedImage preview;
+    private byte[] preview;
 
     // no args constructor
     public FileRequestPacket() {
@@ -24,25 +24,24 @@ public class FileRequestPacket extends Packet {
 
     // all args constructor
     public FileRequestPacket(UUID transferId, UUID deviceUID, String deviceName, int tcpPort, String fileName,
-            long fileSize, BufferedImage preview) {
+            long fileSize) {
         super(PacketType.FILE_REQUEST, deviceUID, deviceName, tcpPort);
         this.transferId = transferId;
         this.fileName = fileName;
         this.fileSize = fileSize;
+    }
+
+    public void setPreview(byte[] preview) {
         this.preview = preview;
+    }
+
+    public byte[] getPreview() {
+        return preview;
     }
 
     // getters and setters
     public UUID getTransferId() {
         return transferId;
-    }
-
-    public BufferedImage getPreview() {
-        return preview;
-    }
-
-    public void setPreview(BufferedImage preview) {
-        this.preview = preview;
     }
 
     public String getFileName() {
