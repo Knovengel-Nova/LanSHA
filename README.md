@@ -1,17 +1,15 @@
 # LanSHA
 
-> **Fast, secure and intuitive LAN file sharing built from scratch using Java.**
-
 <p align="center">
-
-<img src="docs/screenshots/banner.png" alt="LanSHA Banner" width="850"/>
-
+<strong>Fast, lightweight and secure LAN file sharing built from scratch.</strong>
 </p>
 
 <p align="center">
+<img src="docs/screenshots/banner.png" alt="LanSHA Banner" width="850"/>
+</p>
 
-Automatic Device Discovery • Secure File Transfer • Cross Platform • Open Source
-
+<p align="center">
+Automatic Device Discovery • TCP/UDP • Java • Cross Platform
 </p>
 
 ---
@@ -20,7 +18,7 @@ Automatic Device Discovery • Secure File Transfer • Cross Platform • Open 
 
 Sharing files across devices on the same local network shouldn't require cloud services, internet connectivity or complicated setup.
 
-**LanSHA** is a desktop application that enables fast, reliable and secure file sharing over a Local Area Network (LAN). It automatically discovers nearby devices and transfers files directly between them using custom networking protocols built on top of TCP and UDP.
+**LanSHA** is a desktop application that enables fast, reliable and secure file sharing over a Local Area Network (LAN). It automatically discovers nearby devices using UDP broadcasts and transfers files reliably over TCP connections using custom Application layer Protocols.
 
 The project was built to explore the design and implementation of local network communication from first principles while providing a clean and intuitive desktop experience.
 
@@ -28,9 +26,10 @@ The project was built to explore the design and implementation of local network 
 
 # Motivation
 
-This project started after studying **Computer Communication & Networking** and **Operating Systems** in my Fourth Semester of Computer Engineering.
+This project started after studying **Computer Communication & Networking** and **Operating Systems**.
 
-Rather than stopping at theoretical concepts, I wanted to implement them in a real application to better understand topics such as:
+Rather than stopping at theoretical concepts, I wanted to apply them by building a real-world networking application from scratch.
+
 
 - TCP & UDP communication
 - Socket Programming
@@ -45,7 +44,7 @@ LanSHA became the result of that exploration.
 
 # Features
 
-### Current
+### Current Features
 
 - Automatic LAN device discovery
 - Reliable TCP file transfer
@@ -56,7 +55,7 @@ LanSHA became the result of that exploration.
 - Multiple file type support
 - Cross-platform
 
-### Planned
+### Planned Features
 
 - AES encrypted transfers
 - SHA-256 Based Checksum for file integrity
@@ -69,28 +68,29 @@ LanSHA became the result of that exploration.
 
 # Why LanSHA?
 
+- Automatic device discovery
 - No internet connection required
 - Direct peer-to-peer communication
-- Lightweight desktop application
-- Designed with modular architecture
+- Reliable TCP transfers
+- Cross-platform
+- Modular architecture
 - Built entirely from scratch
-- Educational implementation of networking concepts
 
 ---
 
 # Screenshots
 
-<!-- | Home | Device Discovery |
-|------|------------------|
-| Image | Image |
-
-| Transfer | Completed |
-|----------|-----------|
-| Image | Image | -->
+> Screenshots will be added after the first stable release.
 
 ---
 
 # Quick Start
+
+## Requirements
+
+- Java 23+
+- Maven
+- NetBeans (recommended)
 
 ## Clone
 
@@ -130,6 +130,7 @@ Implemented
 ---
 
 # Project Architecture
+<!-- TODO add Architecture Diagram -->
 
 LanSHA follows a modular architecture separating:
 
@@ -178,7 +179,7 @@ See the complete roadmap:
 
 # Contributing
 
-Contributions, bug reports and feature suggestions are always welcome.
+Contributions, bug reports, feature requests and general feedback are always welcome.
 
 Please read:
 
