@@ -147,45 +147,22 @@ A complete explanation of the architecture can be found here:
 → **[Architecture Documentation](docs/architecture.md)**
 
 ---
-
 # Documentation
 
-Detailed documentation is available inside the **docs** directory.
+Detailed documentation is available in the **docs** directory.
 
 | Document | Description |
 |----------|-------------|
-| [Architecture](docs/architecture.md) | System design and component interactions |
-| [Protocol Specification](docs/protocol.md) | Network packet formats and communication flow |
-| [Developer Guide](docs/developer-guide.md) | Codebase overview and development guide |
-| [Roadmap](docs/roadmap.md) | Planned features and future development |
+| [Architecture](docs/architecture.md) | High-level system architecture, component interactions and design overview. |
+| [Protocol Specification](docs/protocol.md) | Communication protocol, packet hierarchy and networking workflow. |
+| [Developer Guide](docs/developer-guide.md) | Project structure, development workflow and codebase overview. |
+| [FAQ](docs/faq.md) | Frequently asked questions and design rationale. |
 
 ---
 
-# Roadmap
+# Additional Information
 
-Upcoming milestones include:
-
-- Secure encrypted transfers
-- File integrity verification
-- Resume interrupted transfers
-- UI improvements
-- Performance optimizations
-
-See the complete roadmap:
-
-→ **[Roadmap](docs/roadmap.md)**
-
----
-
-# Contributing
-
-Contributions, bug reports, feature requests and general feedback are always welcome.
-
-Please read:
-
-→ **[Contributing Guide](docs/contributing.md)**
-
----
+If you have suggestions, discover a bug, or would like to discuss the project, feel free to open an issue or start a discussion on GitHub.
 
 # License
 

@@ -6,7 +6,7 @@
 [Architecture](architecture.md) •
 Protocol Specification •
 [Developer Guide](developer-guide.md) •
-[Roadmap](roadmap.md)
+[FAQs](faq.md)
 
 ---
 

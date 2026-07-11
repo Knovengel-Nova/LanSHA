@@ -4,9 +4,9 @@
 
 [README](../README.md) •
 [Architecture](architecture.md) •
-[Protocol](protocol.md) •
+[Protocol Specification](protocol.md) •
 Developer Guide •
-[Roadmap](roadmap.md)
+[FAQs](faq.md)
 
 ---
 
