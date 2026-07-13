@@ -274,6 +274,8 @@ public class UIFrame extends javax.swing.JFrame {
         panelTransfers.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         panelTransfers.setLayout(new java.awt.BorderLayout());
 
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
         transferListPanel.setLayout(new javax.swing.BoxLayout(transferListPanel, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1.setViewportView(transferListPanel);
 
