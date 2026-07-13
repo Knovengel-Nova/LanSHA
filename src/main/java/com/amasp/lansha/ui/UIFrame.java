@@ -97,7 +97,7 @@ public class UIFrame extends javax.swing.JFrame {
 
             transferPanels.put(session.getTransferId(), panel);
 
-            panelTransfers.add(panel);
+            transferListPanel.add(panel);
 
             panelTransfers.revalidate();
             panelTransfers.repaint();
@@ -219,6 +219,8 @@ public class UIFrame extends javax.swing.JFrame {
         scrollPaneAvailableDevices = new javax.swing.JScrollPane();
         listAvailableDevices = new javax.swing.JList<>();
         panelTransfers = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        transferListPanel = new javax.swing.JPanel();
         menuBarUiFrame = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
         menuItemSettings = new javax.swing.JMenuItem();
@@ -271,6 +273,12 @@ public class UIFrame extends javax.swing.JFrame {
 
         panelTransfers.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         panelTransfers.setLayout(new java.awt.BorderLayout());
+
+        transferListPanel.setLayout(new javax.swing.BoxLayout(transferListPanel, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPane1.setViewportView(transferListPanel);
+
+        panelTransfers.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
         getContentPane().add(panelTransfers);
 
         menuFile.setText("File");
@@ -383,6 +391,7 @@ public class UIFrame extends javax.swing.JFrame {
     private javax.swing.JButton buttonChooseFile;
     private javax.swing.JPanel buttonPanel;
     private javax.swing.JButton buttonSendFile;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<DeviceInfo> listAvailableDevices;
     private javax.swing.JMenuBar menuBarUiFrame;
     private javax.swing.JMenu menuFile;
@@ -403,6 +412,7 @@ public class UIFrame extends javax.swing.JFrame {
     private javax.swing.JPanel panelFileInput;
     private javax.swing.JPanel panelTransfers;
     private javax.swing.JScrollPane scrollPaneAvailableDevices;
+    private javax.swing.JPanel transferListPanel;
     private javax.swing.JPanel wrapperPanel;
     // End of variables declaration//GEN-END:variables
 }
