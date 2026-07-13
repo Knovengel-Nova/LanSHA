@@ -2,11 +2,7 @@ package com.amasp.lansha.protocol.tcp;
 
 import com.amasp.lansha.protocol.Packet;
 import com.amasp.lansha.protocol.PacketType;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.UUID;
-import javax.imageio.ImageIO;
 
 /**
  *
@@ -32,22 +28,6 @@ public class FileRequestPacket extends Packet {
         this.transferId = transferId;
         this.fileName = fileName;
         this.fileSize = fileSize;
-    }
-
-    public void setPreviewImage(BufferedImage img) {
-
-        if (img == null) {
-            preview = null;
-            return;
-        }
-
-        try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            ImageIO.write(img, "png", out);
-            preview = out.toByteArray();
-        } catch (IOException e) {
-            preview = null;
-        }
     }
 
     public byte[] getPreview() {

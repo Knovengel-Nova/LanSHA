@@ -2,9 +2,13 @@ package com.amasp.lansha.util;
 
 import com.amasp.lansha.util.metadata.DocumentType;
 import com.amasp.lansha.util.metadata.FileMetaData;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.file.attribute.FileTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -50,6 +54,23 @@ public class FileUtil {
 
                 return DocumentType.OTHER;
         }
+    }
+    
+    public static byte[] getPreviewBytes(BufferedImage img){
+        byte[] preview;
+        if (img == null) {
+            preview = null;
+        }
+
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            ImageIO.write(img, "png", out);
+            preview = out.toByteArray();
+        } catch (IOException e) {
+            preview = null;
+        }
+        
+        return preview;
     }
 
     public static String formatSize(long bytes) {

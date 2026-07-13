@@ -10,6 +10,7 @@ import com.amasp.lansha.protocol.tcp.FileDataPacket;
 import com.amasp.lansha.protocol.tcp.FileRejectPacket;
 import com.amasp.lansha.protocol.tcp.FileRequestPacket;
 import com.amasp.lansha.protocol.tcp.TransferCompletePacket;
+import com.amasp.lansha.util.FileUtil;
 import com.amasp.lansha.util.LanSHAContext;
 import com.amasp.lansha.util.metadata.reader.AudioMetaDataReader;
 import com.amasp.lansha.util.metadata.reader.ImageMetaDataReader;
@@ -120,6 +121,7 @@ public class TransferManager {
         }
 
         sessions.put(packet.getTransferId(), session);
+        
         context.getMainFrame().addTransfer(session);
 
         // ask for our approval on UI
@@ -199,7 +201,9 @@ public class TransferManager {
         if (session == null) {
             return;
         }
+        
         session.setAmISender(false);
+        
         try {
             session.setReceiver(new TransferReceiver(context, session));// set the receiver for this transferSession
         } catch (IOException e) {
@@ -294,6 +298,8 @@ public class TransferManager {
             session.setAmISender(true);
             session.setSourcePath(sourceFile);
             sessions.put(transferId, session);
+            
+            //preview image
             BufferedImage img = null;
             switch (session.getMime()) {
                 case "Image":
@@ -311,8 +317,7 @@ public class TransferManager {
                 default:
 
             }
-            context.getMainFrame().addTransfer(session);
-
+            
             // send a filerequest packet to him first
             FileRequestPacket requestPacket = new FileRequestPacket(
                     transferId,
@@ -323,9 +328,11 @@ public class TransferManager {
                     sourceFile.toFile().length()
             );
             
-            requestPacket.setPreviewImage(img);
-
+            requestPacket.setPreview(FileUtil.getPreviewBytes(img));
+            
             handler.send(requestPacket);
+            
+            context.getMainFrame().addTransfer(session);
         } catch (IOException e) {
             context.print("TransferManager: Error in sendFile()");
             e.printStackTrace();
@@ -355,6 +362,6 @@ public class TransferManager {
 
         session.setState(TransferState.PAUSED);
 
-        context.print("Transfer Cancelled.");
+        context.print("Transfer Paused.");
     }
 }
