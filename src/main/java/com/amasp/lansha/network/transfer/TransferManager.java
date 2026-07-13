@@ -114,14 +114,17 @@ public class TransferManager {
         session.setAmISender(false);
 
         try {
-            BufferedImage image = ImageIO.read(new ByteArrayInputStream(packet.getPreview()));
-            session.setPreview(image);
+            if (packet.getPreview() != null) {
+
+                BufferedImage image = ImageIO.read(new ByteArrayInputStream(packet.getPreview()));
+                session.setPreview(image);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         sessions.put(packet.getTransferId(), session);
-        
+
         context.getMainFrame().addTransfer(session);
 
         // ask for our approval on UI
@@ -201,9 +204,9 @@ public class TransferManager {
         if (session == null) {
             return;
         }
-        
+
         session.setAmISender(false);
-        
+
         try {
             session.setReceiver(new TransferReceiver(context, session));// set the receiver for this transferSession
         } catch (IOException e) {
@@ -298,7 +301,7 @@ public class TransferManager {
             session.setAmISender(true);
             session.setSourcePath(sourceFile);
             sessions.put(transferId, session);
-            
+
             //preview image
             BufferedImage img = null;
             switch (session.getMime()) {
@@ -315,9 +318,8 @@ public class TransferManager {
                     break;
 
                 default:
-
             }
-            
+
             // send a filerequest packet to him first
             FileRequestPacket requestPacket = new FileRequestPacket(
                     transferId,
@@ -327,11 +329,11 @@ public class TransferManager {
                     sourceFile.getFileName().toString(),
                     sourceFile.toFile().length()
             );
-            
+
             requestPacket.setPreview(FileUtil.getPreviewBytes(img));
-            
+
             handler.send(requestPacket);
-            
+
             context.getMainFrame().addTransfer(session);
         } catch (IOException e) {
             context.print("TransferManager: Error in sendFile()");

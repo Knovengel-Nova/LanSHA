@@ -55,22 +55,19 @@ public class FileUtil {
                 return DocumentType.OTHER;
         }
     }
-    
-    public static byte[] getPreviewBytes(BufferedImage img){
-        byte[] preview;
+
+    public static byte[] getPreviewBytes(BufferedImage img) {
+
         if (img == null) {
-            preview = null;
+            return null;
         }
 
-        try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             ImageIO.write(img, "png", out);
-            preview = out.toByteArray();
+            return out.toByteArray();
         } catch (IOException e) {
-            preview = null;
+            return null;
         }
-        
-        return preview;
     }
 
     public static String formatSize(long bytes) {
