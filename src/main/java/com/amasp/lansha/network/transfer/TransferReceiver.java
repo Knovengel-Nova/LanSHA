@@ -41,9 +41,7 @@ public class TransferReceiver {
             context.getMainFrame().updateTransfer(session);
 
             context.print(
-                    "Received %d/%d chunk.%n"
-                            + (packet.getChunkNumber() + 1)
-                            + packet.getTotalChunks());
+                    "Received " + (packet.getChunkNumber() + 1) + "/" + session.getTotalChunks() + " chunk.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -60,11 +58,9 @@ public class TransferReceiver {
     // e.printStackTrace();
     // }
     // }
-
     // TODO: add pause option
     // where we will not the last chunk sent, and then when resumed we will continue
     // from the next chunk
-
     public void cancel() {
         try {
             out.close();

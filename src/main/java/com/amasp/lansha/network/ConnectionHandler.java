@@ -18,7 +18,7 @@ public class ConnectionHandler implements Runnable {
     private final LanSHAContext context;
     private Socket socket; // other device socket
 
-    private TransferManager transferManager;// will manage all transfers with the 1 other connected device (socket)
+    private TransferManager transferManager;
 
     private DataInputStream in;
     private DataOutputStream out;

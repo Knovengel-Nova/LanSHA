@@ -65,6 +65,7 @@ public class UIFrame extends javax.swing.JFrame {
         listAvailableDevices.setModel(model);
 
         initUIs();
+        jScrollPane1.getVerticalScrollBar().setBlockIncrement(16);
     }
 
     public void refreshDeviceList() {

@@ -10,6 +10,7 @@ import com.amasp.lansha.protocol.tcp.FileDataPacket;
 import com.amasp.lansha.protocol.tcp.FileRejectPacket;
 import com.amasp.lansha.protocol.tcp.FileRequestPacket;
 import com.amasp.lansha.protocol.tcp.TransferCompletePacket;
+import com.amasp.lansha.util.Constants;
 import com.amasp.lansha.util.FileUtil;
 import com.amasp.lansha.util.LanSHAContext;
 import com.amasp.lansha.util.metadata.reader.AudioMetaDataReader;
@@ -31,7 +32,7 @@ import javax.swing.SwingUtilities;
  */
 public class TransferManager {
 
-    LanSHAContext context;
+    private LanSHAContext context;
 
     // all connected devices with us
     private final ConcurrentHashMap<UUID, ConnectionHandler> connections; // all active connection: <deviceId,
@@ -46,8 +47,7 @@ public class TransferManager {
         connections = new ConcurrentHashMap<>();
         sessions = new ConcurrentHashMap<>();
     }
-
-    // process packet sent by other device, handler is our handler
+    
     public void processPacket(byte data[], ConnectionHandler handler) {
         PacketType type = PacketSerializer.getPacketType(data);
 
@@ -107,6 +107,7 @@ public class TransferManager {
                 packet.getDeviceId(), // his deviceId (remote device)
                 packet.getDeviceName(),
                 packet.getFileSize(), // file size in B
+                packet.getChunkSize(),
                 0, // initially 0 Bs transferred
                 TransferState.WAITING_FOR_RESPONSE, // currently he is waiting for approval
                 handler);// our handler
@@ -169,9 +170,7 @@ public class TransferManager {
         if (session == null) {
             return;
         }
-
-        session.setAmISender(false);
-
+        
         session.getReceiver().receive(packet);
     }
 
@@ -183,7 +182,6 @@ public class TransferManager {
         if (session == null) {
             return;
         }
-        session.setAmISender(true);
 
         session.setState(TransferState.COMPLETED);
 
@@ -233,7 +231,6 @@ public class TransferManager {
         }
 
         session.setState(TransferState.REJECTED);
-        session.setAmISender(false);
 
         // send a fileReject packet to the sender to let him know that we rejected his
         // transfer request
@@ -294,6 +291,7 @@ public class TransferManager {
                     remoteDevice.getDeviceId(),
                     remoteDevice.getDeviceName(),
                     sourceFile.toFile().length(),
+                    Constants.CHUNK_SIZE,
                     0,
                     TransferState.WAITING_FOR_RESPONSE,
                     handler);
@@ -327,7 +325,8 @@ public class TransferManager {
                     context.getDeviceInfo().getDeviceName(),
                     context.getDeviceInfo().getTcpPort(),
                     sourceFile.getFileName().toString(),
-                    sourceFile.toFile().length()
+                    sourceFile.toFile().length(),
+                    Constants.CHUNK_SIZE
             );
 
             requestPacket.setPreview(FileUtil.getPreviewBytes(img));

@@ -14,7 +14,7 @@ public class TransferCardPanel extends javax.swing.JPanel {
 
     private TransferSession session;
     private boolean isPaused = false;
-    private static final int CARD_HEIGHT = 105;
+    private static final int CARD_HEIGHT = 130;
 
     public TransferCardPanel(TransferSession session) {
         this.session = session;
@@ -68,7 +68,6 @@ public class TransferCardPanel extends javax.swing.JPanel {
 
         buttonPause.setIcon(new FlatSVGIcon("ImagesFiles/pixel/pausecircle.svg", buttonPause.getWidth(), buttonPause.getHeight()));
         buttonCancel.setIcon(new FlatSVGIcon("ImagesFiles/pixel/crosscircle.svg", buttonCancel.getWidth(), buttonCancel.getHeight()));
-        buttonCross.setIcon(new FlatSVGIcon("ImagesFiles/pixel/crosssquare.svg", buttonCross.getWidth(), buttonCross.getHeight()));
         refresh();
     }
 
@@ -151,7 +150,6 @@ public class TransferCardPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonCross = new javax.swing.JButton();
         labelETA = new javax.swing.JLabel();
         progressBar = new javax.swing.JProgressBar();
         buttonPause = new javax.swing.JButton();
@@ -163,19 +161,22 @@ public class TransferCardPanel extends javax.swing.JPanel {
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        labelETA.setFont(new java.awt.Font("Dialog", 3, 10)); // NOI18N
         labelETA.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         labelETA.setText("ETA: --:--");
 
         buttonPause.addActionListener(this::buttonPauseActionPerformed);
 
+        labelSpeed.setFont(new java.awt.Font("Dialog", 3, 10)); // NOI18N
         labelSpeed.setText("Speed: 7.8 mBps");
 
-        labelFileName.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        labelFileName.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         labelFileName.setText("Jumanji.mp4");
 
-        labelRemoteDevice.setFont(new java.awt.Font("Liberation Sans", 2, 15)); // NOI18N
+        labelRemoteDevice.setFont(new java.awt.Font("Liberation Sans", 2, 12)); // NOI18N
         labelRemoteDevice.setText("From Knov");
 
+        labelProgress.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         labelProgress.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelProgress.setText("Progress: 4.5kB/5.1mB");
 
@@ -186,50 +187,51 @@ public class TransferCardPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(labelSpeed)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
-                            .addComponent(labelProgress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(3, 3, 3)
+                            .addComponent(labelProgress, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
+                            .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(buttonPause, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(buttonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(labelETA)))
+                                .addComponent(buttonPause, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(buttonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(labelETA))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelFileName)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(buttonCross, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelRemoteDevice)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelFileName)
+                            .addComponent(labelRemoteDevice))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelFileName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonCross, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelRemoteDevice)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelProgress)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(buttonPause, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonCancel, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                    .addComponent(progressBar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelSpeed)
-                    .addComponent(labelETA))
-                .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(labelFileName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelRemoteDevice)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelProgress))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(buttonPause, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(buttonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelSpeed)
+                            .addComponent(labelETA))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -254,7 +256,6 @@ public class TransferCardPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonCancel;
-    private javax.swing.JButton buttonCross;
     private javax.swing.JButton buttonPause;
     private javax.swing.JLabel labelETA;
     private javax.swing.JLabel labelFileName;

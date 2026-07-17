@@ -11,10 +11,11 @@ import java.net.InetAddress;
  *
  * @author knovengel
  */
-///
-/// This will be a Always running thread.
-/// Sends a heartbeat every fixed interval to check for online devices.
-///
+
+/*
+ This will be an Always running thread.
+ Sends a heartbeat continously after fixed interval to check for online devices.
+ */
 public class HeartBeatSender implements Runnable {
 
     private LanSHAContext context;

@@ -49,8 +49,6 @@ public class TransferSender implements Runnable {
         int bytesRead;
         int chunkNumber = 0;
 
-        int totalChunks = (int) Math.ceil((double) session.getFileSize() / Constants.CHUNK_SIZE);
-
         try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(session.getSourceFile().toFile()))) {
             while (!cancelled && (bytesRead = in.read(buffer)) != -1) {
                 byte[] chunk = Arrays.copyOf(buffer, bytesRead);
@@ -61,7 +59,7 @@ public class TransferSender implements Runnable {
                         session.getHandler().getContext().getDeviceInfo().getDeviceId(),
                         session.getHandler().getContext().getDeviceInfo().getDeviceName(),
                         session.getHandler().getContext().getDeviceInfo().getTcpPort(), session.getTransferId(),
-                        chunkNumber, totalChunks, chunk);
+                        chunkNumber, chunk);
                 session.getHandler().send(packet);
 
                 chunkNumber++;
@@ -74,7 +72,7 @@ public class TransferSender implements Runnable {
                     lastUIUpdate = now;
                 }
 
-                context.print("sent " + chunkNumber + "/" + totalChunks + " chunks");
+                context.print("sent " + chunkNumber + "/" + session.getTotalChunks() + " chunks.");
             }
 
             context.getMainFrame().updateTransfer(session);

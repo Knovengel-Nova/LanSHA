@@ -95,10 +95,12 @@ public class UDPListener implements Runnable {
                 Instant.now(),
                 DeviceStatus.ONLINE);
 
-        context.getDeviceRegistry().addOrUpdateDevice(device);
+        if (!context.getDeviceRegistry().containsDevice(pkt.getDeviceId())) {
+            context.getDeviceRegistry().addOrUpdateDevice(device);
 
-        // update UI
-        context.getMainFrame().refreshDeviceList();
+            // update UI
+            context.getMainFrame().refreshDeviceList();
+        }
     }
 
     private void handleGoodBye(DatagramPacket packet, Packet pkt) {
@@ -141,7 +143,8 @@ public class UDPListener implements Runnable {
             case GOODBYE -> // other device left
                 handleGoodBye(packet, pkt);
 
-            default -> throw new AssertionError();
+            default ->
+                throw new AssertionError();
         }
     }
 

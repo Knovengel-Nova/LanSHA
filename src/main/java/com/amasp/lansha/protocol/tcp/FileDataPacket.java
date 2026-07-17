@@ -14,8 +14,6 @@ public class FileDataPacket extends Packet {
 
     private int chunkNumber;// current chunk
 
-    private int totalChunks;// TODO: remove this from here and then send it with File Accept Packet
-
     private byte[] data; // buffer (actual file data)
 
     // no args constructor
@@ -26,13 +24,12 @@ public class FileDataPacket extends Packet {
 
     // all args constructor
     public FileDataPacket(PacketType type, UUID deviceId, String deviceName, int tcpPort, UUID transferId,
-            int chunkNumber, int totalChunks, byte[] data) {
+            int chunkNumber, byte[] data) {
 
         super(type, deviceId, deviceName, tcpPort);
 
         this.transferId = transferId;
         this.chunkNumber = chunkNumber;
-        this.totalChunks = totalChunks;
         this.data = data;
     }
 
@@ -49,20 +46,12 @@ public class FileDataPacket extends Packet {
         return chunkNumber;
     }
 
-    public int getTotalChunks() {
-        return totalChunks;
-    }
-
     public void setTransferId(UUID transferId) {
         this.transferId = transferId;
     }
 
     public void setChunkNumber(int chunkNumber) {
         this.chunkNumber = chunkNumber;
-    }
-
-    public void setTotalChunks(int totalChunks) {
-        this.totalChunks = totalChunks;
     }
 
     public void setData(byte[] data) {

@@ -10,8 +10,9 @@ import java.net.Socket;
  *
  * @author knovengel
  */
-/// Always running thread listening for incomming TCP requests.
-/// send them to ConnectionHandler
+// Always running thread listening for incomming TCP requests.
+// send them to ConnectionHandler
+// Acts as a server
 public class TCPAcceptor implements Runnable {
 
     private final LanSHAContext context;
@@ -45,13 +46,13 @@ public class TCPAcceptor implements Runnable {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 Socket socket = serverSocket.accept();
-                context.print("TCPAcceptor: "+socket.getInetAddress()+" Connected");
                 context.getConnectionPool().submit(new ConnectionHandler(context, socket));
+                context.print("TCPAcceptor: "+socket.getInetAddress()+" Connected");
             } catch (IOException e) {
-                context.print("TCPAcceptor: Error in run()");
                 if (serverSocket.isClosed()) {
                     break;
                 }
+                context.print("TCPAcceptor: Error in run()");
                 e.printStackTrace();
             }
         }

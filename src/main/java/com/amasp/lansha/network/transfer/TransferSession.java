@@ -13,8 +13,6 @@ import java.util.UUID;
  */
 public class TransferSession {
 
-    private BufferedImage preview;
-    
     private UUID transferId;
 
     private UUID remoteDevice; // other device
@@ -33,6 +31,10 @@ public class TransferSession {
 
     private long fileSize;
 
+    private int chunkSize;
+
+    private int totalChunks;
+
     private long bytesTransferred;
 
     private ConnectionHandler handler;
@@ -50,8 +52,10 @@ public class TransferSession {
 
     private double currentSpeed;
 
+    private BufferedImage preview;
+
     // all args constructor
-    public TransferSession(UUID transferId, String fileName, UUID remoteDevice, String remoteDeviceName, long fileSize,
+    public TransferSession(UUID transferId, String fileName, UUID remoteDevice, String remoteDeviceName, long fileSize, int chunkSize,
             long bytesTransferred,
             TransferState state, ConnectionHandler handler) {
         this.transferId = transferId;
@@ -59,9 +63,11 @@ public class TransferSession {
         this.remoteDevice = remoteDevice; // other device
         this.remoteDeviceName = remoteDeviceName;
         this.fileSize = fileSize;
+        this.chunkSize = chunkSize;
         this.bytesTransferred = bytesTransferred;
         this.state = state;
         this.handler = handler;
+        this.totalChunks = (int) ((fileSize + chunkSize - 1) / chunkSize);
     }
 
     public void startTransferTimer() {
@@ -87,7 +93,7 @@ public class TransferSession {
 
         double speed = currentSpeed;
 
-        String[] units = { "B/s", "KB/s", "MB/s", "GB/s" };
+        String[] units = {"B/s", "KB/s", "MB/s", "GB/s"};
 
         int i = 0;
 
@@ -128,15 +134,31 @@ public class TransferSession {
         this.amISender = amISender;
     }
 
-    public void setPreview(BufferedImage image){
-        this.preview = image;
-    }
-    
-    public BufferedImage getPreviewImage(){
+    // getters and setters
+    public BufferedImage getPreview() {
         return preview;
     }
-    
-    // getters and setters
+
+    public void setPreview(BufferedImage preview) {
+        this.preview = preview;
+    }
+
+    public int getChunkSize() {
+        return chunkSize;
+    }
+
+    public void setChunkSize(int chunkSize) {
+        this.chunkSize = chunkSize;
+    }
+
+    public int getTotalChunks() {
+        return totalChunks;
+    }
+
+    public void setTotalChunks(int totalChunks) {
+        this.totalChunks = totalChunks;
+    }
+
     public String getRemoteDeviceName() {
         return remoteDeviceName;
     }

@@ -14,6 +14,7 @@ public class FileRequestPacket extends Packet {
     private long fileSize;
     private UUID transferId;
     private byte[] preview;
+    private int chunkSize;
 
     // no args constructor
     public FileRequestPacket() {
@@ -23,11 +24,20 @@ public class FileRequestPacket extends Packet {
 
     // all args constructor
     public FileRequestPacket(UUID transferId, UUID deviceUID, String deviceName, int tcpPort, String fileName,
-            long fileSize) {
+            long fileSize, int chunkSize) {
         super(PacketType.FILE_REQUEST, deviceUID, deviceName, tcpPort);
         this.transferId = transferId;
         this.fileName = fileName;
         this.fileSize = fileSize;
+        this.chunkSize = chunkSize;
+    }
+
+    public int getChunkSize() {
+        return chunkSize;
+    }
+
+    public void setChunkSize(int chunkSize) {
+        this.chunkSize = chunkSize;
     }
 
     public byte[] getPreview() {

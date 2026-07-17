@@ -3,6 +3,8 @@ package com.amasp.lansha.ui;
 import com.amasp.lansha.network.transfer.TransferSession;
 import com.amasp.lansha.util.FileUtil;
 import com.amasp.lansha.util.LanSHAContext;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import javax.swing.ImageIcon;
@@ -23,17 +25,25 @@ public class FileRequestFrame extends javax.swing.JFrame {
 
         initComponents();
         initUIs();
+
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                updateIcon();
+            }
+        });
     }
 
     private void initUIs() {
         labelSender.setText("File from " + session.getRemoteDeviceName());
         labelFileName.setText(session.getFileName());
         labelFileSize.setText(FileUtil.formatSize(session.getFileSize()));
+        updateIcon();
     }
 
     private void updateIcon() {
-        
-        BufferedImage img = session.getPreviewImage();
+
+        BufferedImage img = session.getPreview();
 
         if (img == null) {
             return;
@@ -89,7 +99,6 @@ public class FileRequestFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Incomming File Request");
         setMinimumSize(new java.awt.Dimension(350, 400));
-        setPreferredSize(new java.awt.Dimension(450, 525));
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
 
         panelUI.setBorder(javax.swing.BorderFactory.createEtchedBorder());

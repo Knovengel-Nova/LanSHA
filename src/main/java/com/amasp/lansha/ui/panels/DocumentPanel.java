@@ -17,6 +17,7 @@ public class DocumentPanel extends javax.swing.JPanel {
 
     public DocumentPanel() {
         initComponents();
+        scrollPaneDetails.getVerticalScrollBar().setBlockIncrement(32);
 
         addPadding(commonDetails);
         addPadding(documentDetails);
@@ -44,6 +45,7 @@ public class DocumentPanel extends javax.swing.JPanel {
                 updateIcon();
             }
         });
+
     }
 
     public void setMetaData(DocumentMetaData metaData) {

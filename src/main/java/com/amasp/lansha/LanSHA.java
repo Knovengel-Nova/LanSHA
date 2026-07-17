@@ -20,16 +20,16 @@ import java.util.UUID;
  *
  * @author knovengel
  */
-///
-/// LanSHA will be the main class and the entry point of the overall Application
-///
-/// Responsibilities:
-/// 1. Start UI
-/// 2. Start Network Services
-/// 3. Initialize Registries
-/// 4. Initialize Transfer Manager
-///
 
+/*
+LanSHA will be the main class and the entry point of the overall Application
+
+ Responsibilities:
+ 1. Start UI   
+ 2. Initialize Registries and selfInfo
+ 3. Start Network Services (UDP and TCP)
+ 4. Initialize Transfer Manager
+ */
 public class LanSHA {
 
     public static void main(String[] args) {
@@ -39,17 +39,15 @@ public class LanSHA {
         selfInfo = new DeviceInfo(NetworkUtil.getHostName(), UUID.randomUUID(), NetworkUtil.getLocalAddress(),
                 Constants.TCP_PORT, Instant.now(), DeviceStatus.ONLINE);
 
-        
-
         FlatDarkFlatIJTheme.setup();
 
         LanSHAContext context = new LanSHAContext(selfInfo, registry);
-        
+
         UIFrame mf = new UIFrame(context);
         context.setMainFrame(mf);
         mf.setVisible(true);
 
-        /// Start DiscoveryService (send a discovery packet)
+        /// Start DiscoveryService (send a discovery packet once)
         DiscoveryService discoveryService = new DiscoveryService(context);
         discoveryService.broadcastDiscovery();
 
