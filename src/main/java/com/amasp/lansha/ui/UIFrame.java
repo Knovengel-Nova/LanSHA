@@ -22,8 +22,12 @@ import com.amasp.lansha.util.metadata.reader.DocumentMetaDataReader;
 import com.amasp.lansha.util.metadata.reader.ImageMetaDataReader;
 import com.amasp.lansha.util.metadata.reader.VideoMetaDataReader;
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.UUID;
@@ -54,13 +58,21 @@ public class UIFrame extends javax.swing.JFrame {
     private DocumentPanel documentPanel = new DocumentPanel();
 
     private FileMetaData metaData;
-
     private Path selectedFile;
 
     public UIFrame(LanSHAContext context) {
         this.context = context;
 
         initComponents();
+
+        jScrollPane1.getViewport().addComponentListener(
+                new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                layoutTransferCards();
+            }
+        }
+        );
 
         listAvailableDevices.setModel(model);
 
@@ -82,6 +94,44 @@ public class UIFrame extends javax.swing.JFrame {
 
     }
 
+    private void layoutTransferCards() {
+
+        int viewportWidth = jScrollPane1.getViewport().getWidth();
+
+        int viewportHeight = jScrollPane1.getViewport().getHeight();
+
+        if (viewportWidth <= 0 || viewportHeight <= 0) {
+            return;
+        }
+
+        int horizontalPadding = 20; //10 each side
+        int verticalGap = 10;
+
+        Insets insets = transferListPanel.getInsets();
+
+        int cardWidth
+                = viewportWidth
+                - insets.left
+                - insets.right;
+
+        // show about 4.5 cards
+        double visibleCards = 4.5;
+
+        int cardHeight = (int) (viewportHeight / visibleCards);
+
+        cardHeight = Math.max(cardHeight, 110);
+
+        for (Component c : transferListPanel.getComponents()) {
+
+            if (c instanceof TransferCardPanel card) {
+                card.setCardSize(cardWidth, cardHeight);
+            }
+        }
+
+        transferListPanel.revalidate();
+        transferListPanel.repaint();
+    }
+
     public void showFileRequest(TransferSession session) {
         SwingUtilities.invokeLater(() -> {
             FileRequestFrame frame
@@ -100,8 +150,10 @@ public class UIFrame extends javax.swing.JFrame {
 
             transferListPanel.add(panel);
 
-            panelTransfers.revalidate();
-            panelTransfers.repaint();
+            layoutTransferCards();
+
+            transferListPanel.revalidate();
+            transferListPanel.repaint();
         });
     }
 
@@ -125,9 +177,12 @@ public class UIFrame extends javax.swing.JFrame {
             TransferCardPanel panel = transferPanels.remove(transferId);
 
             if (panel != null) {
-                panelTransfers.remove(panel);
-                panelTransfers.revalidate();
-                panelTransfers.repaint();
+                transferListPanel.remove(panel);
+
+                layoutTransferCards();
+
+                transferListPanel.revalidate();
+                transferListPanel.repaint();
             }
         });
     }
@@ -277,6 +332,7 @@ public class UIFrame extends javax.swing.JFrame {
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
+        transferListPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         transferListPanel.setLayout(new javax.swing.BoxLayout(transferListPanel, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1.setViewportView(transferListPanel);
 

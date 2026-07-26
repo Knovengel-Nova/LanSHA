@@ -3,7 +3,6 @@ package com.amasp.lansha.ui.panels;
 import com.amasp.lansha.network.transfer.TransferSession;
 import com.amasp.lansha.util.FileUtil;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import java.awt.Component;
 import java.awt.Dimension;
 
 /**
@@ -14,7 +13,6 @@ public class TransferCardPanel extends javax.swing.JPanel {
 
     private TransferSession session;
     private boolean isPaused = false;
-    private static final int CARD_HEIGHT = 130;
 
     public TransferCardPanel(TransferSession session) {
         this.session = session;
@@ -25,7 +23,7 @@ public class TransferCardPanel extends javax.swing.JPanel {
         progressBar.setStringPainted(true);
 
         initUIs();
-        packPanel();
+//        packPanel();
 
     }
 
@@ -131,17 +129,27 @@ public class TransferCardPanel extends javax.swing.JPanel {
         }
     }
 
-    private void packPanel() {
-        revalidate();
-        doLayout();
+//    private void packPanel() {
+//        revalidate();
+//        doLayout();
+//
+//        Dimension d = getPreferredSize();
+//
+//        // Width expands to fill parent, height stays fixed to preferred height
+//        setPreferredSize(new Dimension(0, CARD_HEIGHT));
+//        setMinimumSize(new Dimension(0, CARD_HEIGHT));
+//        setMaximumSize(new Dimension(Integer.MAX_VALUE, CARD_HEIGHT));
+//        setAlignmentX(Component.LEFT_ALIGNMENT);
+//
+//        revalidate();
+//    }
+    public void setCardSize(int width, int height) {
 
-        Dimension d = getPreferredSize();
+        Dimension d = new Dimension(width, height);
 
-        // Width expands to fill parent, height stays fixed to preferred height
-        setPreferredSize(new Dimension(0, CARD_HEIGHT));
-        setMinimumSize(new Dimension(0, CARD_HEIGHT));
-        setMaximumSize(new Dimension(Integer.MAX_VALUE, CARD_HEIGHT));
-        setAlignmentX(Component.LEFT_ALIGNMENT);
+        setPreferredSize(d);
+        setMinimumSize(d);
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, height));
 
         revalidate();
     }
