@@ -24,7 +24,6 @@ import com.amasp.lansha.util.metadata.reader.VideoMetaDataReader;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -96,25 +95,12 @@ public class UIFrame extends javax.swing.JFrame {
 
     private void layoutTransferCards() {
 
-        int viewportWidth = jScrollPane1.getViewport().getWidth();
-
         int viewportHeight = jScrollPane1.getViewport().getHeight();
 
-        if (viewportWidth <= 0 || viewportHeight <= 0) {
+        if (viewportHeight <= 0) {
             return;
         }
 
-        int horizontalPadding = 20; //10 each side
-        int verticalGap = 10;
-
-        Insets insets = transferListPanel.getInsets();
-
-        int cardWidth
-                = viewportWidth
-                - insets.left
-                - insets.right;
-
-        // show about 4.5 cards
         double visibleCards = 4.5;
 
         int cardHeight = (int) (viewportHeight / visibleCards);
@@ -122,9 +108,8 @@ public class UIFrame extends javax.swing.JFrame {
         cardHeight = Math.max(cardHeight, 110);
 
         for (Component c : transferListPanel.getComponents()) {
-
             if (c instanceof TransferCardPanel card) {
-                card.setCardSize(cardWidth, cardHeight);
+                card.setCardHeight(cardHeight);
             }
         }
 

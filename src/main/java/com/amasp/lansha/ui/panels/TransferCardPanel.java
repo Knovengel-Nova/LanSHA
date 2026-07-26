@@ -13,6 +13,7 @@ public class TransferCardPanel extends javax.swing.JPanel {
 
     private TransferSession session;
     private boolean isPaused = false;
+    private int preferredHeight = 130;
 
     public TransferCardPanel(TransferSession session) {
         this.session = session;
@@ -143,15 +144,28 @@ public class TransferCardPanel extends javax.swing.JPanel {
 //
 //        revalidate();
 //    }
-    public void setCardSize(int width, int height) {
-
-        Dimension d = new Dimension(width, height);
-
-        setPreferredSize(d);
-        setMinimumSize(d);
-        setMaximumSize(new Dimension(Integer.MAX_VALUE, height));
+    public void setCardHeight(int height) {
+        preferredHeight = height;
 
         revalidate();
+        repaint();
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        Dimension d = super.getPreferredSize();
+        return new Dimension(d.width, preferredHeight);
+    }
+
+    @Override
+    public Dimension getMinimumSize() {
+        Dimension d = super.getMinimumSize();
+        return new Dimension(d.width, preferredHeight);
+    }
+
+    @Override
+    public Dimension getMaximumSize() {
+        return new Dimension(Integer.MAX_VALUE, preferredHeight);
     }
 
     @SuppressWarnings("unchecked")
