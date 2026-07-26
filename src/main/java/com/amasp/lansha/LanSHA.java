@@ -12,6 +12,8 @@ import com.amasp.lansha.ui.UIFrame;
 import com.amasp.lansha.util.Constants;
 import com.amasp.lansha.util.LanSHAContext;
 import com.amasp.lansha.util.NetworkUtil;
+import com.amasp.lansha.util.Saver;
+import com.amasp.lansha.util.SettingsData;
 import com.formdev.flatlaf.intellijthemes.FlatDarkFlatIJTheme;
 import java.time.Instant;
 import java.util.UUID;
@@ -35,10 +37,23 @@ public class LanSHA {
     public static void main(String[] args) {
         DeviceInfo selfInfo;
         DeviceRegistry registry = new DeviceRegistry();
-
-        selfInfo = new DeviceInfo(NetworkUtil.getHostName(), UUID.randomUUID(), NetworkUtil.getLocalAddress(),
+        
+        SettingsData data = null;
+        data = Saver.retrieveStudentDataFile();
+        
+        if(data == null){
+            selfInfo = new DeviceInfo(NetworkUtil.getHostName(), UUID.randomUUID(), NetworkUtil.getLocalAddress(),
                 Constants.TCP_PORT, Instant.now(), DeviceStatus.ONLINE);
-
+        }else{
+            selfInfo = new DeviceInfo();
+            selfInfo.setDeviceName(data.getDeviceName());
+            selfInfo.setTcpPort(data.getTcpPort());
+            selfInfo.setIpAddress(NetworkUtil.getLocalAddress());
+            selfInfo.setLastSeen(Instant.now());
+            selfInfo.setDeviceId(data.getDeviceId());
+            selfInfo.setStatus(DeviceStatus.ONLINE);
+        }
+        
         FlatDarkFlatIJTheme.setup();
 
         LanSHAContext context = new LanSHAContext(selfInfo, registry);

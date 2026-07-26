@@ -81,12 +81,7 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="textDeviceName" min="-2" pref="190" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="labelTheme" min="-2" pref="170" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="comboTheme" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="labelEnableConsole" min="-2" pref="170" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="checkEnableConsole" min="-2" max="-2" attributes="0"/>
@@ -122,32 +117,30 @@
                           <Component id="labelTitleMisc" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="textUdpPort" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="labelUdpPort" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="textDeviceName" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="labelDeviceName" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="textTcpPort" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="labelTcpPort" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="labelTheme" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="comboTheme" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="textUdpPort" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="labelUdpPort" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="textDeviceName" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="labelDeviceName" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="textTcpPort" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="labelTcpPort" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="labelEnableConsole" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Component id="checkEnableConsole" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="separator1" min="-2" pref="10" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="labelEnableConsole" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="checkEnableConsole" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="labelTitleTimings" min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="jSeparator3" min="-2" pref="10" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="labelTitleTimings" min="-2" pref="40" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="spinnerHeartBeatBpm" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -183,12 +176,12 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="buttonReset" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                               <Component id="buttonCancel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="buttonApply" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="buttonReset" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -301,24 +294,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textDeviceNameActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="labelTheme">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Theme:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="comboTheme">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="2">
-            <StringItem index="0" value="Light"/>
-            <StringItem index="1" value="Dark"/>
-          </StringArray>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="labelEnableConsole">
       <Properties>

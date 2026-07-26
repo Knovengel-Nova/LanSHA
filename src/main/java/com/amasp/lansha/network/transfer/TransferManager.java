@@ -131,7 +131,7 @@ public class TransferManager {
         // ask for our approval on UI
         SwingUtilities.invokeLater(() -> context.getMainFrame().showFileRequest(session));
         context.print(packet.getDeviceName() + "is Asking for file approval for <" + packet.getFileName() + ">("
-                + packet.getFileSize() + "B)");
+                + FileUtil.formatSize(packet.getFileSize()));
     }
 
     private void handleFileAccept(FileAcceptPacket packet, ConnectionHandler handler) {

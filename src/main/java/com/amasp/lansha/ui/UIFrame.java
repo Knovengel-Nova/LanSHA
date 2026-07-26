@@ -288,6 +288,7 @@ public class UIFrame extends javax.swing.JFrame {
 
         menuItemSettings.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menuItemSettings.setText("Settings");
+        menuItemSettings.addActionListener(this::menuItemSettingsActionPerformed);
         menuFile.add(menuItemSettings);
 
         menuItemQuit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.ALT_DOWN_MASK));
@@ -385,10 +386,11 @@ public class UIFrame extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_menuItemQuitActionPerformed
 
-//    public static void main(String args[]) {
-//        FlatDarkLaf.setup();
-//        java.awt.EventQueue.invokeLater(() -> new UIFrame().setVisible(true));
-//    }
+    private void menuItemSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSettingsActionPerformed
+        // TODO add your handling code here:
+        Settings settingsFrame = new Settings(context);
+        settingsFrame.setVisible(true);
+    }//GEN-LAST:event_menuItemSettingsActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonChooseFile;

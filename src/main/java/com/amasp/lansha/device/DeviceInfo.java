@@ -12,7 +12,7 @@ import java.util.UUID;
 public class DeviceInfo {
 
     private String deviceName;
-    private final UUID deviceId;
+    private UUID deviceId;
     private InetAddress ipAddress;
     private int tcpPort; // receiving tcp server port
     private Instant lastSeen;
@@ -83,6 +83,12 @@ public class DeviceInfo {
     public void setDeviceName(String name){
         this.deviceName = name;
     }
+
+    public void setDeviceId(UUID deviceId) {
+        this.deviceId = deviceId;
+    }
+    
+    
 
     @Override
     public String toString() {
