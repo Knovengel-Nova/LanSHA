@@ -1,22 +1,24 @@
 package com.amasp.lansha.util;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  *
  * @author knovengel
  */
-public class SettingsData {
+public class SettingsData implements Serializable {
+
     private UUID deviceId;
     private String deviceName;
     private int udpPort;
     private int tcpPort;
-    
+
     private int deviceTimeoutInterval;
     private int janitorInterval;
     private int heartBeatBpm;
     private int chunkSize;
-    
+
     private String savePath;
 
     public UUID getDeviceId() {
@@ -90,6 +92,5 @@ public class SettingsData {
     public void setSavePath(String savePath) {
         this.savePath = savePath;
     }
-    
-    
+
 }

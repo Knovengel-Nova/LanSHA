@@ -39,7 +39,7 @@ public class LanSHA {
         DeviceRegistry registry = new DeviceRegistry();
         
         SettingsData data = null;
-        data = Saver.retrieveStudentDataFile();
+        data = Saver.retrieveSettingsData();
         
         if(data == null){
             selfInfo = new DeviceInfo(NetworkUtil.getHostName(), UUID.randomUUID(), NetworkUtil.getLocalAddress(),

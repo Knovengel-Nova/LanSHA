@@ -22,7 +22,7 @@ public class Settings extends javax.swing.JFrame {
 
     private void updateUIs() {
         SettingsData data = null;
-        data = Saver.retrieveStudentDataFile();
+        data = Saver.retrieveSettingsData();
 
         if (data != null) {
             this.textDeviceName.setText(data.getDeviceName());
@@ -312,7 +312,7 @@ public class Settings extends javax.swing.JFrame {
         data.setHeartBeatBpm((int) spinnerHeartBeat.getValue());
         data.setChunkSize((int) spinnerChunkSize.getValue());
 
-        Saver.saveSettingsFile(data);
+        Saver.saveSettingsData(data);
         dispose();
     }
 

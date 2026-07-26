@@ -11,45 +11,36 @@ import java.io.ObjectOutputStream;
  */
 public class Saver {
 
-    public static void saveSettingsFile(SettingsData file) {
-        String folderPath = "saves/";
+    public static void saveSettingsData(SettingsData data) {
+        
+        String folderPath;
+        String fileName;
+
+        //  save data
+        folderPath = "saves/";
         new java.io.File(folderPath).mkdirs();
 
-        String fileName = "_Settings_DATA.ser";
-
-        try {
-            FileOutputStream fos = new FileOutputStream(folderPath + "/" + fileName);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-            oos.writeObject(file);
-            System.out.println(fileName + " Succesfully saved in " + folderPath);
-
-            fos.close();
-            oos.close();
+        //      DATA_MODEL file save
+        fileName = "_SETTINGS_DATA.ser";
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(folderPath + "/" + fileName))) {
+            oos.writeObject(data);
+            System.out.println(fileName + " saved successfully in " + folderPath);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error saving "+fileName+" in "+folderPath);
         }
     }
 
-    public static SettingsData retrieveStudentDataFile() {
+    public static SettingsData retrieveSettingsData() {
         String folderPath = "saves/";
-        String fileName = "_Settings_DATA.ser";
+        String fileName = "_SETTINGS_DATA.ser";
 
         SettingsData data = null;
 
-        try {
-            FileInputStream fis = new FileInputStream(folderPath + "/" + fileName);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-
-            SettingsData temp = (SettingsData) ois.readObject();
-            System.out.println(fileName + " Retrieved Successfully!");
-
-            data = temp;
-
-            fis.close();
-            ois.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(folderPath + "/"+fileName))){
+            data = (SettingsData)ois.readObject();
+        }catch(Exception e){
+            System.out.println("Can't find or access "+fileName+" in path: "+folderPath);
+            return null;
         }
 
         return data;
