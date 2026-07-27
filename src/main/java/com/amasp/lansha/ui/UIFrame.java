@@ -266,6 +266,7 @@ public class UIFrame extends javax.swing.JFrame {
         menuFile = new javax.swing.JMenu();
         menuItemSettings = new javax.swing.JMenuItem();
         menuItemQuit = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         menuTheme = new javax.swing.JMenu();
         menuItemDarkTheme = new javax.swing.JMenuItem();
         menuItemLightTheme = new javax.swing.JMenuItem();
@@ -337,6 +338,11 @@ public class UIFrame extends javax.swing.JFrame {
         menuItemQuit.addActionListener(this::menuItemQuitActionPerformed);
         menuFile.add(menuItemQuit);
 
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        jMenuItem1.setText("Enable Console");
+        jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
+        menuFile.add(jMenuItem1);
+
         menuBarUiFrame.add(menuFile);
 
         menuTheme.setText("Theme");
@@ -368,10 +374,12 @@ public class UIFrame extends javax.swing.JFrame {
 
         menuItemHelp.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menuItemHelp.setText("Help");
+        menuItemHelp.addActionListener(this::menuItemHelpActionPerformed);
         menuHelp.add(menuItemHelp);
 
         menuItemAbout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_K, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menuItemAbout.setText("About");
+        menuItemAbout.addActionListener(this::menuItemAboutActionPerformed);
         menuHelp.add(menuItemAbout);
 
         menuBarUiFrame.add(menuHelp);
@@ -433,10 +441,25 @@ public class UIFrame extends javax.swing.JFrame {
         settingsFrame.setVisible(true);
     }//GEN-LAST:event_menuItemSettingsActionPerformed
 
+    private void menuItemHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemHelpActionPerformed
+        HelpFrame frame = new HelpFrame();
+        frame.setVisible(true);
+    }//GEN-LAST:event_menuItemHelpActionPerformed
+
+    private void menuItemAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemAboutActionPerformed
+        AboutFrame frame = new AboutFrame();
+        frame.setVisible(true);
+    }//GEN-LAST:event_menuItemAboutActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        context.enableConsole(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonChooseFile;
     private javax.swing.JPanel buttonPanel;
     private javax.swing.JButton buttonSendFile;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<DeviceInfo> listAvailableDevices;
     private javax.swing.JMenuBar menuBarUiFrame;

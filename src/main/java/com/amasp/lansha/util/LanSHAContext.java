@@ -35,7 +35,7 @@ public class LanSHAContext {
         this.connectionPool = Executors.newCachedThreadPool();
         this.transferManager = new TransferManager(this);
         this.console = new Console();
-        console.setVisible(true);
+        console.setVisible(false);
 
         try {
             udpSenderSocket = new DatagramSocket();
@@ -48,6 +48,10 @@ public class LanSHAContext {
     public void print(String message) {
         System.out.println(message);
         console.appendMessage(message);
+    }
+    
+    public void enableConsole(boolean state){
+        this.console.setVisible(state);
     }
 
     // send a packet to other device from our device's one UDP sending socket
