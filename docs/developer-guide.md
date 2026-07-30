@@ -1,252 +1,106 @@
-# LanSHA Developer Guide
+# Developer Guide
 
-**Navigation**
+This guide summarizes the structure of the LanSHA codebase so contributors can navigate the project quickly and understand the main extension points.
 
-[README](../README.md) •
-[Architecture](architecture.md) •
-[Protocol Specification](protocol.md) •
-Developer Guide •
-[FAQs](faq.md)
+## Project layout
 
----
+The Java sources are organized under [src/main/java/com/amasp/lansha](../src/main/java/com/amasp/lansha):
 
-# Overview
+```text
+src/main/java/com/amasp/lansha/
+├── crypto/
+├── device/
+├── network/
+│   └── transfer/
+├── protocol/
+│   ├── tcp/
+│   └── udp/
+├── ui/
+│   └── panels/
+├── util/
+└── LanSHA.java
+```
 
-This document provides an overview of the LanSHA codebase for developers who wish to understand, maintain, or contribute to the project.
+## Build and run
 
-It explains the project structure, major components, coding conventions, and future refactoring plans.
+### Requirements
 
-For details regarding the communication protocol, refer to the **Protocol Specification**.
-
----
-
-# Development Environment
-
-## Requirements
-
-- Java 23+
+- Java 21+
 - Maven
-- NetBeans IDE *(Recommended)*
-- Git
+- A Java IDE such as NetBeans, IntelliJ IDEA, or VS Code with the Java extension pack
 
----
-
-## Clone
+### Build
 
 ```bash
-git clone https://github.com/Knovengel-Nova/LanSHA.git
+mvn clean package
 ```
 
----
+### Run from the IDE
 
-## Build
+Use the main class [src/main/java/com/amasp/lansha/LanSHA.java](../src/main/java/com/amasp/lansha/LanSHA.java) as the application entry point.
+
+### Run from the packaged jar
 
 ```bash
-mvn clean install
+java -jar target/LanSHA-1.0.jar
 ```
 
----
-
-## Run
-
-Launch the application using:
-
-```text
-LanSHA.java
-```
-
----
-
-# Project Structure
-
-```text
-src/
-└── main/
-    └── java/
-        └── com.amasp.lansha/
-            │
-            ├── device/
-            │   ├── DeviceInfo.java
-            │   ├── DeviceRegistry.java
-            │   └── DeviceStatus.java
-            │
-            ├── encrypt/
-            │
-            ├── network/
-            │   ├── ConnectionHandler.java
-            │   ├── DiscoveryService.java
-            │   ├── HeartBeatSender.java
-            │   ├── Janitor.java
-            │   ├── TCPAcceptor.java
-            │   ├── UDPListener.java
-            │   │
-            │   └── transfer/
-            │       ├── TransferManager.java
-            │       ├── TransferReceiver.java
-            │       ├── TransferSender.java
-            │       ├── TransferSession.java
-            │       └── TransferState.java
-            │
-            ├── protocol/
-            │   ├── tcp/
-            │   ├── udp/
-            │   ├── Packet.java
-            │   ├── PacketSerializer.java
-            │   └── PacketType.java
-            │
-            ├── ui/
-            │   ├── panels/
-            │   ├── MainFrame.java
-            │   ├── UIFrame.java
-            │   ├── SettingsFrame.java
-            │   ├── Console.java
-            │   └── ...
-            │
-            ├── util/
-            │   ├── metadata/
-            │   ├── Constants.java
-            │   ├── FileUtil.java
-            │   ├── LanSHAContext.java
-            │   └── NetworkUtil.java
-            │
-            └── LanSHA.java
-```
-
----
-
-# Package Responsibilities
+## Key packages
 
 | Package | Responsibility |
-|----------|----------------|
-| **device** | Stores device information, device registry and device state. |
-| **network** | Implements networking services including UDP discovery, TCP communication and file transfer. |
-| **network.transfer** | Manages transfer sessions, sending, receiving and transfer state. |
-| **protocol** | Defines packet types, packet hierarchy and packet serialization. |
-| **ui** | Swing-based graphical user interface. |
-| **util** | Shared utilities, constants, application context and metadata extraction. |
-| **encrypt** | Reserved for future encryption support. |
+|---|---|
+| device | Stores device metadata, registry state, and online/offline lifecycle information. |
+| network | Provides discovery, heartbeat, janitor, listener, and connection services. |
+| network.transfer | Coordinates active transfer sessions, senders, receivers, and transfer state. |
+| protocol | Defines packet classes and serialization logic for the custom LAN protocol. |
+| ui | Implements the Swing desktop interface and transfer-detail panels. |
+| util | Contains shared helpers for file handling, metadata, networking, persistence, and application context. |
+| crypto | Reserved for future encryption work and currently contains placeholder security classes. |
 
----
+## Main runtime services
 
-# Runtime Components
+The application startup path shown in [src/main/java/com/amasp/lansha/LanSHA.java](../src/main/java/com/amasp/lansha/LanSHA.java) creates the device identity, initializes the UI, and starts the following services:
 
-LanSHA is composed of several independent services.
+- DiscoveryService for initial LAN discovery
+- UDPListener for incoming discovery, heartbeat, and goodbye packets
+- HeartBeatSender for periodic presence updates
+- Janitor for removing stale devices from the registry
+- TCPAcceptor for incoming transfer connections
 
-```text
-                  User Interface
-                        │
-                        ▼
-                Discovery Service
-                        │
-                UDP Broadcast / Listen
-                        │
-        ┌───────────────┴───────────────┐
-        ▼                               ▼
- HeartBeat Sender                  Device Registry
-        │                               ▲
-        │                               │
-        ▼                               │
-      Janitor ──────────────────────────┘
+## Transfer workflow
 
-                        │
-                        ▼
+The transfer flow is coordinated by [src/main/java/com/amasp/lansha/network/transfer/TransferManager.java](../src/main/java/com/amasp/lansha/network/transfer/TransferManager.java):
 
-                  TCP Acceptor
-                        │
-                        ▼
-               Connection Handler
-                        │
-                        ▼
-               Transfer Manager
-               ├──────────────┐
-               ▼              ▼
-      Transfer Sender   Transfer Receiver
-```
+1. An incoming file request is turned into a transfer session.
+2. The UI asks the user to approve or reject the transfer.
+3. Once accepted, the transfer manager begins the sender or receiver side.
+4. File data packets are exchanged until the transfer completes.
 
-Each service performs a single responsibility and communicates through shared application state where appropriate.
+## Coding conventions
 
----
+The project mostly follows straightforward Java conventions:
 
-# Core Components
+- PascalCase for class names
+- camelCase for methods and variables
+- uppercase names for constants where applicable
+- package names in lowercase
 
-## Discovery Service
+## Extension ideas
 
-Broadcasts discovery packets during application startup and processes discovery replies from nearby devices.
+If you want to contribute, the most natural extension points are:
 
----
+- add a new packet type in the protocol package
+- enhance the transfer manager for resumable transfers
+- improve the UI panels in the ui package
+- implement the planned encryption utilities in the crypto package
 
-## UDP Listener
+## Documentation references
 
-Continuously listens for incoming UDP packets including:
-
-- Discovery
-- Discovery Reply
-- Heartbeat
-- Goodbye
-
----
-
-## HeartBeat Sender
-
-Periodically broadcasts heartbeat packets so other devices can determine that this device is still online.
-
----
-
-## Janitor
-
-Runs periodically and removes inactive devices from the Device Registry when heartbeat timeout expires.
-
----
-
-## TCP Acceptor
-
-Listens for incoming TCP connections and delegates each connection to a dedicated `ConnectionHandler`.
-
----
-
-## Connection Handler
-
-Processes incoming TCP packets and coordinates file transfer operations.
-
----
-
-## Transfer Manager
-
-Coordinates file transfers and maintains transfer sessions.
-
----
-
-## Packet Serializer
-
-Responsible for serializing Java packet objects into JSON and reconstructing received JSON back into Java objects using the Jackson library.
-
----
-
-# Design Principles
-
-LanSHA follows several software engineering principles.
-
-- Separation of Concerns
-- Single Responsibility Principle
-- Modular package organization
-- Reusable packet hierarchy
-- Clear separation between UDP and TCP communication
-- Maintainable and extensible architecture
-
----
-
-# Coding Conventions
-
-## Naming
-
-- PascalCase for classes
-- camelCase for variables and methods
-- UPPER_CASE for constants
-- lowercase package names
-
----
-
-## Networking
+- [README](../README.md)
+- [Architecture](architecture.md)
+- [Protocol Specification](protocol.md)
+- [FAQ](faq.md)
+- Diagrams in [docs/Images](Images)
 
 - UDP is used only for discovery and device presence.
 - TCP is used only for reliable file transfer.

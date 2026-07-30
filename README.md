@@ -5,186 +5,116 @@
 </p>
 
 <p align="center">
-<img src="docs/screenshots/banner.png" alt="LanSHA Banner" width="850"/>
+<img src="docs/Images/Architecture.svg" alt="LanSHA architecture overview" width="900"/>
 </p>
 
 <p align="center">
-Automatic Device Discovery • TCP/UDP • Java • Cross Platform
+Automatic device discovery • Reliable TCP transfers • Java Swing UI • Cross-platform
 </p>
 
 ---
 
-# Overview
+## Overview
 
-Sharing files across devices on the same local network shouldn't require cloud services, internet connectivity or complicated setup.
+LanSHA is a desktop application for sharing files directly between devices on the same local network. It uses UDP for discovery and heartbeat traffic, then switches to TCP for reliable file transfer. The project is deliberately implemented from first principles so the networking, protocol, and UI layers are easy to study and extend.
 
-**LanSHA** is a desktop application that enables fast, reliable and secure file sharing over a Local Area Network (LAN). It automatically discovers nearby devices using UDP broadcasts and transfers files reliably over TCP connections using custom Application layer Protocols.
-
-The project was built to explore the design and implementation of local network communication from first principles while providing a clean and intuitive desktop experience.
-
----
-
-# Motivation
-
-This project started after studying **Computer Communication & Networking** and **Operating Systems**.
-
-Rather than stopping at theoretical concepts, I wanted to apply them by building a real-world networking application from scratch.
-
-
-- TCP & UDP communication
-- Socket Programming
-- Device Discovery
-- Concurrent Network Programming
-- Reliable File Transfer
-- Software Architecture
-
-LanSHA became the result of that exploration.
-
----
-
-# Features
-
-### Current Features
+The current implementation includes:
 
 - Automatic LAN device discovery
-- Reliable TCP file transfer
-- Java Swing interface
-- Device management
-- File metadata detection
-- Multiple simultaneous transfers
-- Multiple file type support
-- Cross-platform
-
-### Planned Features
-
-- AES encrypted transfers
-- SHA-256 Based Checksum for file integrity
-- Resumable downloads
-- Drag & Drop
-- Transfer history
-- Themes
+- Device registry and heartbeat monitoring
+- Reliable peer-to-peer file transfer
+- Swing-based transfer UI with file preview panels
+- Basic metadata extraction for common file types
+- Settings persistence for device identity and port configuration
 
 ---
 
-# Why LanSHA?
+## Project documentation
 
-- Automatic device discovery
-- No internet connection required
-- Direct peer-to-peer communication
-- Reliable TCP transfers
-- Cross-platform
-- Modular architecture
-- Built entirely from scratch
+The repository includes a set of architecture diagrams and reference documents under the docs folder:
 
----
+- [Architecture guide](docs/architecture.md)
+- [Protocol specification](docs/protocol.md)
+- [Developer guide](docs/developer-guide.md)
+- [FAQ](docs/faq.md)
 
-# Screenshots
-
-> Screenshots will be added after the first stable release.
+The visual assets in [docs/Images](docs/Images) include the core architecture, protocol, and communication-flow diagrams used throughout the documentation.
 
 ---
 
-# Quick Start
-
-## Requirements
-
-- Java 23+
-- Maven
-- NetBeans (recommended)
-
-## Clone
-
-```bash
-git clone https://github.com/Knovengel-Nova/LanSHA.git
-```
-
-## Open
-
-Open the project using NetBeans or your preferred Java IDE.
-
-## Run
-
-Execute
-
-```text
-LanSHA.java
-```
-
----
-
-# Current Status
+## Current implementation status
 
 Implemented
 
-- [x] UDP Device Discovery
-- [x] TCP File Transfer
-- [x] Device Registry
-- [x] Heartbeat Mechanism
-- [x] Desktop UI
-- [x] File Metadata
-- [x] Multiple Concurrent Transfers
-- [ ] AES Encryption
-- [ ] Resumable Transfers
-- [ ] Themes
+- [x] UDP device discovery and discovery replies
+- [x] Heartbeat and janitor-based device lifecycle management
+- [x] TCP-based file transfer workflow
+- [x] Swing user interface for device selection and transfer handling
+- [x] File metadata preview for images, audio, video, and documents
+- [x] Device registry and transfer session management
+
+Planned or in progress
+
+- [ ] End-to-end AES encryption
+- [ ] SHA-256 based integrity verification
+- [ ] Resumable transfers
+- [ ] Drag-and-drop file sending
+- [ ] Expanded theme support
 
 ---
 
-# Project Architecture
-<!-- TODO add Architecture Diagram -->
+## Getting started
 
-LanSHA follows a modular architecture separating:
+### Requirements
 
-- User Interface
-- Networking
-- Discovery
-- Protocol Handling
-- File Transfer
-- Metadata
-- Device Management
+- Java 21 or newer
+- Maven
+- NetBeans or any Java IDE with Maven support
 
-A complete explanation of the architecture can be found here:
+### Clone the repository
 
-→ **[Architecture Documentation](docs/architecture.md)**
+```bash
+git clone https://github.com/Knovengel-Nova/LanSHA.git
+cd LanSHA
+```
 
----
-# Documentation
+### Build
 
-Detailed documentation is available in the **docs** directory.
+```bash
+mvn clean package
+```
 
-| Document | Description |
-|----------|-------------|
-| [Architecture](docs/architecture.md) | High-level system architecture, component interactions and design overview. |
-| [Protocol Specification](docs/protocol.md) | Communication protocol, packet hierarchy and networking workflow. |
-| [Developer Guide](docs/developer-guide.md) | Project structure, development workflow and codebase overview. |
-| [FAQ](docs/faq.md) | Frequently asked questions and design rationale. |
+### Run
 
----
+You can run the application from the generated jar:
 
-# Additional Information
+```bash
+java -jar target/LanSHA-1.0.jar
+```
 
-If you have suggestions, discover a bug, or would like to discuss the project, feel free to open an issue or start a discussion on GitHub.
-
-# License
-
-This project is licensed under the MIT License.
-
-See the [LICENSE](LICENSE) file for details.
+Or launch the main class from your IDE using the entry point in [src/main/java/com/amasp/lansha/LanSHA.java](src/main/java/com/amasp/lansha/LanSHA.java).
 
 ---
 
-# Connect
+## Architecture at a glance
 
-If you have suggestions or feedback, feel free to reach out.
+LanSHA is organized into the following layers:
 
-GitHub
+- UI layer for the desktop experience
+- Network layer for UDP/TCP services and transfer coordination
+- Protocol layer for packet definitions and serialization
+- Device and metadata utilities for registration and file inspection
 
-> https://github.com/Knovengel-Nova
+A complete description of the design is available in [docs/architecture.md](docs/architecture.md).
 
-LinkedIn
+---
 
-> https://www.linkedin.com/in/aryanpatil-s/
+## License
 
-Email
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
-> knovengel@gmail.com <br>
-> aryanpatil7185@gmail.com
+---
+
+## Contact
+
+If you have feedback, ideas, or would like to contribute, feel free to open an issue or get in touch through the project repository.

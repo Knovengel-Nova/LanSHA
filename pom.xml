@@ -39,43 +39,45 @@
             <artifactId>flatlaf-intellij-themes</artifactId>
             <version>3.6</version>
         </dependency>
-        
+
         <dependency>
             <groupId>com.formdev</groupId>
             <artifactId>flatlaf-extras</artifactId>
             <version>3.6</version>
         </dependency>
-        
+
         <dependency>
             <groupId>net.jthink</groupId>
             <artifactId>jaudiotagger</artifactId>
             <version>3.0.1</version>
         </dependency>
-        
+
         <dependency>
             <groupId>com.drewnoakes</groupId>
             <artifactId>metadata-extractor</artifactId>
             <version>2.19.0</version>
         </dependency>
-        
-        <!--        <dependency>
+
+        <!--
+        <dependency>
             <groupId>org.netbeans.external</groupId>
             <artifactId>AbsoluteLayout</artifactId>
             <version>RELEASE300</version>
-        </dependency>-->
-        
+        </dependency>
+        -->
+
         <dependency>
             <groupId>org.jcodec</groupId>
             <artifactId>jcodec</artifactId>
             <version>0.2.5</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.jcodec</groupId>
             <artifactId>jcodec-javase</artifactId>
             <version>0.2.5</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
@@ -87,19 +89,21 @@
             <artifactId>tika-parsers-standard-package</artifactId>
             <version>3.2.3</version>
         </dependency>
-        
-        <!--        <dependency>
+
+        <!--
+        <dependency>
             <groupId>org.bytedeco</groupId>
             <artifactId>javacv-platform</artifactId>
             <version>1.5.11</version>
-        </dependency>-->
-        
+        </dependency>
+        -->
+
     </dependencies>
 
     <build>
         <plugins>
 
-            <!-- Sets Main-Class in MANIFEST.MF -->
+            <!-- Creates normal project JAR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -114,7 +118,7 @@
                 </configuration>
             </plugin>
 
-            <!-- Creates a single executable jar containing all dependencies -->
+            <!-- Creates executable shaded JAR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -128,7 +132,20 @@
                         </goals>
 
                         <configuration>
+
                             <createDependencyReducedPom>false</createDependencyReducedPom>
+
+                            <!-- Remove invalid signature files -->
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
 
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
@@ -137,12 +154,14 @@
                             </transformers>
 
                         </configuration>
+
                     </execution>
                 </executions>
             </plugin>
 
         </plugins>
     </build>
+
     <repositories>
         <repository>
             <id>unknown-jars-temp-repo</id>
@@ -150,4 +169,5 @@
             <url>file:${project.basedir}/lib</url>
         </repository>
     </repositories>
+
 </project>
